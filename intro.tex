@@ -1,0 +1,115 @@
+\chapter{Introduction}
+
+\section{Cryptographic Hash Functions}
+
+A cryptographic hash function, is an algorithm capable of intaking arbitrarily long input string, and
+output a fixed size string. The output string is often called message digest, since the long input
+message appears in compact digested form or hash value of the input. The message digest for two strings
+even differing by a single bit should ideally be completely different, and no two input message should
+have the same hash value. The properties of hash function are described in more mathematical detail in
+next chapter. Following is the section about initial attempts at standardizing and choosing a strong
+hashing algorithm.
+
+\section{The need for cryptographic hash function} 
+
+Applications of hash function have been discussed in the next chapter. One of the main
+use of hashing function is digital signature. Digital signatures based on asymmetric algorithm like
+RSA, have a input size limitation of around 128 to 324 bytes. However most documents in practice are
+longer than that. \cite{00017}
+
+One approach would be to divide the message into blocks of size acceptable by that of the signing 
+algorithm, and sign each block separately. However, the cons to approach are following.
+
+\begin{enumerate}
+  \item \emph{Computationally intensive:} Modular exponentiation of large integers used in asymmetric
+  algorithms are resource intensive. For signing, multiple blocks of message, the resource utilization
+  is pronounced. Additionally, not only the sender but the receiver will also have to do the same resource
+  intensive operations.
+  \item \emph{Overheads:} The signature is of the same length as the message. This increases the overheads
+  in storage and transmission.
+  \item \emph{Security concerns:} An attacker could remove, or reorder, or reconstruct new message and 
+  signatures from the previous message and signature pairs. Though attacker, cannot manipulate the individual
+  blocks, but safety of the entire message is compromised.
+\end{enumerate}
+
+Thus to eliminate the overheads, and security limitations; a method is required to uniquely generate fixed
+size finger print of arbitrarily large message blocks. Hash functions, fill this void of signing large messages.
+
+\section{Standards and NIST Competition} 
+
+  \subsection{Secure Hashing Algorithm(SHA)-0 and SHA-1}
+
+  SHA-0 was initially proposed by National Security Agency(NSA) as a standardised hashing algorithm
+  in 1993. It was later standardised by National Institute of Standards and Technology(NIST). In 
+  1995 SHA-0 was replaced by SHA-1 designed by NSA. \cite{00006, 00007}
+
+  In 1995 Florent Chabaud and Antoine Joux, found collisions in SHA-0 with complexity of $2^{61}$. In
+  2004, Eli Biham and Chen found near collisions for SHA-0, about 142 out of 160 bits to be equal. Full
+  collisions were also found, when the number of rounds for the algorithm were reduced from 80 to 62.
+
+  SHA-1 was introduced in 1995, which has block size of 512 and output bits of 160, which are similar
+  to that of SHA-0. SHA-1 has an additional circular shift operation, that is meant to rectify the 
+  weakness in SHA-0.
+
+  In 2005 a team from Shandong University in China consisting of Xiaoyun Wang, Yiqun Lisa Yin, 
+  and Hongbo Yu, announced that they had found a way to find collisions on full version of SHA-1 
+  requiring $2^{69}$ operations. This number was less than the number of operations required if you
+  did a brute force search, which would be $2^{80}$ in this case.\cite{00010} An ideal hash function 
+  should require the number of operations to find a collision be equal to a brute force search, to 
+  idealize the random oracle. 
+
+  Analysis was done by Jesse Walker from Skein team, on the feasibility of finding a collision in 
+  SHA-1, using HashClash developed by Marc Stevens. It was estimated that the cost for hiring 
+  computational power, as of October 2012, to find the collision, would have been \$ 2.77 million.
+  \cite{00008}
+
+  \begin{table}[h]
+    \begin{center}
+    \begin{tabular}{ *{5}{c} }
+      \hline
+      Algorithm & Message Size & Block Size & Word Size & Hash Value Size \\ \hline \hline
+      SHA-1   & \textless $2^{64}$  bits & 512  bits & 32 bits & 160 bits \\   
+      SHA-224 & \textless $2^{64}$  bits & 512  bits & 32 bits & 224 bits \\   
+      SHA-256 & \textless $2^{64}$  bits & 512  bits & 32 bits & 256 bits \\   
+      SHA-384 & \textless $2^{128}$ bits & 1024 bits & 64 bits & 384 bits \\   
+      SHA-512 & \textless $2^{128}$ bits & 1024 bits & 64 bits & 512 bits \\
+      \hline
+    \end{tabular}
+    \caption{ Secure Hash Algorithms as specified in FIPS 180-2} 
+  \end{center}
+  \end{table}
+
+  \subsection{SHA-2}
+
+  SHA-2 was designed by NSA, and released in 2001 by NIST. It is basically a family of hash functions 
+  consisting of SHA-224, SHA-256, SHA-384, SHA-512. Table 1.1 above gives a brief overview of specifications
+  of SHA-1 and family of SHA-2 hash functions. The number suffix after the SHA acronym, 
+  indicates the bit length, of the output of that hash function. Although SHA-2 family of algorithms
+  were influenced by SHA-1 design, but the attacks on SHA-1 have not been successfully extended completely
+  to SHA-2.
+
+  Collisions for 22-step attack on SHA-256 and SHA-512 were found with a probability of 1. Computational
+  operations, for 23-step and 24-step for SHA-256 attack were $2^{11.5}$ and $2^{28.5}$ for the corresponding
+  reduced version of SHA-256, have been found. For SHA-512 reduced versions the corresponding values for
+  23 and 24 step were $2^{16.5}$ and $2^{32.5}$.\cite{00012} Here steps, are analogous to rounds of compression
+  on the input given. Since, SHA-2 family relies on the $Merkle-Damg\dot{a}rd$ construction, the whole
+  process of creation of hash can be considered as repeated application of certain operations generally called
+  as compression function, on the input cumulatively. The steps here refer to the number of rounds of
+  compression applied to the input.
+
+  Preimage attacks on reduced versions of 41-step SHA-256 and 46-step SHA-512 have been found. As per the
+  specifications, SHA-256 consisted of 64 rounds, while SHA-512 consisted of 80 rounds.\cite{00011} As, it
+  can be seen, the SHA-2 functions can be said as partially susceptible to preimage attacks.
+
+  \subsection{NIST competition and SHA-3}
+
+  In response to advances made in cryptanalysis of SHA-2. NIST through a Federal Register Notice announced 
+  a public competition on November 2, 2007. For a new cryptographic hash algorithm, that would be SHA-3.
+  Submission requirements stated to provide a cover sheet, algorithm specifications and supporting
+  documentation, optimized implementations as per specifications of NIST, and intellectual property statements.
+
+  Submissions for the competition were accepted till October 31, 2008, and 51 candidates from 64 submissions
+  for first round of competition were announced on December 9, 2008. On October 2, 2012 NIST announced the 
+  winner of the competition to be Keccak, amongst the other four finalist, which were BLAKE, Gr$\o$stl, JH
+  and Skein. Keccak was chosen for its' large security margin, efficient hardware implementation, and 
+  flexibility.

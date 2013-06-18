@@ -1,0 +1,35 @@
+\chapter{Related work}
+
+%From the wolfram alpha pages what is a field. A field is one that have field axioms of associativity, distributivity,
+%commutativity, inverse, identity(else you cannot have the inverse). A field with finite elements or field order is finite
+%or Galois field. GF(p) where the Galois field of order p. The order of the field is a power of a prime number. A GF 
+%consists of residue classes of modulo p. Now a residue can be a congruence b mod n, then b is the residue. A finite
+%field will have limited number of residues, which will form a residue class. The residue classes of a function x is
+%all possible values of residue of f(x)(mod n). Galois fields are made of residues of the modulus function, so the 
+%equivalence is based on the modulus function.
+
+%OK, another thing, that I learned about in past few days was about Galois field. Why Galois field? Well, the thing
+%is they are the building blocks to what is there in the cryptographic function. What did I learn about field, that
+%number of elements in field are limited for the modulo of the prime that is the order of the field. Since it is
+%modulo, so all the elements repeat with the numbers. The elements in a field obey the axioms of field that include
+%associativity, distributive, commutative, inverse and identity. The modulo prime can be represented as a polynomial
+%of odd powers summing to the power of the prime power of the field. The polynomial has to be irreducible, since if
+%you allow reducible polynomial there is a possibility, that the polynomials would sum to the modulo and become a zero
+%element that cannot be allowed to happen. Since multiplication with zero will be zero. Other than that, figuring
+%out a inverse in field is hard but if you have the look up tables of logarithms with the generator numbers whose 
+%successive powers modulo the prime generates all the numbers in the field. This table is then made as a look up,
+%when you multiply the polynomials. There is a already algorithm and code written up for that thing. Which can be used.
+
+%Well in this case in the first part the rant is about how not to get the security of the hash function not to be 
+%based on the length of the message digest. Why so? Well then you cannot say anything about the security of the 
+%function if the output of it changes from time to time. So you use the sponge function to make claims about the security.
+%Please note in mind that they are saying that sponge is close to random oracle and only exception of internal
+%collisions.
+
+\section{Zero Sum Distinguishers}
+Zero sum distinguishers were first presented in CHES 2009 rump session \cite{00014}. A zero sum distinguisher, for any
+function is a way to find a set of values, that sum to zero, such that their respective images also sum to zero.
+
+\section{Cryptanalysis done on Keccak}
+\section{Cryptanalysis done on BLAKE}
+\section{Cryptanalysis done on Gr$\o$stl}
