@@ -390,19 +390,14 @@ chain value of 8 words.
   of block length $l$. The padding to a message, can be represented as $m \gets m \parallel 1000 \dots 0001\langle l \rangle_{64}$
 
   \begin{algorithm}
-  \caption{BLAKE Compression procedure}
   \begin{algorithmic}
-    \State $ h^{0} \gets IV $
+    $ h^{0} \gets IV $
     \For {$i = 0,\dots, N - 1$}
-      \State $h^{i+1} \gets compress(h^{i}, m^{i}, s, l^{i})$
+      $h^{i+1} \gets compress(h^{i}, m^{i}, s, l^{i})$
     \EndFor
     \State\Return{$h^{N}$}
   \end{algorithmic}
   \end{algorithm}
-
-  As shown in algorithm 1, the BLAKE compression function ingests the padded message block by block, in a loop starting
-  from the initial value, and then sends the last chained value obtained from the finalization to the $\Omega$ truncation
-  function, to obtain the hash value.
 
 \section{Keccak}
 Keccak won the SHA-3 competition and is now the new SHA-3 algorithm. Keccak is based on the sponge function.
