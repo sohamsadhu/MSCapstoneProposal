@@ -1,4 +1,4 @@
-\chapter{SHA-3 finalists : Keccak, BLAKE and Gr$\o$stl}
+\chapter{SHA-3 finalists : Gr$\o$stl, BLAKE, and Keccak}
 
 \section{Gr$\o$stl}
 
@@ -403,6 +403,91 @@ chain value of 8 words.
   As shown in algorithm 1, the BLAKE compression function ingests the padded message block by block, in a loop starting
   from the initial value, and then sends the last chained value obtained from the finalization to the $\Omega$ truncation
   function, to obtain the hash value.
+
+\subsection{BLAKE-512}
+
+operates on 64-bit words and returns a 64-byte hash value. The chaining value is 512 bit long, message blocks are
+1024 bits, salt is 256 bits, and counter size is 128 bits. The difference from BLAKE-256 are in constants(tables 3.8 
+and 3.9), compression function and the way message is padded.
+
+  \begin{table}
+    \begin{center}
+      \begin{tabular}{ *{3}{c}}
+        $IV_{0}$ = 6A09E667F3BCC908 & $IV_{1}$ = BB67AE8584CAA73B & $IV_{2}$ = 3C6EF372FE94F82B \\
+        $IV_{3}$ = A54FF53A5F1D36F1 & $IV_{4}$ = 510E527FADE682D1 & $IV_{5}$ = 9B05688C2B3E6C1F \\
+        $IV_{6}$ = 1F83D9ABFB41BD6B & $IV_{7}$ = 5BE0CD19137E2179 &                             \\
+      \end{tabular}
+      \caption{Initial values used for BLAKE-512}
+    \end{center}
+  \end{table}
+  
+  \begin{table}
+    \begin{center}
+      \begin{tabular}{ *{3}{c}}
+        $c_{0}$  = 243F6A8885A308D3 & $c_{1}$  = 13198A2E03707344 & $c_{2}$  = A4093822299F31D0 \\
+        $c_{3}$  = 082EFA98EC4E6C89 & $c_{4}$  = 452821E638D01377 & $c_{5}$  = BE5466CF34E90C6C \\
+        $c_{6}$  = C0AC29B7C97C50DD & $c_{7}$  = 3F84D5B5B5470917 & $c_{8}$  = 9216D5D98979FB1B \\
+        $c_{9}$  = D1310BA698DFB5AC & $c_{10}$ = 2FFD72DBD01ADFB7 & $c_{11}$ = B8E1AFED6A267E96 \\
+        $c_{12}$ = BA7C9045F12C7F99 & $c_{13}$ = 24A19947B3916CF7 & $c_{14}$ = 0801F2E2858EFC16 \\
+        $c_{15}$ = 636920D871574E69 &                             &                             \\
+      \end{tabular}
+      \caption{16 constants used for BLAKE-512}
+    \end{center}
+  \end{table}
+  
+  Compression function in BLAKE-512 gets 16 iterations instead of 14 as in BLAKE-256, as well the rotations
+  are updated and word size increased from 32 bits to 64 bits. The $G_{i}(a, b, c, d)$ 
+  is given as
+  $
+  a \gets a + b + (m_{\sigma_{r}(21)} \oplus c_{\sigma_{r}(2i + 1)}) \\
+  d \gets (d \oplus a) \gg 32 \\
+  c \gets c + d \\
+  b \gets (b \oplus c) \gg 25 \\
+  a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)}) \\
+  d \gets (d \oplus a) \gg 16 \\
+  c \gets c + d \\
+  b \gets (b \oplus c) \gg 11
+  $
+  
+  Once more than 9 rounds are done, the permutation table rules kick in, for example if round r \textgreater 9 then
+  permutation used is $\sigma_{r \thickspace mod \thickspace 10}$, say r = 15 then permutation would be 
+  $\sigma_{15 \thickspace mod \thickspace 10} = \sigma_{5}$.
+
+  For the padding, the message is first padded with bit 1 and then as many zeros required to make the bit length
+  equivalent to 895 modulo 1024. After that another bit of value 1 is appended followed by 128-bits unsigned big-endian
+  representation of of message length as $m \gets m \parallel 100 \dots 001 \langle l \rangle_{128}$.
+
+\subsection{BLAKE-224 and BLAKE-384}
+
+  \subsubsection{BLAKE-224}
+  BLAKE-224 is similar to BLAKE-256, but differs slightly. It has different initial values, different padding and the
+  output bits are truncated to first 224 bits.
+  \begin{table}[h]
+    \begin{center}
+      \begin{tabular}{ *{4}{c}}
+        $IV_{0}$ = C1059ED8 & $IV_{1}$ = 367CD507 & $IV_{2}$ = 3070DD17 & $IV_{3}$ = F70E5939 \\
+        $IV_{4}$ = FFC00B31 & $IV_{5}$ = 68581511 & $IV_{6}$ = 64F98FA7 & $IV_{7}$ = BEFA4FA4 \\
+      \end{tabular}
+      \caption{Initial values for BLAKE-224 which are taken from SHA-224}
+    \end{center}
+  \end{table}
+  The padding differs from BLAKE-256 in way that the bit preceding the message length is replaced by a 0 bit. Which
+  is represented as $m \gets m \parallel 100 \dots 000 \langle l \rangle_{64}$.
+
+  \subsubsection{BLAKE-384}
+  In BLAKE-384 the output of BLAKE-512 is truncated to 384 bits. The padding differs from BLAKE-512, in way that bit
+  preceding the length encoding is 0 and not 1. It can be shown as $m \gets m \parallel 100 \dots 000 \langle l \rangle_{128}$. The
+  initial chaining values are given in table 3.11.
+  \begin{table}[h]
+    \begin{center}
+      \begin{tabular}{ *{3}{c}}
+        $IV_{0}$  = CBBB9D5DC1059ED8 & $IV_{1}$  = 629A292A367CD507 & $IV_{2}$  = 9159015A3070DD17 \\
+        $IV_{3}$  = 152FECD8F70E5939 & $IV_{4}$  = 67332667FFC00B31 & $IV_{5}$  = 8EB44A8768581511 \\
+        $IV_{6}$  = DB0C2E0D64F98FA7 & $IV_{7}$  = 47B5481DBEFA4FA4 &                             \\
+      \end{tabular}
+      \caption{16 constants used for BLAKE-512}
+    \end{center}
+  \end{table}
 
 \section{Keccak}
 Keccak won the SHA-3 competition and is now the new SHA-3 algorithm. Keccak is based on the sponge function.
