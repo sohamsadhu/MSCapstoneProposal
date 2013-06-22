@@ -1,0 +1,2 @@
+\contentsline {algorithm}{\numberline {3.1}{\ignorespaces BLAKE Compression procedure}}{22}
+\contentsline {algorithm}{\numberline {3.2}{\ignorespaces The sponge construction $SPONGE[f, pad, r]$}}{27}

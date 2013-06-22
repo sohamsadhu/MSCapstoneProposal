@@ -391,7 +391,7 @@ chain value of 8 words.
 
   \begin{algorithm}
   \caption{BLAKE Compression procedure}
-  \begin{algorithmic}
+  \begin{algorithmic}[1]
     \State $ h^{0} \gets IV $
     \For {$i = 0,\dots, N - 1$}
       \State $h^{i+1} \gets compress(h^{i}, m^{i}, s, l^{i})$
@@ -400,9 +400,9 @@ chain value of 8 words.
   \end{algorithmic}
   \end{algorithm}
 
-  As shown in algorithm 1, the BLAKE compression function ingests the padded message block by block, in a loop starting
-  from the initial value, and then sends the last chained value obtained from the finalization to the $\Omega$ truncation
-  function, to obtain the hash value.
+  As shown in algorithm 3.1, the BLAKE compression function ingests the padded message block by block, in a loop 
+  starting from the initial value, and then sends the last chained value obtained from the finalization to the 
+  $\Omega$ truncation function, to obtain the hash value.
 
 \subsection{BLAKE-512}
 
@@ -489,19 +489,77 @@ and 3.9), compression function and the way message is padded.
     \end{center}
   \end{table}
 
+\newpage
+
 \section{Keccak}
-Keccak won the SHA-3 competition and is now the new SHA-3 algorithm. Keccak is based on the sponge function.
-\cite{00015} \\
+Keccak hash function, is built on sponge construction, which can input and output arbitrary length strings. The sponge
+construction has two phases. First is absorb, where the input message is ingested in blocks of defined bit rate interleaved
+with the permutations. And the second phase is squeeze phase, where the blocks of output are squeezed out as per the 
+bit rate blocks. The Keccak, state is different in the sense that, the permutations work on a 3 dimensional block, cube
+structure rather than linear strings, or 2 dimensional arrays.
 
-  {\bf Sponge Functions:} \cite{00016}
+  \subsection{Keccak state, sponge functions and padding} 
+  \begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=5.5in]{keccakspongeconstruction.jpg}
+    \end{center}
+    \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$}
+    \label{fig:lab}
+  \end{figure}
 
-  Sponge functions form the basis for Keccak, and are core to understanding its security claims. Instead of claiming 
-  security as an ideal function. They claimed for an ideal mangling function. A generic attack on the sponge function 
-  of Keccak will be considered as generic if it does not exploit the properties of the permutation. So for this section
-  I will have to give the pseudo algorithm 1 of absorption and squeezing techniques along with the definitions. And also
-  the diagram, that is involved. State pre-computation, can be included as a passing description. Modes are not so 
-  interesting, just the same thing said in different ways. Tree hashing, what about it? Do not have to read it, but better
-  understand the stuff. Well the information nodes are in leaves, and F applied to them, and C bits taken off them. The
-  internal node keeps track of the sons and then concatenates the C bits, and applies F. Process recursively done, to get
-  the last value. How do you handle input which is large and with fixed number of nodes, accept growing number of input blocks.
-  Now we get to the part of duplex application, which we talked about before, but why the fuck I am doing it? 
+  The sponge construction is used to build function $SPONGE[f, pad, r]$ which inputs and outputs variable length strings 
+  \cite{00016}. It uses fixed length permutation $f$, a padding "pad", and parameter bit rate 'r'. The permutations are 
+  operated on fixed number of bits, width $b$. The value $c = b - r$ is the capacity of the sponge function. The width 
+  $b$ in Keccak defines the state size which can be any of the following \{25, 50, 100, 200, 400, 800, 1600\} number of 
+  bits. 
+  
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=6.5in]{keccakstateterminology.jpg}
+    \end{center}
+    \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$}
+    \label{fig:lab}
+  \end{figure}
+
+  The state in Keccak can be represented as a cube having bits, as shown in figure 3.9. The initial state to the sponge
+  construction has value 'b' number of 0 bits(represented as $0^{b}$), and called the root state. The root state has fixed
+  value and should not be considered as initial value to sponge construction. The different number of state produces
+  the Keccak family of hash function variations denoted by $KECCAK-f[b]$.
+  
+  The varying number of states can be visualized as state having varying number or $l$ number of slices. The width $b$ is
+  defined as $b = 25 \times 2^{l}$, where $l$ takes values from 0 to 6.
+  
+  \begin{algorithm}
+    \caption{The sponge construction $SPONGE[f, pad, r]$}
+    \begin{algorithmic}[1]
+      \Require $r < b$
+      \State {\bf Interface:} Z = sponge($M, l$) with $M \in \mathbb{Z}^{*}_{2}$, integer $ l > 0$ and $Z \in \mathbb{Z}^{l}_{2}$
+      \State $P = M \parallel pad[r](\mid M \mid)$
+      \State $s = 0^{b}$
+      \State \For {$i = 0 \thickspace to \mid P \mid_{r} - 1$}
+        \State $s = s \oplus ( P_{i} \parallel 0^{b - r})$
+        \State $s = f(s)$
+      \State \EndFor
+      \State $ Z = \lfloor s \rfloor_{r}$
+      \State \While $\mid Z \mid_{r} r < l $
+        \State $s = f(s)$
+        \State $Z = Z \parallel \lfloor s \rfloor_{r}$
+      \State \EndWhile
+      \State \Return $\lfloor Z \rfloor_{l}$ 
+    \end{algorithmic}
+  \end{algorithm}
+
+  Algorithm 3.2 shows how the sponge construction applied to $KECCAK-f[r + c]$, with multi-rate padding. In algorithm 3.2
+  length of a string $M$ is denoted by $\mid M \mid $. The string $M$ can also be considered as having blocks of size say x,
+  and those number of blocks are shown as $\mid M \mid_{x}$. The $\lfloor M \rfloor_{l}$ denotes the string $M$ truncated to its first $l$ bits.
+  
+  The multi-rate padding in Keccak is denoted as $pad 1 0^{8}1$ , where a bit '1' is appended to message, followed by minimum
+  number of zeros. And lastly a single bit 1, so that resultant block is multiple of block length $b$. Thus Keccak in terms
+  of sponge function can be defined as 
+
+  $KECCAK[r, c] \doteq SPONGE[KECCAK-f[r + c], pad1 0^{*}1, r]$ \\
+  Where $ r > 0$ and $r + c$ is the width. The default value of $r$ is $1600 - c$, and the default value of $c$ is 576. \\
+  $KECCAK[c] \doteq KECCAK[r = 1600 - c, c], \\
+  KECCAK[] \doteq KECCAK[c = 576]$
+    
+  \subsection{Permutations} \cite{00015}
