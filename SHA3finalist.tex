@@ -562,4 +562,132 @@ structure rather than linear strings, or 2 dimensional arrays.
   $KECCAK[c] \doteq KECCAK[r = 1600 - c, c], \\
   KECCAK[] \doteq KECCAK[c = 576]$
     
-  \subsection{Permutations} \cite{00015}
+  \subsection{Permutations}
+
+  The $KECCAK-f[b]$ permutations are operated on state represented as a[5][5][w], with w = $2^{l}$, where l can be any value
+  from 0 to 6. The position in this 3 dimensional state is given by $a[x][y][z]$ where $x, y \in \mathbb{Z}_{5}$ and $z \in 
+  \mathbb{Z}_{w}$. The mapping of the bits from the input message 's' to state 'a' is like this $s[w (5y + x) + z] = a[x][y][z]$.
+  The $x, y$ coordinates are taken modulo 5, while the $z$ coordinate is taken as modulo $w$.  \cite{00015}
+
+  There are five steps, for a permutation round R. $R = \zeta \circ \chi \circ \pi \circ \rho \circ \theta$. The permutations are repeated for
+  $12 + 2l$ times, with $l$ dependent on the variant chosen. \\
+  $
+  \theta: a[x][y][z] \gets a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
+  \rho: a[x][y][z] \gets a[x][y][z - (t + 1)(t + 2) / 2], \\
+  t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
+  \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
+  in \thickspace GF(5)^{2 \times 2}, \\
+  or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
+  \pi: a[x][y] \gets a[x'][y'], \thickspace with \thickspace
+  \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
+  \chi: a[x] \gets a[x] + (a[x + 1] + 1) a[x + 2], \\
+  \zeta: a \gets a + RC[i_{r}].
+  $
+
+  The addition and the multiplications are in Galois field GF(2), except for the round constants $RC[i_{r}]$. The round constants 
+  are given by
+
+  $RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$, \\
+  and the rest are zeros. The value of $rc[t] \in GF(2)$ is output of linear feedback shift register given as 
+
+  $rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$].
+
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=2.3in]{keccakchi.jpg}
+    \end{center}
+    \caption{$\chi$ applied to a single row.}
+    \label{fig:lab}
+  \end{figure}
+
+  \begin{algorithm}
+    \caption{ $\chi$ transformation KECCAK}
+    \begin{algorithmic}[1]
+      \State \For {$y = 0 \thickspace to \thickspace 4$}
+      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      $A[x, y] = a[x, y] \oplus ((NOT \thickspace a[x + 1, y]) \thickspace AND \thickspace a[x + 2, y])$
+      \State \EndFor
+      \State \EndFor
+    \end{algorithmic}
+  \end{algorithm}
+  
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=2.7in]{keccaktheta.jpg}
+    \end{center}
+    \caption{$\theta$ applied to a single bit}
+    \label{fig:lab}
+  \end{figure}
+
+  \begin{algorithm}
+    \caption{ $\theta$ transformation KECCAK}
+    \begin{algorithmic}[1]
+      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      \State $C[x] = a[x, 0]$
+      \State \For {$y = 1 \thickspace to \thickspace 4$}
+      $C[x] = C[x] \oplus a[x, y]$
+      \State \EndFor
+      \State \EndFor
+      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      \State $D[x] = C[x - 1] \oplus ROT(C[x + 1], 1)$
+      \State \For {$y = 0 \thickspace to \thickspace 4$}
+      \State $A[x, y] = a[x, y] \oplus D[x]$
+      \State \EndFor
+      \State \EndFor
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{algorithm}
+    \caption{ $\pi$ transformation KECCAK}
+    \begin{algorithmic}[1]
+      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      \State \For {$y = 1 \thickspace to \thickspace 4$}
+      \State $\begin{pmatrix} X \\ Y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix}x \\ y \end{pmatrix}$
+      \State $A[X, Y] = a[x, y]$
+      \State \EndFor
+      \State \EndFor
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=4.75in]{keccakpi.jpg}
+    \end{center}
+    \caption{$\pi$ applied to a single slice}
+    \label{fig:lab}
+  \end{figure}
+
+  \begin{algorithm}
+    \caption{ $\rho$ transformation KECCAK}
+    \begin{algorithmic}[1]
+      \State $A[0, 0] = a[0, 0]$
+      \State $\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$
+      \State \For{$t = 0 \thickspace to \thickspace 23$}
+      \State $A[x, y] = ROT(a[x, y], (t + 1)(t + 2) / 2)$
+      \State $\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix}x \\ y \end{pmatrix}$
+      \State \EndFor
+    \end{algorithmic}
+  \end{algorithm}
+
+  \begin{figure}
+    \begin{center}
+      \includegraphics[width=5.1in]{keccakrho.jpg}
+    \end{center}
+    \caption{$\rho$ transformation applied to lanes}
+    \label{fig:lab}
+  \end{figure}
+
+  \begin{table}
+    \begin{center}
+      \begin{tabular}{ c | *{5}{c}}
+                & $x = 2$ & $x = 4$ & $x = 0$ & $x = 1$ & $x = 2$ \\ \hline
+        $y = 2$ & 153     & 231     & 3       & 10      & 171     \\
+        $y = 1$ & 55      & 276     & 36      & 300     & 6       \\
+        $y = 0$ & 28      & 91      & 0       & 1       & 190     \\
+        $y = 4$ & 120     & 78      & 210     & 66      & 253     \\
+        $y = 3$ & 21      & 136     & 105     & 45      & 15      \\
+      \end{tabular}
+      \caption{Offsets for $\rho$ transformation}
+    \end{center}
+  \end{table}
+

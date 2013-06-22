@@ -1,2 +1,6 @@
 \contentsline {algorithm}{\numberline {3.1}{\ignorespaces BLAKE Compression procedure}}{22}
 \contentsline {algorithm}{\numberline {3.2}{\ignorespaces The sponge construction $SPONGE[f, pad, r]$}}{27}
+\contentsline {algorithm}{\numberline {3.3}{\ignorespaces $\chi $ transformation KECCAK}}{29}
+\contentsline {algorithm}{\numberline {3.4}{\ignorespaces $\theta $ transformation KECCAK}}{30}
+\contentsline {algorithm}{\numberline {3.5}{\ignorespaces $\pi $ transformation KECCAK}}{31}
+\contentsline {algorithm}{\numberline {3.6}{\ignorespaces $\rho $ transformation KECCAK}}{32}
