@@ -31,5 +31,41 @@ Zero sum distinguishers were first presented in CHES 2009 rump session \cite{000
 function is a way to find a set of values, that sum to zero, such that their respective images also sum to zero.
 
 \section{Cryptanalysis done on Keccak}
+
+\subsection{Rotational cryptanalysis of round-reduced KECCAK} \cite{00022}
+In this paper, Paweł Morawiecki, Josef Pierpzyk and Marian Srebrny apply rotational cryptanalysis to Keccak. 
+They use it to construct a 5-round distinguisher for Keccak-f[1600] and to do preimage generation for 4 rounds of 
+Keccak[r=1024,c=576] truncated to 512 bits with complexity 2506 calls to Keccak-f[1600].
+
+\subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
+The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
+They combine a low-weight trail over 3 rounds with algebraic techniques.
+
+\subsection{Practical Analysis of Reduced Round Keccak} \cite{00024}
+In this paper, the authors propose several practical-time attacks on the Keccak hash function with 2 to 4 rounds. 
+First, they give a differential distinguisher exploiting a low-weight differential trail. Its complexity is 225 for 4 
+rounds. Then, they show how to produce a collision (resp. near-collision) on 2 (resp. 3) rounds of Keccak[r=1088,c=512] 
+(and lower capacity) with complexity 233 (resp. 225). Finally, they present an algorithm to find (second) preimages in 
+time 231 and memory 229.
+
+\subsection{Unaligned Rebound Attack: Application to Keccak} \cite{00025}
+This paper analyzes two aspects of differential cryptanalysis on Keccak: efficient trails and rebound attacks. In the 
+former, the authors propose a heuristic to build differential trails with a low restriction weight. For Keccak-f[1600], 
+they obtained trails of weight 32, 142 and 709 for 3, 4 and 5 rounds, respectively. In the latter, the paper presents 
+distinguishers making use of the rebound attack for up to 8 rounds of Keccak-f[1600] with a complexity of 2491.
+
+\subsection{Improved zero-sum distinguisher for full round Keccak-f permutation} \cite{00026}
+The authors of this paper noted a property of the inverse of the non-linear function χ: while χ-1 has algebraic degree 3,
+the product of any two output bits also has degree 3. This allows to estimate the degree of the Keccak-f rounds more tightly 
+and to extend the zero-sum distinguisher on Keccak-f[1600] to size 21575 for 24 rounds.
+
+\subsection{A SAT-based preimage analysis of reduced Keccak hash functions} \cite{00027}
+In this paper, Paweł Morawiecki and Marian Srebrny report on experiments for generating preimages using SAT solvers. 
+They attack Keccak versions calling Keccak-f with width 50, 200 and 1600 and with a reduced number of rounds. 
+They compare the SAT solver approach with plain exhaustive search and it turns out to be faster for up to 3 rounds.
+
+\subsection{Zero-sum Distinguishers for Iterated Permutations and Application to Keccak-f and Hamsi-256} \cite{00028}
+In this paper, Christina Boura and Anne Canteaut extend their zero-sum distinguishers to 20 rounds.
+
 \section{Cryptanalysis done on BLAKE}
 \section{Cryptanalysis done on Gr$\o$stl}
