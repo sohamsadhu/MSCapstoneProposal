@@ -1,4 +1,4 @@
-\chapter{Research Approach and Methodology}
+\chapter{Hypothesis based on Hill Climbing to find near collisions}
 
 %% Obviously you need to delete these lines when you have written up your text
 %\begin{itemize}
@@ -7,7 +7,78 @@
 %\item{} Compare and contrast design with other approaches (related work) 
 %\end{itemize}
 
-\section{Architecture}
-  Not sure how this will be, but I will have to pull my socks up and see, let us say that there will be one class
-  and that will see over the implementation of all the other implementation of the algorithm. Then how do you do the
-  zero sum distinguisher thing. Well so you will have to input and output and see what you want, from them.
+\section{Finding near collisions with Hill Climbing}
+
+A generic algorithm applied to find collisions, in reduced rounds of some SHA-3 competitors was Hill Climbing.
+\cite{00029} Near collisions in which more than 75\% of the bits were same for two different messages, were found 
+for reduced rounds of BLAKE-32, Hamsi-256 and JH. Near collision results are important for knowing the security
+margins. In some cases, output of hash functions may be truncated for compatibility or efficiency purposes. In 
+such cases near collisions could be improved to obtain collisions.
+
+A $\epsilon / n $ bit near collision for hash function h and two messages $M_{1}$ and $M_{2}$, where $M_{1} \neq M_{2}$ can be 
+defined as
+
+$HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $
+
+where HW is the Hamming weight, and CV is the chaining value, and n is the hash size in bits.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ | c | c | } \hline
+      $\epsilon / n $                         & Complexity $( \approx )$ \\ \hline
+      128 / 256, 256 / 512, 512 / 1024 & $2^{4}$ \\ \hline
+      151 / 256, 287 / 512, 553 / 1024 & $2^{10}$ \\ \hline
+      166 / 256, 308 / 512, 585 / 1024 & $2^{20}$ \\ \hline
+      176 / 256, 323 / 512, 606 / 1024 & $2^{30}$ \\ \hline
+      184 / 256, 335 / 512, 623 / 1024 & $2^{40}$ \\ \hline
+      191 / 256, 345 / 512, 638 / 1024 & $2^{50}$ \\ \hline
+      197 / 256, 354 / 512, 651 / 1024 & $2^{60}$ \\ \hline
+    \end{tabular}
+    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search}
+  \end{center}
+\end{table}
+
+Hill Climbing starts with a random candidate, and then choosing a random successor that has a better fit to the
+solution. In practice for message M and chaining value CV $HW( h(M, CV) \oplus h(M, CV + \delta) ) = n / 2 $, can be considered
+secure, where $\delta$ is n-bit vector with small Hamming weight. However, if the diffusion for the hash function h is 
+not proper, then we obtain a lower Hamming weight. In such situation a correlation between two chaining values differing
+in small weight $\delta$ can obtain near collisions, with hill climbing algorithm.
+
+Here, the aim of hill climbing algorithm will be to minimize the function 
+
+$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$
+
+where $x \in {0, 1}^{n}$, where $M_{1}$ and $M_{2}$ are message blocks. CV is chosen as any random chaining value. Then the 
+set of k-bit neighbours for the CV, will be 
+
+$S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$
+
+where 
+
+$ size \thickspace of \thickspace S^{k}_{CV} = \displaystyle \sum \limits_{i = 0}^{k} \begin{pmatrix} n \\ i \end{pmatrix}$.
+
+The k-opt condition can be defined as 
+
+$f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$
+
+We can now describe algorithm 5.1, that is used in hill climbing algorithm to find the nearest match. 
+
+\begin{algorithm}
+  \caption{ Hill Climbing algorithm ($M_{1}, M_{2}, k$) }
+  \begin{algorithmic}[1]
+    \State Randomly select CV
+    \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
+    \State \While {(CV is not k-opt)}
+    \State CV = x such that $x \in S^{k}_{CV}$ with $f(x) < f(best)$
+    \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
+    \State \EndWhile
+    \State \Return (CV, $f_{best}$)
+  \end{algorithmic}
+\end{algorithm}
+
+\section{Hypothesis}
+Talk about if Keccak is better than Gr$\o$stl and BLAKE.
+
+\section{Design of the Experiment}
+All the three finalists are shaped up in a different way. So the unifying theme would be first about making the 
+string, and then testing the string on different algorithms, with the same experiments repeated.
