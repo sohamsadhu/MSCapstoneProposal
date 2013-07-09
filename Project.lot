@@ -1,0 +1,26 @@
+\select@language {american}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Secure Hash Algorithms as specified in FIPS 180-2}}{3}{table.1.1}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Recommended number of rounds}}{14}{table.3.1}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Above are initial values for Gr$\o $stl-n function. The numbers on left denote digest size in bits.}}{14}{table.3.2}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Specification of available input, output, block and salt sizes for various BLAKE hash functions.}}{18}{table.3.3}
+\contentsline {table}{\numberline {3.4}{\ignorespaces Convention of symbols used in BLAKE algorithm}}{19}{table.3.4}
+\contentsline {table}{\numberline {3.5}{\ignorespaces Initial values which become the chaining value for the first message block}}{19}{table.3.5}
+\contentsline {table}{\numberline {3.6}{\ignorespaces 16 constants used for BLAKE-256}}{20}{table.3.6}
+\contentsline {table}{\numberline {3.7}{\ignorespaces Round permutations to be used}}{20}{table.3.7}
+\contentsline {table}{\numberline {3.8}{\ignorespaces Initial values used for BLAKE-512}}{23}{table.3.8}
+\contentsline {table}{\numberline {3.9}{\ignorespaces 16 constants used for BLAKE-512}}{23}{table.3.9}
+\contentsline {table}{\numberline {3.10}{\ignorespaces Initial values for BLAKE-224 which are taken from SHA-224}}{24}{table.3.10}
+\contentsline {table}{\numberline {3.11}{\ignorespaces 16 constants used for BLAKE-512}}{24}{table.3.11}
+\contentsline {table}{\numberline {3.12}{\ignorespaces Offsets for $\rho $ transformation}}{32}{table.3.12}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search}}{37}{table.5.1}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

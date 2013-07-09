@@ -9,8 +9,8 @@
 
 \section{Finding near collisions with Hill Climbing}
 
-A generic algorithm applied to find collisions, in reduced rounds of some SHA-3 competitors was Hill Climbing.
-\cite{00029} Near collisions in which more than 75\% of the bits were same for two different messages, were found 
+A generic algorithm applied to find collisions, in reduced rounds of some SHA-3 competitors was Hill Climbing
+\cite{00029}. Near collisions in which more than 75\% of the bits were same for two different messages, were found 
 for reduced rounds of BLAKE-32, Hamsi-256 and JH. Near collision results are important for knowing the security
 margins. In some cases, output of hash functions may be truncated for compatibility or efficiency purposes. In 
 such cases near collisions could be improved to obtain collisions.
@@ -76,8 +76,32 @@ We can now describe algorithm 5.1, that is used in hill climbing algorithm to fi
   \end{algorithmic}
 \end{algorithm}
 
+Given two message $M_{1} \thickspace and \thickspace M_{2}$, and a randomly chosen chaining value CV, the $f_{M_{1}, M_{2}}(CV)$
+is obtained. The set $S^{k}_{CV}$ is searched for a better fit CV, and if found is updated. And the search is repeated again
+in the k-bit neighbourhood of new CV.
+
+There are two ways of choosing the next best CV, one by choosing the first chaining value that has a lower $f$ value, the
+greedy way. And another by choosing the best chaining value amongst $S^{k}_{CV}$, which is steepest ascent. The algorithm
+terminates once we get k-opt chaining value.
+
 \section{Hypothesis}
-Talk about if Keccak is better than Gr$\o$stl and BLAKE.
+
+\begin{center}
+  \framebox
+  {
+    \parbox{375pt}
+    {
+      \centering \textsc{Hypothesis} \\
+      Reduced round Keccak, will have better resistance to near collisions found by hill climbing algorithm
+      compared to BLAKE and Gr$\o$stl.
+    }
+  }
+\end{center}
+
+As per the \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/sha-3\_selection\_announcement.pdf"}{press release from NIST}, 
+one of the reasons for choosing Keccak, was that it had a large security margin. All the five finalists from SHA-3 competition
+were found to be secure and have good security margins. However there has not been much study, on the comparative security
+margins for the candidate's reduced versions. The aim of this Masters project is to study the comparative ana 
 
 \section{Design of the Experiment}
 All the three finalists are shaped up in a different way. So the unifying theme would be first about making the 
