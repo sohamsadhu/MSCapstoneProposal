@@ -1,12 +1,30 @@
 \chapter{Evaluation and expected outcomes}
 
-So I will be running experimenting with the same inputs, on all three of the algorithms and then will try and check for 
-how much of preimage can I figure out for them. So there will be comparative graphs of all three. But this does not give
-a complete picture given, that they have different rounds and structure, so you really cannot make a comparison given
-that different algorithms reduced to different strengths. So this I will have to clear with my advisor.
-
 %\section{Current Status}
 
 %\section{Future Work}
 
 %\section{Lessons Learned}
+
+The experiment with each of the pair, will be run for approximately $2^{10}$ times or rather 1024 times.
+The following are the parameters on which I propose to evaluate the algorithms. 
+
+\begin{enumerate}
+  \item How much time for each of the respective message digest size, did it take for the hill climbing
+    algorithm to find a collision.
+  \item How much is the hamming distance on an average for the chaining value that is manipulated by
+    hill climbing for each of the algorithms.
+  \item Till how many rounds, is the hill climbing algorithm a feasible option to find near collisions,
+    for each of the algorithms.
+  \item Is the weight of the hamming distance between message pair co-related to the amount of work
+    hill climbing algorithm does to find a collision.
+  \item Does the hamming weight distance between message pair, vary for each of the hashing algorithm
+    with respect to amount of work on average required by hill climbing algorithm. This will be an
+    indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
+  \item On an average what was the hamming distance of the chaining value obtained from a successful
+    experiment from the individual message. This will help in understanding if, chaining values and
+    message are closely related in reduced rounds.
+\end{enumerate}
+
+The above list is tentative, and by no means exhaustive. If during the course of experiment, more 
+interesting figures come in front, then they will be added.

@@ -18,13 +18,63 @@
 
 \section{Architecture}
 
+Since, I plan on choosing Java as the primary programming language, hence the design will be 
+object oriented based. The initial data that needs to be calculated for all the pairs of message
+will be static for the rest of the experiment. Hence those can be obtained and stored for rest
+of the experiment.
+
+The first task will be creation of the data. First, pairs of initial message will have to be 
+made. Each of the message from the pair will be line separated, and each of the pair in the file
+will be separated with a blank line. This will be the initial data file. The hash function 
+implementation of the algorithms already exist, so would be using them rather than coding them 
+myself. This would avoid any bugs that could come due to immature understanding of how the compiler
+handles large numbers. The implementations can then be tweaked to produce message digests with 
+reduced rounds. These message digests will be different than the actual hash message obtained from
+those functions since the rounds have been reduced.
+
+The output for the results will be stored in the following format. The directory structure for the
+output will be digest size. Followed by algorithm name whose digest pairs are being examined. Followed
+by the file name for that particular message pair. For this message I intend to create 15 messages,
+and they can be named from A to O. Thus a pairing of first message to second message will make the
+output file name to be AB.txt. So when the hill climbing algorithm evaluates the hash values pairs
+of Keccak algorithm with digest size of 512 bits, and for message pair. Then the output will be stored
+in directory hierarchy as 512/Keccak/AB.txt.
+
+The output file will be organised in same way as the input files, with each data line separated, and 
+each experiment data separated by a blank line. The output for each experiment in hill climbing will
+have the bit representation of the XOR value of two message digests, along with the chaining value
+that was last obtained and the time taken for that experiment.
 
 \section{Platform, Languages and Tools}
-Well for starters, my platform will be Ubuntu Linux and will try to make it work on the CS systems at RIT. So the
-C++ or Go-lang will be selected for implemenation and experimentation based on what I can do or not.
+
+The platform I would most likely choose will be Ubuntu 12.04 LTS, with the primary coding language
+being Java. The other minor book keeping tasks like generation of strings for message and chaining
+value would be done with scripting language like Python. The choice of Ubuntu is based on fact, that
+most machines as RIT CS department run on Ubuntu and hence, the experiments could be replicated
+on that platform. Java with its wide range of packages, and execution speeds closer to C and C++,
+would be an ideal choice to run repeated experiments. The file handling, time keeping, bit 
+manipulation libraries that come with Java, also make it an ideal tool for such a mathematical 
+intensive exercise.
+
+\newpage
 
 \section{Proposed schedule}
-Well once I give away my proposal. Then the clock starts. Week 1, try to get the things going. Implementation of all
-the three algorithms if possible in 1 and 1/2 week. Next, 1 week look at the zero sum distinguisher implementation
-and how to get the things done. Next 1 week do the input and output and at the same time keep writing the report in
-parallel.
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ | p{11.5cm} | c | } \hline
+      Tasks                                                                                                   & Timeline \\ \hline
+      Project proposal Approved. Completing 3rd party cryptanalysis part of report for Keccak.                & July 26 \\ \hline
+      Creation of message pairs and coding 2 hash functions. Write cryptanalysis part for BLAKE in report.    & August 2 \\ \hline
+      Coding the 3rd hash function, validation testing, finishing cryptanalysis part for Gr$\o$stl in report. & August 9 \\ \hline
+      Code and test the hill climbing algorithm, and start collecting data from output.                       & August 16 \\ \hline
+      Run experiments, collect more data, and put them in report. Discuss the results with advisor.           & August 23 \\ \hline
+      Fine tune the experiment, collect data and start writing observations and conclusion part in report.    & August 30 \\ \hline
+      Discuss results and conclusions with advisor. Fine tune report. Run more experiments if required.       & September 6 \\ \hline
+      Format the report properly, and submit it for acceptance. Create presentation for project defense.      & September 13 \\ \hline
+      Check availability of faculty. Announce defense date, book room and defend by September 20              & September 20 \\ \hline
+    \end{tabular}
+  \caption{Proposed schedule for my project implementation.}
+  \end{center}
+\end{table}
+

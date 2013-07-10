@@ -4,4 +4,4 @@
 \contentsline {algorithm}{\numberline {3.4}{\ignorespaces $\theta $ transformation KECCAK}}{30}{algorithm.3.4}
 \contentsline {algorithm}{\numberline {3.5}{\ignorespaces $\pi $ transformation KECCAK}}{31}{algorithm.3.5}
 \contentsline {algorithm}{\numberline {3.6}{\ignorespaces $\rho $ transformation KECCAK}}{32}{algorithm.3.6}
-\contentsline {algorithm}{\numberline {5.1}{\ignorespaces Hill Climbing algorithm ($M_{1}, M_{2}, k$) }}{37}{algorithm.5.1}
+\contentsline {algorithm}{\numberline {4.1}{\ignorespaces Hill Climbing algorithm ($M_{1}, M_{2}, k$) }}{34}{algorithm.4.1}

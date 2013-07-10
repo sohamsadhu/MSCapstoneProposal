@@ -1,9 +1,22 @@
 \begin{abstractpage}
-  Keccak, a hashing cryptographic algorithm, was subjected to various cryptanalysis before it was
-  selected as latest standard for hashing in SHA-3. Though Keccak became the new SHA-3 based on 
-  the fact that it won the NIST competition that was set up for that purpose, but the claim of other
-  contenders cannot be just ignored. In my project proposal I intend to study one of the cryptanalysis
-  that was successfully implemented on reduced version of Keccak and another finalist in the NIST
-  competition. Doing so, will give us an idea as to how much the other finalist was lacking, or 
-  in reduced versions do other finalist stand head to head with Keccak.
+
+  Hash functions, have applications in computer security fields of authentication and integrity.
+  Due to importance of hash function usage in everyday computing, standards for using hashing 
+  algorithm and their bit size have been released by \href{"http://www.nist.gov/index.html"}
+  {(NIST)} which are denoted by nomenclature
+  Standard Hashing Algorithm (SHA).
+
+  Due to advances in cryptanalysis of SHA-2, NIST announced a competition in November, 2007 
+  to choose SHA-3. In October, 2012 the winner was selected to be \href{"http://keccak.noekeon.org/"}
+  {Keccak} amongst 64 submissions. All the submissions were open to public scrutiny, and underwent
+  intensive third party cryptanalysis, before the winner was selected. There was little to choose
+  amongst the 5 submissions that made it to final round. 
+
+  This project, will cryptanalyse Keccak and two other finalist in SHA-3 BLAKE and Gr$\o$stl with the 
+  \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf"}
+  {hill climbing} algorithm. The hill climbing algorithm is generic and is hash construction agnostic.
+  The complete version of the finalist algorithms are unbreakable by present day standards. However
+  on the reduced version of BLAKE, hill climbing algorithm has found some success. I propose to test
+  hill climbing on the 3 algorithms chosen, and make a claim that Keccak truly deserves to be a winner,
+  even with a reduced version.
 \end{abstractpage}
