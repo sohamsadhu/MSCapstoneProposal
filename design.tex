@@ -48,7 +48,7 @@ Here, the aim of hill climbing algorithm will be to minimize the function
 
 $f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$
 
-where $x \in {0, 1}^{n}$, where $M_{1}$ and $M_{2}$ are message blocks. CV is chosen as any random chaining value. Then the 
+where $x \in \{0, 1\}^{n}$, where $M_{1}$ and $M_{2}$ are message blocks. CV is chosen as any random chaining value. Then the 
 set of k-bit neighbours for the CV, will be 
 
 $S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$
@@ -101,8 +101,47 @@ terminates once we get k-opt chaining value.
 As per the \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/sha-3\_selection\_announcement.pdf"}{press release from NIST}, 
 one of the reasons for choosing Keccak, was that it had a large security margin. All the five finalists from SHA-3 competition
 were found to be secure and have good security margins. However there has not been much study, on the comparative security
-margins for the candidate's reduced versions. The aim of this Masters project is to study the comparative ana 
+margins for the candidate's reduced versions. Hill climbing has been shown as good generic greedy algorithm to find 
+near collisions for reduced versions of some SHA-3 candidates. A generic algorithm does not exploit the inner permutations
+or construction, of a hash function. Rather takes a good guess approach, to what the solution can be depending on the fitness
+of the candidate solution. Thus making it an ideal tool to test on any hash function, irrespective of its design.
+
+Comparative studies on SHA-3 candidates have been using the statistical test suites provided by NIST to check any 
+deficiencies \cite{00030} \cite{00032}. Other than particular attacks like zero-sum property has been tested on 
+Keccak and Blue Midnight Wish \cite{00031}.
+
+\newpage
 
 \section{Design of the Experiment}
-All the three finalists are shaped up in a different way. So the unifying theme would be first about making the 
-string, and then testing the string on different algorithms, with the same experiments repeated.
+
+The hill climbing algorithm will run on the same message pairs, for all the three candidates. The chaining value for
+those pairs, will be updated, but would be kept constant for the same experiment.
+
+  \subsection{Data}
+  
+  For creating the message pair, I intend to choose the first message as "The quick brown fox jumps over the lazy dog.".
+  The initial message contains all the letters of the English alphabet, and seems a good candidate for testing the hash.
+  Another 14 messages will be created from the initial message, so in all we get $\begin{pmatrix} 15 \\ 2 \end{pmatrix}
+  = 105$ pairs of message in total. The rest of the 14 messages will be derived from the first message by applying a
+  shift register operation, that results in a bit flip from the previous message. For example, if my initial message has
+  a bit pattern of 0000. Then the subsequent messages will be 1000, 1100, 1110 and 1111.
+
+  This will give the experiment an advantage of comparing substantial message pairs with small to medium hamming distance.
+  The initial chaining value for experiment is chosen randomly, and does not matter as long it is kept constant provided
+  to all the message pairs in the experiment. Hill climbing algorithm is supposed to refine the initial chaining value,
+  to the solution, which is why choice of it is not a large factor. I intend to use the hash value of empty string generated
+  by Keccak as the initial chaining value for all the pairs.
+
+  \subsection{Procedure}
+
+  Both Keccak and Gr$\o$stl can support variable byte message digest length, but BLAKE based on SHA-2 designs can have
+  message digests of 224, 256, 384 and 512 bits. Thus the experiment for 105 pairs will be done on 4 message sizes as
+  indicated by BLAKE. Keccak does not have a initial state or a chaining value as such, but can be tweaked, so that it
+  has the first sponge state to accept the chaining value and pre-compute it and then apply the hash function on the
+  message.
+
+  Defining the reduced rounds for each of the functions is a bit tricky. Since for each the permutation function behaves
+  differently, and so arbitrarily reducing the number of rounds, for each function to a number. May not create a level
+  playing field for the comparison. But, for the purposes of experiment right now, I intend to just have 2 rounds for 
+  each of the candidate hash functions. The number of rounds may be tweaked as found suitable during the course of 
+  experiment.

@@ -553,9 +553,9 @@ structure rather than linear strings, or 2 dimensional arrays.
   length of a string $M$ is denoted by $\mid M \mid $. The string $M$ can also be considered as having blocks of size say x,
   and those number of blocks are shown as $\mid M \mid_{x}$. The $\lfloor M \rfloor_{l}$ denotes the string $M$ truncated to its first $l$ bits.
   
-  The multi-rate padding in Keccak is denoted as $pad 1 0^{8}1$ , where a bit '1' is appended to message, followed by minimum
-  number of zeros. And lastly a single bit 1, so that resultant block is multiple of block length $b$. Thus Keccak in terms
-  of sponge function can be defined as 
+  The multi-rate padding in Keccak is denoted as $pad \thickspace 1 0^{*}1$ , where a bit '1' is appended to message, followed 
+  by minimum number of zeros. And lastly a single bit 1, so that resultant block is multiple of block length $b$. Thus 
+  Keccak in terms of sponge function can be defined as 
 
   $KECCAK[r, c] \doteq SPONGE[KECCAK-f[r + c], pad1 0^{*}1, r]$ \\
   Where $ r > 0$ and $r + c$ is the width. The default value of $r$ is $1600 - c$, and the default value of $c$ is 576. \\
