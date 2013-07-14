@@ -1,0 +1,21 @@
+\BOOKMARK [1][-]{section.1}{ Problem Statement}{}
+\BOOKMARK [1][-]{section.2}{ Background}{}
+\BOOKMARK [2][-]{subsection.2.1}{ Hashing}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{ Properties of an ideal hash function}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{ Standards and NIST Competition}{section.2}
+\BOOKMARK [2][-]{subsection.2.4}{ Applications}{section.2}
+\BOOKMARK [1][-]{section.3}{ SHA-3 finalists : Keccak, BLAKE and Gro\370stl}{}
+\BOOKMARK [2][-]{subsection.3.1}{ Keccak}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{ BLAKE}{section.3}
+\BOOKMARK [2][-]{subsection.3.3}{ Gr\370stl}{section.3}
+\BOOKMARK [1][-]{section.4}{ Related work}{}
+\BOOKMARK [2][-]{subsection.4.1}{ Zero Sum Distinguishers}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{ Cryptanalysis done on Keccak}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{ Cryptanalysis done on BLAKE}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{ Cryptanalysis done on Gr\370stl}{section.4}
+\BOOKMARK [1][-]{section.5}{ Hypothesis}{}
+\BOOKMARK [1][-]{section.6}{ Research Approach and Methodology}{}
+\BOOKMARK [2][-]{subsection.6.1}{ Architecture}{section.6}
+\BOOKMARK [2][-]{subsection.6.2}{ Platform, Languages and Tools}{section.6}
+\BOOKMARK [2][-]{subsection.6.3}{ Proposed schedule}{section.6}
+\BOOKMARK [1][-]{section.7}{ Evaluation and expected outcomes}{}
