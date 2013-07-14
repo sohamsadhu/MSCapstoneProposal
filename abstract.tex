@@ -1,22 +1,30 @@
 \begin{abstractpage}
 
-  Hash functions, have applications in computer security fields of authentication and integrity.
+  Hash functions, have \href{"http://en.wikipedia.org/wiki/Cryptographic\_hash\_function\#Applications"}
+  {applications in computer security}, in fields of authentication and integrity.
   Due to importance of hash function usage in everyday computing, standards for using hashing 
   algorithm and their bit size have been released by \href{"http://www.nist.gov/index.html"}
-  {(NIST)} which are denoted by nomenclature
-  Standard Hashing Algorithm (SHA).
+  {(NIST)} which are denoted by nomenclature Standard Hashing Algorithm (SHA).
 
   Due to advances in cryptanalysis of SHA-2, NIST announced a competition in November, 2007 
   to choose SHA-3. In October, 2012 the winner was selected to be \href{"http://keccak.noekeon.org/"}
   {Keccak} amongst 64 submissions. All the submissions were open to public scrutiny, and underwent
-  intensive third party cryptanalysis, before the winner was selected. There was little to choose
-  amongst the 5 submissions that made it to final round. 
+  intensive third party cryptanalysis, before the winner was selected. 
+  \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/sha-3\_selection\_announcement.pdf"}{Keccak was chosen}
+   for its flexibility, efficient and elegant implementation, and large security margin.
 
-  This project, will cryptanalyse Keccak and two other finalist in SHA-3 BLAKE and Gr$\o$stl with the 
-  \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf"}
-  {hill climbing} algorithm. The hill climbing algorithm is generic and is hash construction agnostic.
-  The complete version of the finalist algorithms are unbreakable by present day standards. However
-  on the reduced version of BLAKE, hill climbing algorithm has found some success. I propose to test
-  hill climbing on the 3 algorithms chosen, and make a claim that Keccak truly deserves to be a winner,
-  even with a reduced version.
+  All algorithms submitted to competition have undergone public scrutiny. And other four finalist in 
+  the competition were almost equivalent to Keccak, in attributes of security margin and implementation.
+  In this project, I will be comparing Keccak with two other SHA-3 finalists, \href{"https://131002.net/blake/"}
+  {BLAKE}, and \href{"http://www.groestl.info/"}{Gr$\o$stl} with respect to their resistance to 
+  \href{"http://en.wikipedia.org/wiki/Simulated\_annealing"}{simulated annealing} and 
+  \href{"http://en.wikipedia.org/wiki/Tabu\_search"}{tabu search}.
+  
+  Application of tabu search and simulated annealing to hash algorithms will be akin to generic attacks.
+  That is these methods of breaking hash functions are design agnostic or do not depend on the workings
+  of the hash function. Thus ensuring no bias in the experiment. At present, it is computationally infeasible
+  to break the above mentioned hash functions. But the reduced versions of these can be subjected to attacks
+  for near collisions. Thus I will be able to examine and conclude, if reduced instance Keccak has better 
+  resistance to generic attacks than reduced instance of BLAKE and Gr$\o$stl.
+  
 \end{abstractpage}

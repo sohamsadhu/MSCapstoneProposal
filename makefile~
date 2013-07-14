@@ -22,4 +22,4 @@ zip:
 	zip rit-cs-capstone-LaTeX.zip *.sty *.tex *.bib makefile
 
 clean:
-	/bin/rm -f *.dvi *.aux *.bbl *.blg *.log *.lof *.lot *.toc *.out
+	/bin/rm -f *.dvi *.aux *.bbl *.blg *.log *.lof *.lot *.toc
