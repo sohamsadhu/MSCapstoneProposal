@@ -81,7 +81,7 @@ A cryptographic hash function, is an algorithm capable of intaking arbitrarily l
 output a fixed size string, often as called message digest. The message digest for two strings
 even differing by a single bit should ideally be completely different, and no two input message should
 have the same hash value. This property enables us to finger print a message. Following are the properties
-of and ideal hash function. \cite{00005}
+of and ideal hash function\cite{00005}.
   
 1. {\bf Preimage resistance}
 \begin{center}
@@ -138,7 +138,45 @@ Collision problem states that, can two different input strings be found, such th
 
 Since hash functions can finger print any data, they find wide applications in computer security. And thus there
 needs to be a standard for implemenation and application of hash function, which is provided by National Institute
- of Standards and Technology(NIST). 
+of Standards and Technology(NIST). SHA-0 was initially proposed by National Security Agency(NSA) as a standardised
+hashing algorithm in 1993. It was later standardised by NIST. In 1995 SHA-0 was replaced by SHA-1 designed by NSA
+\cite{00006, 00007}. SHA-2 was designed by NSA, and released in 2001 by NIST. It is basically a family of hash 
+functions consisting of SHA-224, SHA-256, SHA-384, SHA-512. The number suffix after the SHA acronym, indicates the 
+bit length, of the output of that hash function. Although SHA-2 family of algorithms were influenced by SHA-1 
+design, but the attacks on SHA-1 have not been successfully extended completely to SHA-2.
+
+In response to advances made in cryptanalysis of SHA-2. NIST announced a public competition on November, 2007;
+for a new cryptographic hash algorithm, that would be SHA-3. 51 candidates from 64 submissions for first round 
+of competition were announced in December, 2008. In October, 2012 NIST announced the winner of the competition
+to be Keccak, amongst the other four finalist, which were BLAKE, Gr$\o$stl, JH and Skein. Keccak was chosen for
+its' large security margin, efficient hardware implementation, and flexibility.
+
+\subsection{Motivation}
+
+The arguments for choosing Keccak as SHA-3 are strong. However, other 4 finalists, have equally strong claim to
+security margin; one of the attributes on which Keccak was chosen. All the finalists have gone public scrutiny,
+and have shown resistance, to a number of attacks.
+
+\vspace{3mm}
+\begin{center}
+  \framebox
+  {
+    \parbox{400pt}
+    {
+      \centering \textsc{Hypothesis} \\
+      Reduced round Keccak, will have better resistance to near collisions found by tabu search and simulated
+      annnealing, compared to reduced round BLAKE and Gr$\o$stl.
+    }
+  }
+\end{center}
+\vspace{3mm}
+
+The aim of the project is to check if reduced version of Keccak holds security margin comparable, to reduced
+versions of BLAKE and Gr$\o$stl. This will be done by subjecting the reduced versions of the 3 algorithms
+to, a search in chaining value for two different messages. The search will be done in k-bit neighbourhood of
+initial chaining value using tabu search and simulated annealing. This should lead to chaining values that can
+give possible near collisions. These experiments would not prove that the said algorithms are vulnerable to 
+attacks, but would rather provide a security margin on which they can be compared.
  
 \section{Background}
 
