@@ -31,7 +31,7 @@
 \begin{tabular}{l l r}
     Chair: & Prof. Stanis{\l}aw Radziszowski & spr@cs.rit.edu\\[1.5cm] \hline
     \multicolumn{3}{c}{signature \hspace{6cm} date}\\[1cm]
-    Reader: & Prof. Abc Abc & abc@cs.rit.edu\\[1.5cm] \hline
+    Reader: & Prof. Stanis{\l}aw Radziszowski & spr@cs.rit.edu\\[1.5cm] \hline
     \multicolumn{3}{c}{signature \hspace{6cm} date}\\[1cm]
     Observer: & Prof. Xyz Xyz & xyz@cs.rit.edu\\[1.5cm] \hline
     \multicolumn{3}{c}{signature \hspace{6cm} date}\\[1cm]
@@ -47,32 +47,40 @@
 \parbox{350pt}{
   \begin{center}\textsc{Abstract}\end{center}
   \vspace{0.5cm}
-  Hash functions, have \href{"http://en.wikipedia.org/wiki/Cryptographic\_hash\_function\#Applications"}
-  {applications in computer security}, in fields of authentication and integrity.
-  Due to importance of hash function usage in everyday computing, standards for using hashing 
-  algorithm and their bit size have been released by \href{"http://www.nist.gov/index.html"}
-  {(NIST)} which are denoted by nomenclature Standard Hashing Algorithm (SHA).
+  \href{"http://en.wikipedia.org/wiki/Cryptographic\_hash\_function\#Applications"}
+  {Message integrity, password authentication} over the Internet relies on cryptographic hash
+  function. Due to importance of hash function usage in everyday computing, standards for hashing 
+  algorithm and their bit size have been released by NIST \cite{00037} which are 
+  denoted by nomenclature Standard Hashing Algorithm (SHA).
 
-  Due to advances in cryptanalysis of SHA-2, NIST announced a competition in November, 2007 
-  to choose SHA-3. In October, 2012 the winner was selected to be \href{"http://keccak.noekeon.org/"}
-  {Keccak} amongst 64 submissions. All the submissions were open to public scrutiny, and underwent
-  intensive third party cryptanalysis, before the winner was selected. 
-  \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/sha-3\_selection\_announcement.pdf"}{Keccak was chosen}
-   for its flexibility, efficient and elegant implementation, and large security margin.
+  Due to advances in cryptanalysis of SHA-2, NIST announced a competition in November 2007, 
+  to choose SHA-3. In October 2012, the winner was selected to be \href{"http://keccak.noekeon.org/"}
+  {Keccak} amongst 64 submissions \cite{00038, 00039}. All the submissions were open to public scrutiny, 
+  and underwent intensive third party cryptanalysis, before the winner was selected. 
+  Keccak was chosen for its flexibility, efficient and elegant implementation, and large security 
+  margin \cite{00040}.
 
   All algorithms submitted to competition have undergone public scrutiny. And other four finalist in 
   the competition were almost equivalent to Keccak, in attributes of security margin and implementation.
-  In this project, I will be comparing Keccak with two other SHA-3 finalists, \href{"https://131002.net/blake/"}
-  {BLAKE}, and \href{"http://www.groestl.info/"}{Gr$\o$stl} with respect to their resistance to 
+  In this project, I will compare Keccak with two other SHA-3 finalists, \href{"https://131002.net/blake/"}
+  {BLAKE}, and \href{"http://www.groestl.info/"}{Gr{\o}stl} on ease of finding near collisions, using
   \href{"http://en.wikipedia.org/wiki/Simulated\_annealing"}{simulated annealing} and 
   \href{"http://en.wikipedia.org/wiki/Tabu\_search"}{tabu search}.
   
-  Application of tabu search and simulated annealing to hash algorithms will be akin to generic attacks.
-  That is these methods of breaking hash functions are design agnostic or do not depend on the workings
-  of the hash function. Thus ensuring no bias in the experiment. At present, it is computationally infeasible
-  to break the above mentioned hash functions. But the reduced versions of these can be subjected to attacks
-  for near collisions. Thus I will be able to examine and conclude, if reduced instance Keccak has better 
-  resistance to generic attacks than reduced instance of BLAKE and Gr$\o$stl.
+  When Hamming weight of two message digests XORed, which are obtained from same hash function, with two
+  different messages with same chaining value. Evaluate to a number, which is equal to or less than 
+  ${1/4}^{th}$ of the number of bits in the message digest, then it is considered as a near collision.
+  
+  Tabu search and simulated annealing, can be categorised as generic attacks on a hash function. That is
+  these methods of attacking hash functions are design agnostic. At present, it is computationally 
+  infeasible to break the above mentioned hash functions, but the reduced versions of these can be 
+  subjected to attacks for near collisions. I will implement the hash functions Keccak, BLAKE and
+  Gr{\o}stl. Then subject them to hill climbing, simulated annealing, tabu search, and random selection 
+  of chaining value from a sample; for finding near collisions.
+  
+  The aim is to see, if tabu search and simulated annealing are better at finding near collisions, than
+  hill climbing \cite{00029}. And by what margin, are these algorithms better than a naive random search
+  for near collisions.
 }
 \end{center}
 
@@ -82,10 +90,10 @@
 
 \subsection{Hash Functions}
 A cryptographic hash function, is an algorithm capable of intaking arbitrarily long input string, and
-output a fixed size string, often as called message digest. The message digest for two strings
-even differing by a single bit should ideally be completely different, and no two input message should
-have the same hash value. This property enables us to finger print a message. Following are the properties
-of and ideal hash function\cite{00005}.
+output a fixed size string, often called a message digest. The message digest for two strings even 
+differing by a single bit should ideally be completely different. And no two different input messages
+known, should have the same hash value. This property enables us to fingerprint a message. Following 
+are the properties of an ideal hash function\cite{00005}.
   
 1. {\bf Preimage resistance}
 \begin{center}
@@ -127,7 +135,7 @@ easily, is called as having second preimage resistance.
     \parbox{350pt}
     {
       \centering \textsc{Collision} \\
-      {\bf Given:} A hash function $h : \mathcal{X} \to \mathcal{Y}$ 
+      {\bf Given:} A hash function $h : \mathcal{X} \to \mathcal{Y}$  \\
       {\bf Find:} $x, x' \in \mathcal{X}$ such that $x' \neq x$ and $h(x') = h(x)$. 
     }
   }
@@ -135,31 +143,31 @@ easily, is called as having second preimage resistance.
 \vspace{4mm}
 
 Collision problem states that, can two different input strings be found, such that they hash to the same
- value given the same hash function. A hash function is collision resistant, if it is computationally
- infeasible to find two different values hashing to same value.
+value given the same hash function. A hash function is collision resistant, if it is computationally
+infeasible to find two different values hashing to same value.
 
 \subsection{Standards and NIST Competition}
 
-Since hash functions can finger print any data, they find wide applications in computer security. And thus there
+Since hash functions can fingerprint any data, they find wide applications in computer security. Thus there
 needs to be a standard for implemenation and application of hash function, which is provided by National Institute
-of Standards and Technology(NIST). SHA-0 was initially proposed by National Security Agency(NSA) as a standardised
-hashing algorithm in 1993. It was later standardised by NIST. In 1995 SHA-0 was replaced by SHA-1 designed by NSA
-\cite{00006, 00007}. SHA-2 was designed by NSA, and released in 2001 by NIST. It is basically a family of hash 
-functions consisting of SHA-224, SHA-256, SHA-384, SHA-512. The number suffix after the SHA acronym, indicates the 
-bit length, of the output of that hash function. Although SHA-2 family of algorithms were influenced by SHA-1 
-design, but the attacks on SHA-1 have not been successfully extended completely to SHA-2.
+of Standards and Technology(NIST)\cite{00037}. SHA-0 was initially proposed by National Security Agency(NSA), as 
+a standardised hashing algorithm in 1993. It was later standardised by NIST. In 1995 SHA-0 was replaced by SHA-1 
+designed by NSA \cite{00006, 00007}. SHA-2 was designed by NSA, and released in 2001 by NIST. It is basically a 
+family of hash functions consisting of SHA-224, SHA-256, SHA-384, SHA-512. The number suffix after the SHA acronym, 
+indicates the bit length, of the output of that hash function. Although SHA-2 family of algorithms were influenced
+by SHA-1 design, but the attacks on SHA-1 have not been successfully extended to SHA-2.
 
-In response to advances made in cryptanalysis of SHA-2. NIST announced a public competition on November, 2007;
+In response to advances made in cryptanalysis of SHA-2. NIST announced a public competition on November 2007,
 for a new cryptographic hash algorithm, that would be SHA-3. 51 candidates from 64 submissions for first round 
-of competition were announced in December, 2008. In October, 2012 NIST announced the winner of the competition
-to be Keccak, amongst the other four finalist, which were BLAKE, Gr$\o$stl, JH and Skein. Keccak was chosen for
-its' large security margin, efficient hardware implementation, and flexibility.
+of competition were announced in December, 2008 \cite{00039}. In October, 2012 NIST announced the winner of the 
+competition to be Keccak, amongst the other four finalist, which were BLAKE, Gr{\o}stl, JH and Skein. Keccak 
+was chosen for its' large security margin, efficient hardware implementation, and flexibility \cite{00040}.
 
-\subsection{Motivation}
+\subsection{Objective}
 
-The arguments for choosing Keccak as SHA-3 are strong. However, other 4 finalists, have equally strong claim to
-security margin; one of the attributes on which Keccak was chosen. All the finalists have gone public scrutiny,
-and have shown resistance, to a number of attacks.
+The arguments for choosing Keccak as SHA-3 are strong. However, other 4 finalists, have similar strong claims 
+to security margin; one of the attributes on which Keccak was chosen. All the finalists have gone through 
+public scrutiny, and have shown resistance, to a number of attacks.
 
 \vspace{3mm}
 \begin{center}
@@ -168,80 +176,88 @@ and have shown resistance, to a number of attacks.
     \parbox{400pt}
     {
       \centering \textsc{Hypothesis} \\
-      Reduced round Keccak, will have better resistance to near collisions found by tabu search and simulated
-      annnealing, compared to reduced round BLAKE and Gr$\o$stl.
+      \begin{itemize}
+      \item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl. For the
+      attack algorithms hill climbing, simulated annealing, tabu search and random selection.
+      \item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
+      climbing and random selection.
+      \end{itemize}
+      %Reduced round Keccak, will have better resistance to near collisions found by tabu search and simulated
+      %annnealing, compared to reduced round BLAKE and Gr{\o}stl.
     }
   }
 \end{center}
 \vspace{3mm}
 
-The aim of the project is to check if reduced version of Keccak holds security margin comparable, to reduced
-versions of BLAKE and Gr$\o$stl. This will be done by subjecting the reduced versions of the 3 algorithms
-to, a search in chaining value for two different messages. The search will be done in k-bit neighbourhood of
-initial chaining value using tabu search and simulated annealing. This should lead to chaining values that can
-give possible near collisions. These experiments would not prove that the said algorithms are vulnerable to 
-attacks, but would rather provide a security margin on which they can be compared.
+The aim of the project is to study reduced version of Keccak holds security margin, comparable to reduced
+versions of BLAKE and Gr{\o}stl. This will be done by comparing the amount of computational resources required
+to find near collisions for two different messages with same chaining value; using simulated annealing, tabu
+search, hill climbing and random sampling of chaining values. When Hamming weight of two message digests XORed, 
+which are obtained from same hash function, with two different messages with same chaining value. Evaluate to 
+a number, which is equal to or less than ${1/4}^{th}$ of the number of bits in the message digest, then it is
+considered as a near collision. The collected data will also be studied, to compare the effectiveness of
+the 4 attack algorithms; in finding near collisions.
  
 \clearpage
 
 \section{Background}
 
-\subsection{Gr$\o$stl}
+\subsection{Gr{\o}stl}
 
-Gr$\o$stl is collection of hash functions which produce digest size, ranging from 1 to 64 bytes. The variant of
-Gr$\o$stl that returns a message digest of size n, is called Gr$\o$stl-n. Gr$\o$stl is an iterated hash function, 
-with two compression functions named P and Q. The input is padded and then split into l-bit message blocks
-$m_{1}$,$\ldots$, $m_{t}$, and each message block is processed sequentially. The initial l-bit chaining value 
+Gr{\o}stl is collection of hash functions which produce digest size, ranging from 1 to 64 bytes. The variant of
+Gr{\o}stl that returns a message digest of size n, is called Gr{\o}stl-n. Gr{\o}stl is an iterated hash function, 
+with two compression functions named $P$ and $Q$. The input is padded and then split into $l$-bit message blocks
+$m_{1}$,$\ldots$, $m_{t}$, and each message block is processed sequentially. The initial $l$-bit chaining value 
 $h_{0}$ = iv is defined, and the blocks $m_{i}$ are processed as $ h_{i}\gets f(h_{i-1}, m_{i})$ for i = 1,$\ldots$,
 t. For variants up to 256 bits output, size of $l$ is 256 bits. And for digest sizes larger than 256 bits, $l$ 
 is 1024 bits. After the last message block is processed, the last chaining value output is sent through a 
-$\Omega$ function, to get the hash output H(M) \cite{00019}. 
+$\Omega$ function, to get the hash output $H(M)$ \cite{00019}. 
 
-$H(M) = \Omega(h_{t}),$
+\begin{center}$H(M) = \Omega(h_{t}),$\end{center}
 
-The f function shown above, is composed of two l-bit permutations called P and Q, which is defined as follows.
+The function $f$, is composed of two $l$-bit permutations called $P$ and $Q$, which is defined as follows.
 
-$f(h, m) = P(h \oplus m) \oplus Q(m) \oplus h.$
+\begin{center}$f(h, m) = P(h \oplus m) \oplus Q(m) \oplus h.$\end{center}
 
-The $\Omega$ function consists of a $trunc_{n}(x)$ that outputs only the trailing n bits of input x. 
-$\Omega(x) = trunc_{n}( P(x) \oplus x ).$
+The function $\Omega$, consists of a $trunc_{n}(x)$ that outputs only the trailing n bits of input $x$.
+\begin{center}$\Omega(x) = trunc_{n}( P(x) \oplus x ).$\end{center}
 
-In order to fit the varying input length message to the block sizes of $ l $ padding is defined. First bit '1' is
-appended, then $ w = -N - 65 mod l $ 0 bits are appended; where N is the length of the original message. Finally a
-64 bit representation of $(N + w + 65) / l $.
+In order to fit the varying input length message to the block sizes of $l$ padding is defined. First bit '1' is
+appended, then $ w = -N - 65 \mod l $ 0 bits are appended; where N is the length of the original message. And then
+a 64 bit representation of $(N + w + 65) / l $ is padded at the end.
 
-There are two variations for P and Q permutations, one each for the digest size lower and higher than 256 bits. There
+There are two variations for $P$ and $Q$ permutations, one each for the digest size lower and higher than 256 bits. There
 are four round transformations, that compose a round R. The permutation consists of a number of rounds R, and can be
 represented as 
 
-$ R = MixBytes \cdot ShiftBytes \cdot SubBytes \cdot AddRoundConstant $
+\begin{center} R = MixBytes $\circ$ ShiftBytes $\circ$ SubBytes $\circ$ AddRoundConstant \end{center}
 
 The transformations SubBytes and MixBytes are same for all transformation while, ShiftBytes and AddRoundConstant differ
 for each of the transformations. The transformations operate on matrix of bytes, with the permutation of lower size
 digest having matrix of 8 rows and 8 columns, while that for larger variant is of 16 columns and 8 rows. The number of
 rounds for digest sizes upto 256 bits are 10. For digest sizes higher than that, number of rounds are 14. The individual
-components of each round for P and Q are described below.
+components of each round for $P$ and $Q$ are described below.
 
-{\bf AddRoundConstant:} transformation round XOR a round dependant constant to the state matrix say A. It is 
-represented as $A \gets A \oplus C[i]$, where C[i] is the round constant in round i.
+{\bf AddRoundConstant:} transformation round XOR a round dependant constant to the state matrix say $A$. It is 
+represented as $A \gets A \oplus C[i]$, where $C[i]$ is the round constant in round $i$.
 
-{\bf SubBytes:} substitutes each byte in state by value from S-box. Say $a_{i,j}$ a element in row i and column j of 
-the state matrix, then the transformation done is $a_{i,j} \gets S( a_{i,j}),  0 \leq i < 8, 0 \leq j < v.$
+{\bf SubBytes:} substitutes each byte in state by value from S-box. Say $a_{i,j}$ a element in row $i$ and column $j$
+of the state matrix, then the transformation done is $a_{i,j} \gets S( a_{i,j}),  0 \leq i < 8, 0 \leq j < v.$
 
 {\bf ShiftBytes:} transformation cyclically shifts the bytes in a row to left by that number. Let list vector 
 of a number denote the shift, with the index of the element indicating the row. The vector representation for
 $P_{512}$ = [0, 1, 2, 3, 4, 5, 6, 7] and $Q_{512}$ = [1, 3, 5, 7, 0, 2, 4, 6]. Those for the larger permutation 
-are $P_{1024}$ = [0, 1, 2, 3, 4, 5, 6, 11]and $Q_{1024}$ = [1, 3, 5, 11, 0, 2, 4, 6].
+are $P_{1024}$ = [0, 1, 2, 3, 4, 5, 6, 11] and $Q_{1024}$ = [1, 3, 5, 11, 0, 2, 4, 6].
 
-{\bf MixBytes:} transformation, multiplies each column of the state matrix A, by a constant 8 $\times$ 8 matrix B.
-The transformation, can be shown as $ A \gets B \times A$. The matrix B, can be seen as a finite field over 
+{\bf MixBytes:} transformation, multiplies each column of the state matrix $A$, by a constant 8 $\times$ 8 matrix
+$B$. The transformation, can be shown as $ A \gets B \times A$. The matrix B, can be seen as a finite field over 
 $\mathbb{F}_{256}$. This finite field is defined over $\mathbb{F}_{2}$ by the irreducible polynomial 
 $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$.
 
 \subsection{BLAKE}
 
 BLAKE\cite{00002} hash function is built on HAIFA (HAsh Iterative FrAmework) structure \cite{00020} which is an improved
-version of Merkle-Damg$\dot{a}$rd function. BLAKE has 4 variations of the algorithm that can give only 4 different digest
+version of Merkle-Damg\.{a}rd function. BLAKE has 4 variations of the algorithm that can give only 4 different digest
 lengths. The construction takes in 4 inputs, one message; two a salt, that makes function that parameter specific; and
 three a counter, which is count of all the bits hashed till then; and lastly a chaining value which is input of the previous
 operation or initial value in case of hash initiation. The compression function is composed of a 4 $\times$ 4 matrix of words.
@@ -288,15 +304,13 @@ chain value of 8 words.
   \end{table}
   
   \begin{table}[h]
-    \begin{center}
-      \begin{tabular}{ *{4}{c}}
-        $c_{0}$  = 243F6A88 & $c_{1}$  = 85A308D3 & $c_{2}$  = 13198A2E & $c_{3}$  = 03707344 \\
-        $c_{4}$  = A4093822 & $c_{5}$  = 299F31D0 & $c_{6}$  = 082EFA98 & $c_{7}$  = EC4E6C89 \\
-        $c_{8}$  = 452821E6 & $c_{9}$  = 38D01377 & $c_{10}$ = BE5466CF & $c_{11}$ = 34E90C6C \\
-        $c_{12}$ = C0AC29B7 & $c_{13}$ = C97C50DD & $c_{14}$ = B5470917 & $c_{15}$ = 3F84D5B5 \\
-      \end{tabular}
-      \caption{16 constants used for BLAKE-256}
-    \end{center}
+    \begin{align*}
+         c_{0}  &= 243F6A88 & c_{1}  &= 85A308D3 & c_{2}  &= 13198A2E & c_{3}  &= 03707344 
+      \\ c_{4}  &= A4093822 & c_{5}  &= 299F31D0 & c_{6}  &= 082EFA98 & c_{7}  &= EC4E6C89 
+      \\ c_{8}  &= 452821E6 & c_{9}  &= 38D01377 & c_{10} &= BE5466CF & c_{11} &= 34E90C6C 
+      \\ c_{12} &= C0AC29B7 & c_{13} &= C97C50DD & c_{14} &= B5470917 & c_{15} &= 3F84D5B5 
+    \end{align*}
+    \caption{16 constants used for BLAKE-256}
   \end{table}
 
   \begin{table}
@@ -319,13 +333,16 @@ chain value of 8 words.
 
 \item {\bf Initialization: } The constants mentioned are used with the salts, and counter along with initial
 value used as chaining input, to create a initial matrix of 4 $\times$ 4, 16 word state.
-
+\vspace{3mm}
+\begin{center}
 $\begin{pmatrix} v_{0} & v_{1} & v_{2} & v_{3} \\ v_{4} & v_{5} & v_{6} & v_{7} \\
                  v_{8} & v_{9} & v_{10} & v_{11} \\ v_{12} & v_{13} & v_{14} & v_{15}\end{pmatrix} 
 \gets
 \begin{pmatrix} h_{0} & h_{1} & h_{2} & h_{3} \\ h_{4} & h_{5} & h_{6} & h_{7} \\
    s_{0} \oplus c_{0} & s_{1} \oplus c_{1} & s_{2} \oplus c_{2} & s_{3} \oplus c_{3} \\ 
-   t_{0} \oplus c_{4} & t_{0} \oplus c_{5} & t_{1} \oplus c_{6} & t_{1} \oplus c_{7} \end{pmatrix}$
+   t_{0} \oplus c_{4} & t_{0} \oplus c_{5} & t_{1} \oplus c_{6} & t_{1} \oplus c_{7} \end{pmatrix}$ 
+\end{center}
+\vspace{5mm}
 
 \item {\bf Round function:} After initialisation, the state is subjected to column and diagonal operations, 14
 times. A round operation G acts as per following
@@ -352,12 +369,12 @@ c \gets c + d \\
 b \gets (b \oplus c) \gg 7
 $
 
-The implementation of the G function is shown below.
+The implementation of the G function is shown if figure 1.
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=4in]{blakeGfunction.jpg}
   \end{center}
-  \caption{The $G_{i}$ function in BLAKE}
+  \caption{The $G_{i}$ function in BLAKE \cite{00002}}
   \label{fig:lab}
 \end{figure}
 
@@ -416,28 +433,43 @@ from 0 to 6. The position in this 3 dimensional state is given by $a[x][y][z]$ w
 \mathbb{Z}_{w}$. The mapping of the bits from the input message 's' to state 'a' is like this $s[w (5y + x) + z] = a[x][y][z]$.
 The $x, y$ coordinates are taken modulo 5, while the $z$ coordinate is taken as modulo $w$.  \cite{00015}
 
-There are five steps, for a permutation round R. $R = \zeta \circ \chi \circ \pi \circ \rho \circ \theta$. The permutations are repeated for
-$12 + 2l$ times, with $l$ dependent on the variant chosen. \\
-$
-\theta: a[x][y][z] \gets a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
-\rho: a[x][y][z] \gets a[x][y][z - (t + 1)(t + 2) / 2], \\
-t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
+There are five steps, for a permutation round R.
+\begin{center}R = $\zeta \circ \chi \circ \pi \circ \rho \circ \theta$. \end{center} 
+These permutations are repeated for $12 + 2l$ times, with $l$ dependent on the variant chosen.
+%$
+%\theta: a[x][y][z] \gets a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
+%\rho: a[x][y][z] \gets a[x][y][z - (t + 1)(t + 2) / 2], \\
+%t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
+%\begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
+%in \thickspace GF(5)^{2 \times 2}, \\
+%or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
+%\pi: a[x][y] \gets a[x'][y'], \thickspace with \thickspace
+%\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
+%\chi: a[x] \gets a[x] + (a[x + 1] + 1) a[x + 2], \\
+%\zeta: a \gets a + RC[i_{r}].
+%$
+
+\begin{align*}
+\theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
+\rho &: a[x][y][z] & \gets & \thickspace a[x][y][z - (t + 1)(t + 2) / 2], \\
+& & & \thickspace t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
 \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
 in \thickspace GF(5)^{2 \times 2}, \\
-or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
-\pi: a[x][y] \gets a[x'][y'], \thickspace with \thickspace
+& & & \thickspace or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
+\pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
 \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
-\chi: a[x] \gets a[x] + (a[x + 1] + 1) a[x + 2], \\
-\zeta: a \gets a + RC[i_{r}].
-$
+\chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
+\zeta &: a & \gets & \thickspace a + RC[i_{r}].
+\end{align*}
 
 The addition and the multiplications are in Galois field GF(2), except for the round constants $RC[i_{r}]$. The round constants 
 are given by
 
-$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$, \\
+\begin{center} $RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$, \end{center}
+
 and the rest are zeros. The value of $rc[t] \in GF(2)$ is output of linear feedback shift register given as 
 
-$rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$].
+\begin{center}$rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$].\end{center}
 
 \section{Related Work}
 
@@ -566,7 +598,7 @@ for two chosen message $M_{1},M_{2}$ where $M_{1} \neq M_{2}$.
 
   \subsubsection{Procedure}
 
-  Both Keccak and Gr$\o$stl can support variable byte message digest length, but BLAKE based on SHA-2 designs can have
+  Both Keccak and Gr{\o}stl can support variable byte message digest length, but BLAKE based on SHA-2 designs can have
   message digests of 224, 256, 384 and 512 bits. Thus the experiment for 105 pairs will be done on 4 message sizes as
   indicated by BLAKE. Keccak does not have a initial state or a chaining value as such, but can be tweaked, so that it
   has the first sponge state to accept the chaining value and pre-compute it and then apply the hash function on the
@@ -613,7 +645,7 @@ that was last obtained and the time taken for that experiment.
       Tasks                                                                                                   & Timeline \\ \hline
       Project proposal Approved. Completing 3rd party cryptanalysis part of report for Keccak.                & July 26 \\ \hline
       Creation of message pairs and coding 2 hash functions. Write cryptanalysis part for BLAKE in report.    & August 2 \\ \hline
-      Coding the 3rd hash function, validation testing, finishing cryptanalysis part for Gr$\o$stl in report. & August 9 \\ \hline
+      Coding the 3rd hash function, validation testing, finishing cryptanalysis part for Gr{\o}stl in report. & August 9 \\ \hline
       Code and test the hill climbing algorithm, and start collecting data from output.                       & August 16 \\ \hline
       Run experiments, collect more data, and put them in report. Discuss the results with advisor.           & August 23 \\ \hline
       Fine tune the experiment, collect data and start writing observations and conclusion part in report.    & August 30 \\ \hline
