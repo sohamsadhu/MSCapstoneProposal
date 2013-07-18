@@ -662,7 +662,8 @@ that was last obtained and the time taken for that experiment.
 
 \section{Evaluation and expected outcomes}
 The experiment with each of the pair, will be run for approximately $2^{10}$ times or rather 1024 times.
-The following are the parameters on which I propose to evaluate the algorithms. 
+The attacks will be done on both full and reduced versions of hash functions.The following are the parameters
+on which I propose to evaluate the algorithms. 
 
 \begin{enumerate}
   \item How much time for each of the respective message digest size, did it take for the simulated
@@ -674,12 +675,12 @@ The following are the parameters on which I propose to evaluate the algorithms.
   \item Is the weight of the Hamming distance between message pair co-related to the amount of work
   for each of the search algorithm does to find a collision.
   \item Does the Hamming weight distance between message pair, vary for each of the hashing algorithm
-  with respect to amount of work on average required by search algorithm. This will be an
-  indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
+  with respect to amount of work on average required by search algorithm.
   \item On an average what was the hamming distance of the chaining value obtained from a successful
-  experiment from the individual message. This will help in understanding if, chaining values and
-  message are closely related in reduced rounds.
+  experiment from the individual message.
   \item On an average, which of the attack algorithms is most likely to find a near collision.
+  \item Statistical analysis will be carried on the data collected for t-tests, $\chi^{2}$ tests,
+  confidence interval etc, to make concrete claims.
 \end{enumerate}
 
 The above list is tentative, and by no means exhaustive. If during the course of experiment, more 
