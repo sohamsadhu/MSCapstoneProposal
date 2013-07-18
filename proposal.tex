@@ -135,7 +135,7 @@ easily, is called as having second preimage resistance.
     \parbox{350pt}
     {
       \centering \textsc{Collision} \\
-      {\bf Given:} A hash function $h : \mathcal{X} \to \mathcal{Y}$  \\
+      {\bf Given:} A hash function $h : \mathcal{X} \to \mathcal{Y}$.  \\
       {\bf Find:} $x, x' \in \mathcal{X}$ such that $x' \neq x$ and $h(x') = h(x)$. 
     }
   }
@@ -400,7 +400,7 @@ size is equal to 447 modulo 512. This padding is followed by a bit '1' and a 64-
 of block length $l$. The padding to a message, can be represented as $m \gets m \parallel 1000 \dots 0001\langle l \rangle_{64}$
 
 \begin{algorithm}
-\caption{BLAKE Compression procedure}
+\caption{BLAKE Compression procedure \cite{00002}}
 \begin{algorithmic}[1]
 \State $ h^{0} \gets IV $
 \For {$i = 0,\dots, N - 1$}
@@ -436,18 +436,6 @@ The $x, y$ coordinates are taken modulo 5, while the $z$ coordinate is taken as 
 There are five steps, for a permutation round R.
 \begin{center}R = $\zeta \circ \chi \circ \pi \circ \rho \circ \theta$. \end{center} 
 These permutations are repeated for $12 + 2l$ times, with $l$ dependent on the variant chosen.
-%$
-%\theta: a[x][y][z] \gets a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
-%\rho: a[x][y][z] \gets a[x][y][z - (t + 1)(t + 2) / 2], \\
-%t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
-%\begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
-%in \thickspace GF(5)^{2 \times 2}, \\
-%or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
-%\pi: a[x][y] \gets a[x'][y'], \thickspace with \thickspace
-%\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
-%\chi: a[x] \gets a[x] + (a[x + 1] + 1) a[x + 2], \\
-%\zeta: a \gets a + RC[i_{r}].
-%$
 
 \begin{align*}
 \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
@@ -471,11 +459,11 @@ and the rest are zeros. The value of $rc[t] \in GF(2)$ is output of linear feedb
 
 \begin{center}$rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$].\end{center}
 
-\section{Related Work}
+\section{Previous Work}
 
 \subsection{Near collisions with Hill Climbing}
 
-A generic algorithm applied to find collisions, in reduced rounds of some SHA-3 competitors was Hill Climbing
+A generic algorithm applied to find near collisions, in reduced rounds of some SHA-3 competitors was hill climbing
 \cite{00029}. Near collisions in which more than 75\% of the bits were same for two different messages, were found 
 for reduced rounds of BLAKE-32, Hamsi-256 and JH. Near collision results are important for knowing the security
 margins. In some cases, output of hash functions may be truncated for compatibility or efficiency purposes. In 
@@ -486,23 +474,23 @@ value, and n is the hash size in bits.
 
 The paper used hill climbing algorithm will be to minimize the function 
 
-$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$
+\begin{center}$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$\end{center}
 
 where $x \in \{0, 1\}^{n}$, where $M_{1}$ and $M_{2}$ are message blocks. CV is chosen as any random chaining value.
 The k-opt condition can be defined as 
 
-$f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$ 
+\begin{center}k-opt = $f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$\end{center}
 
 \begin{algorithm}
-  \caption{ Hill Climbing algorithm ($M_{1}, M_{2}, k$) }
+  \caption{ Hill Climbing Algorithm ($M_{1}, M_{2}, k$) for near collisions }
   \begin{algorithmic}[1]
-    \State Randomly select CV
+    \State Randomly select $CV$
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
-    \State \While {(CV is not k-opt)}
-    \State CV = x such that $x \in S^{k}_{CV}$ with $f(x) < f(best)$
+    \State \While {($CV$ is not k-opt)}
+    \State $CV$ = $x$ such that $x \in S^{k}_{CV}$ with $f(x) < f(best)$
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
     \State \EndWhile
-    \State \Return (CV, $f_{best}$)
+    \State \Return ($CV$, $f_{best}$)
   \end{algorithmic}
 \end{algorithm}
 
@@ -513,17 +501,17 @@ for a better fit CV, and if found is updated. And the search is repeated again i
 \subsection{Simulated Annealing}
 
 \begin{algorithm}
-  \caption{ Simulated Annealing }
+  \caption{ Simulated Annealing Algorithm for obtaining near collisions }
   \begin{algorithmic}[1]
-    \Function {Simulated-annealing}{problem, schedule}
-      \State current $\gets$ MakeNode( problem.Initial\_State )
+    \Function {Simulated-annealing}{$M_{1}, M_{2}, CV,$ schedule}
+      \State current $\gets \thickspace CV$
       \For { t = 1 to $\infty$ }
         \State T $\gets$ schedule( t )
         \If { T = 0}
           \State \Return current
         \EndIf
-        \State next $\gets$ a randomly selected successor of current
-        \State $\Delta$E $\gets$ next.Value - current.value
+        \State next $\gets$ a randomly selected successor from set $S^{k}_{current}$
+        \State $\Delta E \gets  \thickspace f_{M_{1}, M_{2}}(current) - f_{M_{1}, M_{2}}(next)$
         \If { $\Delta$E $>$ 0 }
           \State current $\gets$ next
         \Else
@@ -545,22 +533,23 @@ downhill successor is more likely to be accepted, than in the later stages \cite
 \subsection{Tabu Search}
 
 \begin{algorithm}[h]
-  \caption{ Tabu Search \cite{00036}}
+  \caption{ Tabu Search for obtaining near collisions \cite{00036}}
   \begin{algorithmic}[1]
-    \Function {Tabu-search}{$TabuList_{size}$}
-      \State $S_{best}$ $\gets$ InitialSolution()
-      \State TabuList $\gets$ null
-      \While {not StoppingCondition()}
+    \Function {Tabu-search}{$TabuList_{size}, M_{1}, M_{2}, CV$}
+      \State $S_{best}$ $\gets \thickspace CV$
+      \State $TabuList \thickspace \gets$ null
+      \While {$S_{best}$ not k-opt}
         \State CandidateList $\gets$ null
+        \State $S_{neighbourhood} \gets S^{k}_{S_{best}}$
         \For { $S_{candidate} \in S_{best_{neighbourhood}}$}
-          \If {not ContainsAnyFeatures( $S_{candidate}$, TabuList )} 
+          \If {not ContainsAnyFeatures( $S_{candidate}, TabuList$ )} 
             \State CandidateList $\gets$ $S_{candidate}$
           \EndIf
         \EndFor
         \State $S_{candidate}$ $\gets$ LocateBestCandidate( CandidateList )
         \If { Cost( $S_{candidate}$ ) $\leq$ Cost( $S_{best}$ ) }
-          \While { TabuList $>$ $TabuList_{size}$ }
-            \State DeleteFeature( TabuList )
+          \While { $TabuList >TabuList_{size}$ }
+            \State DeleteFeature( $TabuList$ )
           \EndWhile
         \EndIf
       \EndWhile 
@@ -570,28 +559,44 @@ downhill successor is more likely to be accepted, than in the later stages \cite
 \end{algorithm}
 
 Tabu search implements the neighbourhood search for the solutions, until the termination condition. The algorithm
-uses a fixed amount of memory, to keep note of states visited some fixed amount of time in past. The idea behind
-keeping the state is to restrict search to states that have not been visited previously. The algorithm can be
-tweaked to accept sometimes moves in tabu list through aspiration criteria, or inferior moves just to explore
-new possible states. Tabu search has been applied to mostly combinatorial optimization problems\cite{ 00034, 00035 }.
+uses a fixed amount of memory, to keep note of states, visited some fixed amount of time in past. The idea behind
+keeping the state, is to restrict the search, to states that have not been visited previously. The algorithm can be
+tweaked, to accept moves in tabu list through aspiration criteria, or inferior moves just to explore new possible
+states. Tabu search has been applied to mostly combinatorial optimization problems\cite{ 00034, 00035 }.
 
 \section{Methodology}
 
 \subsection{Design of Experiment}
-I aim to use simulated annealing and tabu search algorithms, to search for near collisions. The methodology, for doing
-so will be similar to that described in related work section on hill climbing. Both simulated annealing and tabu
-search will be used to search in the k-bit neighbourhood of a randomly selected chaining value, to obtain near collisions
-for two chosen message $M_{1},M_{2}$ where $M_{1} \neq M_{2}$.
+I aim to use hill climbing, simulated annealing, tabu search, random selection algorithms, to search for near 
+collisions, for two chosen message $M_{1},M_{2}$ where $M_{1} \neq M_{2}$. This will be done as shown by implementing
+the algorithms 2, 3, 4 and 5.
+
+\begin{algorithm}[h]
+  \caption{ Random selection from k-bit neighbourhood of $CV$ }
+  \begin{algorithmic}[1]
+    \Function {Random-Selection}{$ M_{1}, M_{2}, CV,$ number\_of\_trials}
+      \State current $\gets \thickspace CV$
+      \State trial $\gets$ 0
+      \While { trial $<$ number\_of\_trials }
+        \State next $\gets$ randomly selected candidate from $S^{k}_{current}$
+        \If { $f_{M_{1}, M_{2}}(next) - f_{M_{1}, M_{2}}(current) $ }
+          \State current $\gets$ next
+        \EndIf
+      \EndWhile 
+      \State \Return current
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
 
   \subsubsection{Data}
   
   For creating the message pair, I intend to choose the first message as "The quick brown fox jumps over the lazy dog.".
-  Another 14 messages will be created from the initial message, so in all we get $\begin{pmatrix} 15 \\ 2 \end{pmatrix}
-  = 105$ pairs of message in total. The rest of the 14 messages will be derived from the first message by applying a
+  Another 14 messages will be created from the initial message, so in all we get %$\begin{pmatrix} 15 \\ 2 \end{pmatrix} = 105$
+  105 pairs of message in total. The rest of the 14 messages will be derived from the first message by applying a
   shift register operation, that results in a bit flip from the previous message. For example, if my initial message has
   a bit pattern of 0000. Then the subsequent messages will be 1000, 1100, 1110 and 1111.
   
-  This will give the experiment an advantage of comparing substantial message pairs with small to medium hamming distance.
+  This will give the experiment an advantage of comparing substantial message pairs with small to medium Hamming distance.
   The initial chaining value for experiment is chosen randomly, and does not matter as long it is kept constant provided
   to all the message pairs in the experiment. I intend to use the hash value of empty string generated by Keccak as the 
   initial chaining value for all the pairs.
@@ -604,18 +609,15 @@ for two chosen message $M_{1},M_{2}$ where $M_{1} \neq M_{2}$.
   has the first sponge state to accept the chaining value and pre-compute it and then apply the hash function on the
   message.
 
-  Defining the reduced rounds for each of the functions is a bit tricky. Since for each the permutation function behaves
-  differently, and so arbitrarily reducing the number of rounds, for each function to a number. May not create a level
-  playing field for the comparison. But, for the purposes of experiment right now, I intend to just have 2 rounds for 
-  each of the candidate hash functions. The number of rounds may be tweaked as found suitable during the course of 
-  experiment.
+  Reduced state for the hash functions can be obtained, by either reducing the number of rounds the permutations
+  are executed, or by reducing the number of bits in the internal state of the hash function.
 
 \subsection{Platform, Architecture, Languages and Tools}
 The platform I would most likely choose will be Ubuntu 12.04 LTS, with the primary coding language
-being Java. The other minor book keeping tasks like generation of strings for message and chaining
-value would be done with scripting language like Python.The initial data that needs to be calculated 
-for all the pairs of message will be static for the rest of the experiment,and stored for rest of the
-experiment.
+being \href{"https://en.wikipedia.org/wiki/Java\_(programming_language)"}{Java} or 
+\href{"http://golang.org/"}{Go-lang}.The initial data that needs to be 
+calculated for all the pairs of message will be static for the rest of the experiment,and stored for 
+rest of the experiment.
 
 The first task will be creation of the data. First, pairs of initial message will have to be 
 made. Each of the message from the pair will be line separated, and each of the pair in the file
