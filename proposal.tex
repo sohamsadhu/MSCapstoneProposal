@@ -615,17 +615,18 @@ the algorithms 2, 3, 4 and 5.
 \subsection{Platform, Architecture, Languages and Tools}
 The platform I would most likely choose will be Ubuntu 12.04 LTS, with the primary coding language
 being \href{"https://en.wikipedia.org/wiki/Java\_(programming_language)"}{Java} or 
-\href{"http://golang.org/"}{Go-lang}.The initial data that needs to be 
-calculated for all the pairs of message will be static for the rest of the experiment,and stored for 
-rest of the experiment.
+\href{"http://golang.org/"}{Go-lang}.The initial data that needs to be calculated for all the pairs 
+of message will be static for the rest of the experiment,and stored for rest of the experiment.
 
 The first task will be creation of the data. First, pairs of initial message will have to be 
 made. Each of the message from the pair will be line separated, and each of the pair in the file
-will be separated with a blank line. This will be the initial data file. The hash function 
-implementation of the algorithms already exist, so would be using them rather than coding them 
-myself. The implementations can then be tweaked to produce message digests with reduced rounds. 
-These message digests will be different than the actual hash message obtained from those functions 
-since the rounds have been reduced.
+will be separated with a blank line. This will be the initial data file. All the three hash functions
+will be implemented and then tested against the existing implementations, for correctness. These
+implemented hash function, will then be used for the experimentation with reduced rounds. In order
+to conduct the experiment smoothly, a graphical user interface (GUI) window will be created, with
+various parameters for the digest size, internal state size, message pairs, number of trials etc.
+This GUI will control the experimental setup and execute the test cases on hash functions and dump
+the results as required.
 
 The output for the results will be stored in the following format. The directory structure for the
 output will be algorithm name, followed by digest size. Followed by algorithm name whose digest 
@@ -653,7 +654,7 @@ that was last obtained and the time taken for that experiment.
       Fine tune the experiment, collect data and start writing observations and conclusion part in report.    & August 30 \\ \hline
       Discuss results and conclusions with advisor. Fine tune report. Run more experiments if required.       & September 6 \\ \hline
       Format the report properly, and submit it for acceptance. Create presentation for project defense.      & September 13 \\ \hline
-      Check availability of faculty. Announce defense date, book room and defend by September 20              & September 20 \\ \hline
+      Check availability of faculty. Announce defense date, book room and defend by September 20              & October 11 \\ \hline
     \end{tabular}
   \caption{Proposed schedule for my project implementation.}
   \end{center}
@@ -665,19 +666,20 @@ The following are the parameters on which I propose to evaluate the algorithms.
 
 \begin{enumerate}
   \item How much time for each of the respective message digest size, did it take for the simulated
-  annealing and tabu search to find a collision.
-  \item How much is the hamming distance on an average for the chaining value that is manipulated by
+  annealing, tabu search, hill climbing and random selection, to find a near collision.
+  \item How much is the Hamming distance on an average for the chaining value that is manipulated by
   search algorithms for each of the hash functions.
   \item Till how many rounds, is the each of the search algorithm a feasible option to find near 
   collisions, for each of the hash function.
-  \item Is the weight of the hamming distance between message pair co-related to the amount of work
+  \item Is the weight of the Hamming distance between message pair co-related to the amount of work
   for each of the search algorithm does to find a collision.
-  \item Does the hamming weight distance between message pair, vary for each of the hashing algorithm
-    with respect to amount of work on average required by search algorithm. This will be an
-    indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
+  \item Does the Hamming weight distance between message pair, vary for each of the hashing algorithm
+  with respect to amount of work on average required by search algorithm. This will be an
+  indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
   \item On an average what was the hamming distance of the chaining value obtained from a successful
-    experiment from the individual message. This will help in understanding if, chaining values and
-    message are closely related in reduced rounds.
+  experiment from the individual message. This will help in understanding if, chaining values and
+  message are closely related in reduced rounds.
+  \item On an average, which of the attack algorithms is most likely to find a near collision.
 \end{enumerate}
 
 The above list is tentative, and by no means exhaustive. If during the course of experiment, more 
