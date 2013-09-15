@@ -44,9 +44,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title page
 % The \title{} can contain line breaks as appropriate...
-\title{\vspace{-0.20in} Evaluation of hill climbing, simulated annealing, tabu search
-       and random selection attack algorithms on cryptographic hash functions Keccak, 
-       BLAKE, and Gr{\o}stl}
+\title{\vspace{-0.20in} Evaluation of Hill Climbing, Tabu Search,
+       Simulate Annealing and Random search on SHA-3 finalists}
 % The \titleline{} must have no line breaks in it.
 \titleline{MS Project Proposal}
 % This is not a thesis but a project

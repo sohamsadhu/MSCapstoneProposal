@@ -32,7 +32,7 @@ where HW is the Hamming weight, and CV is the chaining value, and n is the hash 
       191 / 256, 345 / 512, 638 / 1024 & $2^{50}$ \\ \hline
       197 / 256, 354 / 512, 651 / 1024 & $2^{60}$ \\ \hline
     \end{tabular}
-    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search\cite{00029}}
+    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search}
   \end{center}
 \end{table}
 
@@ -55,7 +55,7 @@ The k-opt condition can be defined as
 We can now describe algorithm 5.1, that is used in hill climbing algorithm to find the nearest match. 
 
 \begin{algorithm}
-  \caption{ Hill Climbing algorithm ($M_{1}, M_{2}, k$) \cite{00029}}
+  \caption{ Hill Climbing algorithm ($M_{1}, M_{2}, k$) }
   \begin{algorithmic}[1]
     \State Randomly select CV
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$

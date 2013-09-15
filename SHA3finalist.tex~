@@ -489,7 +489,7 @@ structure rather than linear strings, or 2 dimensional arrays.
     \begin{center}
       \includegraphics[width=5.5in]{keccakspongeconstruction.jpg}
     \end{center}
-    \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$\cite{00016}}
+    \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$}
     \label{fig:lab}
   \end{figure}
 
@@ -503,7 +503,7 @@ structure rather than linear strings, or 2 dimensional arrays.
     \begin{center}
       \includegraphics[width=6.5in]{keccakstateterminology.jpg}
     \end{center}
-    \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$\cite{00015}}
+    \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$}
     \label{fig:lab}
   \end{figure}
 
@@ -516,7 +516,7 @@ structure rather than linear strings, or 2 dimensional arrays.
   defined as $b = 25 \times 2^{l}$, where $l$ takes values from 0 to 6.
   
   \begin{algorithm}
-    \caption{The sponge construction $SPONGE[f, pad, r]$\cite{00016}}
+    \caption{The sponge construction $SPONGE[f, pad, r]$}
     \begin{algorithmic}[1]
       \Require $r < b$
       \State {\bf Interface:} Z = sponge($M, l$) with $M \in \mathbb{Z}^{*}_{2}$, integer $ l > 0$ and $Z \in \mathbb{Z}^{l}_{2}$
