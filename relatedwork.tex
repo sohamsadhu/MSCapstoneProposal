@@ -32,10 +32,12 @@
 
 \section{Cryptanalysis done on Keccak}
 
-\subsection{Rotational cryptanalysis of round-reduced KECCAK} \cite{00022}
-In this paper, Paweł Morawiecki, Josef Pierpzyk and Marian Srebrny apply rotational cryptanalysis to Keccak. 
-They use it to construct a 5-round distinguisher for Keccak-f[1600] and to do preimage generation for 4 rounds of 
-Keccak[r=1024,c=576] truncated to 512 bits with complexity 2506 calls to Keccak-f[1600].
+\subsection{Rotational cryptanalysis of round-reduced KECCAK \cite{00022}}
+
+\textit{Rotational cryptanalysis\cite{00041} is used to construct a 5-round distinguisher on Keccak-f[1600]. And use
+it to get preimage upto 3 rounds for Keccak-f[r=1024, c=576], and a modified Keccak(without the iota function) upto
+4 rounds, with complexity of roughly 2\textsuperscript{506} calls to KECCAK-512.}
+
 
 \subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
 The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
@@ -68,4 +70,5 @@ They compare the SAT solver approach with plain exhaustive search and it turns o
 In this paper, Christina Boura and Anne Canteaut extend their zero-sum distinguishers to 20 rounds.
 
 \section{Cryptanalysis done on BLAKE}
+
 \section{Cryptanalysis done on Gr$\o$stl}
