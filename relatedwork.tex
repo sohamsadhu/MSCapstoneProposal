@@ -113,11 +113,40 @@ counterpart of the preimage is searched for, that would reduce the complexity fr
   \item candidate := true
   \item 10 sets of cordinates $(x, y, z)$ being on list created on precomputation do
   \newline $(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z) \neq A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
-  \newline $(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z) = A^{\leftarrow}_{(x, y, z)}})$ then candidate := fals
+  \newline $(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z) = A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
   \item if (candidate = true) then rotate the guessed state by n bits. Verify by input to Keccak function, that
   runs for 3 rounds.
   \end{enumerate}
 \end{enumerate}
+
+For a given state there are 64 possible rotational pairs, derived from length of lane. We are searching for preimage
+of 512 bits, thus the probability of guessing the rotational counterpart $A^{\leftarrow}$ is $2^{-512} \dot 64 = 2^{-506}$,
+or rather $2^{506}$ guesses. There are $2^{256}$ messages possible of the cyclic pattern that we consider here. There
+are 10 sets of $(x, y, z)$ cordinates for each of the rotational number. The probability of the candidate having 
+$p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. So $2^{512} / 2^{10} = 2^{502}$ number of checks are required
+at most to find the candidate. Thus the total work is equivalent to $2^{506}$ calls to KECCAK-512 for 3 rounds to find
+the preimage.
+
+The above method for finding the preimage cannot be directly extended to 4 rounds since $\iota$ operation in Keccak
+renders $p^n_{(x, y, x)} \neq 0, 1$. To overcome this, the rotational state is ran on modified Keccak-512 for four rounds
+which does not implement $\iota$ function. Below is the pseudo-code for finding preimage \cite{00022}
+
+\begin{enumerate}
+\item The first 512 bits are chosen at random for state $A^{\leftarrow}$, and KECCAk-f[1600] without the $\iota$
+transformation is run on them.
+\item for n:= 0 to n < 64 do
+  \begin{enumerate}
+  \item candidate := true
+  \item for 9 sets of cordinates $(x, y, z)$ that are in list created from precomputation
+  \newline if $(p^n_{(x, y, z)}) = 0$ and $(A_{(x, y, z)} \neq A^{\leftarrow}_{(x, y, z+n)})$ then candidate := false
+  \newline if $(p^n_{(x, y, z)}) = 1$ and $(A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z+n)})$ then candidate := false
+  \item if (candidate = true) then rotate to guess state by n bits and run 4 round modified Keccak-512 for verification
+  of preimage.
+  \end{enumerate}
+\end{enumerate}
+
+Just like the 3 round preimage finding method, the above method for finding the preimage for 4 rounds has complexity of
+$2^{506}$ calls to Keccak-512.
 
 \subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
 The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
