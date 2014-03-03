@@ -20,24 +20,104 @@
 %successive powers modulo the prime generates all the numbers in the field. This table is then made as a look up,
 %when you multiply the polynomials. There is a already algorithm and code written up for that thing. Which can be used.
 
-%Well in this case in the first part the rant is about how not to get the security of the hash function not to be 
-%based on the length of the message digest. Why so? Well then you cannot say anything about the security of the 
-%function if the output of it changes from time to time. So you use the sponge function to make claims about the security.
-%Please note in mind that they are saying that sponge is close to random oracle and only exception of internal
-%collisions.
-
-%\section{Zero Sum Distinguishers}
-%Zero sum distinguishers were first presented in CHES 2009 rump session \cite{00014}. A zero sum distinguisher, for any
-%function is a way to find a set of values, that sum to zero, such that their respective images also sum to zero.
-
 \section{Cryptanalysis done on Keccak}
 
-\subsection{Rotational cryptanalysis of round-reduced KECCAK \cite{00022}}
+\subsection{Rotational cryptanalysis of round-reduced KECCAK}
 
-\textit{Rotational cryptanalysis\cite{00041} is used to construct a 5-round distinguisher on Keccak-f[1600]. And use
-it to get preimage upto 3 rounds for Keccak-f[r=1024, c=576], and a modified Keccak(without the iota function) upto
-4 rounds, with complexity of roughly 2\textsuperscript{506} calls to KECCAK-512.}
+%\textit{Rotational cryptanalysis\cite{00041} is used to construct a 5-round distinguisher on Keccak-f[1600]. And use
+%it to get preimage upto 3 rounds for Keccak-f[r=1024, c=576], and a modified Keccak(without the iota function) upto
+%4 rounds, with complexity of roughly 2\textsuperscript{506} calls to KECCAK-512.}
 
+Rotational cryptanalysis\cite{00041} is used to to follow relation between states $(A, A^{\leftarrow})$ of 
+KECCAK-f[1600] in course of their transformation, and thus derive a distinguisher.
+
+\begin{defn}
+A pair of two 1600-bit states $(A, A^{\leftarrow})$ is called rotational pair when each lane in state $A^{\leftarrow}$
+is created by bitwise rotation of operation of corresponding lane in state $A$. The operation moves the bit from 
+position $(x, y, z)$ to the position $(x, y, z + n)$, where z + n is done on modulo 64. $x$ and $y$ values range from 0 
+to 4, and $z$ value ranges from 0 to 63. $n$ is the rotational number and is same for every lane. Thus rotational pairs
+are $\forall(x, y, z) : A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$. \cite{00022}
+\end{defn}
+
+\begin{defn}
+Set $S_n$ is a set of $2^{1600}$ pairs of states which are created by an operation of KECCAK-f[1600] applied to all
+possible rotational pairs. \cite{00022}
+\end{defn}
+
+\begin{defn}
+Probability $p^{n}_{(x, y, z)}$ is the probability for pair of states $(A, A^{\leftarrow})$ randomly selected from the
+set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$. \cite{00022}
+\end{defn}
+
+\begin{defn}
+Given probability distribution $\mathcal{D}_n$ that assigns probability $\frac{1}{n!}$ for each $p \in \mathcal{P}_n$.
+A permutation is called random if it is chosen according to uniform distribution $\mathcal{D}_n$.\cite{00022}
+\end{defn}
+
+It is assumed that random permutation $p^n_{(x, y, z)}$ follows binomial distribution $\mathcal{B}(t, s)$ where $t$ is
+trials and $s$ is success probability that is equal to 0.5. Experimental results for a chosen $p_{(x, y, z)}$ are 
+compared to follow distribution $\mathcal{B}(t, s)$. The experimental values are supposed to fall within range of 
+$0.5t\pm2\sigma$ with 95\% confidence interval.
+
+The probability change through steps of Keccak, can be derived from analysis of bitwise operation. It is assumed
+that corresponding bits from $(A, A^{\leftarrow})$ are equal, both combinations ('00' or '11') or opposite combinations
+have same probability to be actual values. Operations like NOT, or rotation in Keccak do not affect the probabilities,
+so only probabilities for AND and XOR are considered.
+
+\begin{lem}
+Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per definition 4.1.1.2, then for AND operation
+$P_{out} = \frac{1}{2}(p_{a} + p_{b} - p_{a} p_{b})$ \cite{00022}
+\end{lem}
+
+\begin{lem}
+Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per definition 4.1.1.2, then for XOR operation
+$P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$ \cite{00022}
+\end{lem}
+
+A 4 round rotational is built, and found that some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
+random samples of rotational pairs are ran on 4 round KECCAK-f[1600]. The mean from that sample is 5682 which is beyond
+range from mean of $\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5. Thus demonstrating a distinguisher for 4 rounds.
+After 4 rounds all $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended. But instead probability
+that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ and 
+$(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution $\mathcal{B}(10000, 0.5)$.
+Values for $p^63_{(2, 1, 37)}$ and $p^63_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
+probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
+(1 - p^n_{(x, y, z)})$ which comes to 0.499024. The $\rho$ and $\pi$ steps in Keccak only change the position of the
+probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_(2, 0, 16), A^{\leftarrow}_{(2, 0, 17)})$.
+The bias is observed by generating sufficient number of samples 'm' based on Chernoff bound based on inequality 
+\[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
+where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following steps are implemented.\cite{00022}
+\begin{enumerate}
+\item 403,000,000 rotational pairs are generated.
+\item For each pair
+  \begin{enumerate}
+  \item Run Keccak for 5 rounds on states $A$ and $A^{\leftarrow}$.
+  \item if $(A_{(1, 2, 43)} \oplus A^{\leftarrow}_{(1, 2, 44)} \oplus A_{(2, 0, 16)} \oplus A^{\leftarrow}_{(2, 0, 17)} = 0)$
+  then \newline mean := mean + 1
+  \end{enumerate}
+\end{enumerate}
+
+The mean for $\mathcal{B}(403,000,000, 0.5)$ with the standard deviation has range of 201,500,000$\pm$2.10037, but 
+experimentally from above procedure it comes to around 201,450,503, thus concluding this as a distinguisher.
+
+For the preimage attack an unknown message with cyclical pattern like that of 4 0's followed by 4 1's alternatively of
+512 bits is chosen. There are 256 possible messages of the cyclic pattern discussed. For the preimage attack, a rotational
+counterpart of the preimage is searched for, that would reduce the complexity from random search. Following are the steps
+\cite{00022}
+
+\begin{enumerate}
+\item Guess first 8 lanes of $A^{\leftarrow}$
+\item Run Keccak-f[1600] for 3 rounds on state $A^{\leftarrow}$
+\item for n:= 0 to n < 64 do
+  \begin{enumerate}
+  \item candidate := true
+  \item 10 sets of cordinates $(x, y, z)$ being on list created on precomputation do
+  \newline $(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z) \neq A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
+  \newline $(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z) = A^{\leftarrow}_{(x, y, z)}})$ then candidate := fals
+  \item if (candidate = true) then rotate the guessed state by n bits. Verify by input to Keccak function, that
+  runs for 3 rounds.
+  \end{enumerate}
+\end{enumerate}
 
 \subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
 The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
