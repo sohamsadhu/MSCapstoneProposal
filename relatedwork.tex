@@ -83,7 +83,7 @@ $(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should fol
 Values for $p^63_{(2, 1, 37)}$ and $p^63_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
 probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
 (1 - p^n_{(x, y, z)})$ which comes to 0.499024. The $\rho$ and $\pi$ steps in Keccak only change the position of the
-probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_(2, 0, 16), A^{\leftarrow}_{(2, 0, 17)})$.
+probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_{(2, 0, 16)}, A^{\leftarrow}_{(2, 0, 17)})$.
 The bias is observed by generating sufficient number of samples 'm' based on Chernoff bound based on inequality 
 \[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
 where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following steps are implemented.\cite{00022}
@@ -120,7 +120,7 @@ counterpart of the preimage is searched for, that would reduce the complexity fr
 \end{enumerate}
 
 For a given state there are 64 possible rotational pairs, derived from length of lane. We are searching for preimage
-of 512 bits, thus the probability of guessing the rotational counterpart $A^{\leftarrow}$ is $2^{-512} \dot 64 = 2^{-506}$,
+of 512 bits, thus the probability of guessing the rotational counterpart $A^{\leftarrow}$ is $2^{-512} \cdot 64 = 2^{-506}$,
 or rather $2^{506}$ guesses. There are $2^{256}$ messages possible of the cyclic pattern that we consider here. There
 are 10 sets of $(x, y, z)$ cordinates for each of the rotational number. The probability of the candidate having 
 $p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. So $2^{512} / 2^{10} = 2^{502}$ number of checks are required
@@ -151,6 +151,8 @@ $2^{506}$ calls to Keccak-512.
 \subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
 The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
 They combine a low-weight trail over 3 rounds with algebraic techniques.
+
+Keccak's low differential hamming weight characteristic in the initial state of its permutation is used as starting point.
 
 \subsection{Practical Analysis of Reduced Round Keccak} \cite{00024}
 In this paper, the authors propose several practical-time attacks on the Keccak hash function with 2 to 4 rounds. 
