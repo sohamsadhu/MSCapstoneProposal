@@ -148,11 +148,13 @@ transformation is run on them.
 Just like the 3 round preimage finding method, the above method for finding the preimage for 4 rounds has complexity of
 $2^{506}$ calls to Keccak-512.
 
-\subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
-The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
-They combine a low-weight trail over 3 rounds with algebraic techniques.
-
-Keccak's low differential hamming weight characteristic in the initial state of its permutation is used as starting point.
+%\subsection{New Attacks on Keccak 224 and Keccak 256} \cite{00023}
+%The authors of this paper present practical-time collisions on Keccak[r=1088,c=512] (and lower capacity) with 4 rounds. 
+%They combine a low-weight trail over 3 rounds with algebraic techniques.
+%The difference of hamming weights between the starting and state after 1 round of Keccak is called target difference.
+%Two parts to the algorithm first find pairs that satisfy target difference after one round. Next pick up pairs from
+%this collection to find a pair whose difference evolve according to characteristic whose starting state is the target
+%difference?
 
 \subsection{Practical Analysis of Reduced Round Keccak} \cite{00024}
 In this paper, the authors propose several practical-time attacks on the Keccak hash function with 2 to 4 rounds. 
