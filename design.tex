@@ -121,12 +121,14 @@ downhill successor is more likely to be accepted, than in the later stages \cite
         \State CandidateList $\gets$ null
         \State $S_{neighbourhood} \gets S^{k}_{S_{best}}$
         \For { $S_{candidate} \in S_{best_{neighbourhood}}$}
-          \If {not ContainsAnyFeatures( $S_{candidate}, TabuList$ )} 
+          \If {($\lnot$ContainsAnyFeatures( $S_{candidate}, TabuList$ ))} 
             \State CandidateList $\gets$ $S_{candidate}$
           \EndIf
         \EndFor
         \State $S_{candidate}$ $\gets$ LocateBestCandidate( CandidateList )
         \If { Cost( $S_{candidate}$ ) $\leq$ Cost( $S_{best}$ ) }
+          \State $S_{best} \gets S_{candidate}$
+          \State $TabuList \gets$ featureDifferences$(S_{candidate}, S_{best})$
           \While { $TabuList >TabuList_{size}$ }
             \State DeleteFeature( $TabuList$ )
           \EndWhile
@@ -195,12 +197,13 @@ Comparative studies on SHA-3 candidates have been using the statistical test sui
 deficiencies \cite{00030} \cite{00032}. Other than particular attacks like zero-sum property has been tested on 
 Keccak and Blue Midnight Wish \cite{00031}.
 
-\newpage
-
 \section{Design of the Experiment}
 
-The hill climbing algorithm will run on the same message pairs, for all the three candidates. The chaining value for
-those pairs, will be updated, but would be kept constant for the same experiment.
+The experiment has to be designed so that it can satisfy the following goals.
+
+\begin{itemize}
+\item 
+\end{itemize}
 
   \subsection{Data}
   
