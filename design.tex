@@ -1,4 +1,4 @@
-\chapter{Hypothesis based on Hill Climbing to find near collisions}
+\chapter{Related work and hypothesis based on Hill Climbing to find near collisions}
 
 %% Obviously you need to delete these lines when you have written up your text
 %\begin{itemize}
@@ -6,6 +6,128 @@
 %\item{} Rationale for decisions
 %\item{} Compare and contrast design with other approaches (related work) 
 %\end{itemize}
+
+\section{Rotational cryptanalysis of round-reduced KECCAK}
+
+Rotational cryptanalysis\cite{00041} is used to to follow relation between states $(A, A^{\leftarrow})$ of 
+KECCAK-f[1600] in course of their transformation, and thus derive a distinguisher.
+
+\begin{defn}
+A pair of two 1600-bit states $(A, A^{\leftarrow})$ is called rotational pair when each lane in state $A^{\leftarrow}$
+is created by bitwise rotation of operation of corresponding lane in state $A$. The operation moves the bit from 
+position $(x, y, z)$ to the position $(x, y, z + n)$, where z + n is done on modulo 64. $x$ and $y$ values range from 0 
+to 4, and $z$ value ranges from 0 to 63. $n$ is the rotational number and is same for every lane. Thus rotational pairs
+are $\forall(x, y, z) : A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$. \cite{00022}
+\end{defn}
+
+\begin{defn}
+Set $S_n$ is a set of $2^{1600}$ pairs of states which are created by an operation of KECCAK-f[1600] applied to all
+possible rotational pairs. \cite{00022}
+\end{defn}
+
+\begin{defn}
+Probability $p^{n}_{(x, y, z)}$ is the probability for pair of states $(A, A^{\leftarrow})$ randomly selected from the
+set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$. \cite{00022}
+\end{defn}
+
+\begin{defn}
+Given probability distribution $\mathcal{D}_n$ that assigns probability $\frac{1}{n!}$ for each $p \in \mathcal{P}_n$.
+A permutation is called random if it is chosen according to uniform distribution $\mathcal{D}_n$.\cite{00022}
+\end{defn}
+
+It is assumed that random permutation $p^n_{(x, y, z)}$ follows binomial distribution $\mathcal{B}(t, s)$ where $t$ is
+trials and $s$ is success probability that is equal to 0.5. Experimental results for a chosen $p_{(x, y, z)}$ are 
+compared to follow distribution $\mathcal{B}(t, s)$. The experimental values are supposed to fall within range of 
+$0.5t\pm2\sigma$ with 95\% confidence interval.
+
+The probability change through steps of Keccak, can be derived from analysis of bitwise operation. It is assumed
+that corresponding bits from $(A, A^{\leftarrow})$ are equal, both combinations ('00' or '11') or opposite combinations
+have same probability to be actual values. Operations like NOT, or rotation in Keccak do not affect the probabilities,
+so only probabilities for AND and XOR are considered.
+
+\begin{lem}
+Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per definition 4.1.1.2, then for AND operation
+$P_{out} = \frac{1}{2}(p_{a} + p_{b} - p_{a} p_{b})$ \cite{00022}
+\end{lem}
+
+\begin{lem}
+Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per definition 4.1.1.2, then for XOR operation
+$P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$ \cite{00022}
+\end{lem}
+
+A 4 round rotational is built, and found that some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
+random samples of rotational pairs are ran on 4 round KECCAK-f[1600]. The mean from that sample is 5682 which is beyond
+range from mean of $\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5. Thus demonstrating a distinguisher for 4 rounds.
+After 4 rounds all $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended. But instead probability
+that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ and 
+$(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution $\mathcal{B}(10000, 0.5)$.
+Values for $p^63_{(2, 1, 37)}$ and $p^63_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
+probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
+(1 - p^n_{(x, y, z)})$ which comes to 0.499024. The $\rho$ and $\pi$ steps in Keccak only change the position of the
+probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_{(2, 0, 16)}, A^{\leftarrow}_{(2, 0, 17)})$.
+The bias is observed by generating sufficient number of samples 'm' based on Chernoff bound based on inequality 
+\[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
+where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following steps are implemented.\cite{00022}
+\begin{enumerate}
+\item 403,000,000 rotational pairs are generated.
+\item For each pair
+  \begin{enumerate}
+  \item Run Keccak for 5 rounds on states $A$ and $A^{\leftarrow}$.
+  \item if $(A_{(1, 2, 43)} \oplus A^{\leftarrow}_{(1, 2, 44)} \oplus A_{(2, 0, 16)} \oplus A^{\leftarrow}_{(2, 0, 17)} = 0)$
+  then \newline mean := mean + 1
+  \end{enumerate}
+\end{enumerate}
+
+The mean for $\mathcal{B}(403,000,000, 0.5)$ with the standard deviation has range of 201,500,000$\pm$2.10037, but 
+experimentally from above procedure it comes to around 201,450,503, thus concluding this as a distinguisher.
+
+For the preimage attack an unknown message with cyclical pattern like that of 4 0's followed by 4 1's alternatively of
+512 bits is chosen. There are 256 possible messages of the cyclic pattern discussed. For the preimage attack, a rotational
+counterpart of the preimage is searched for, that would reduce the complexity from random search. Following are the steps
+\cite{00022}
+
+\begin{enumerate}
+\item Guess first 8 lanes of $A^{\leftarrow}$
+\item Run Keccak-f[1600] for 3 rounds on state $A^{\leftarrow}$
+\item for n:= 0 to n < 64 do
+  \begin{enumerate}
+  \item candidate := true
+  \item 10 sets of cordinates $(x, y, z)$ being on list created on precomputation do
+  \newline $(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z) \neq A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
+  \newline $(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z) = A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
+  \item if (candidate = true) then rotate the guessed state by n bits. Verify by input to Keccak function, that
+  runs for 3 rounds.
+  \end{enumerate}
+\end{enumerate}
+
+For a given state there are 64 possible rotational pairs, derived from length of lane. We are searching for preimage
+of 512 bits, thus the probability of guessing the rotational counterpart $A^{\leftarrow}$ is $2^{-512} \cdot 64 = 2^{-506}$,
+or rather $2^{506}$ guesses. There are $2^{256}$ messages possible of the cyclic pattern that we consider here. There
+are 10 sets of $(x, y, z)$ cordinates for each of the rotational number. The probability of the candidate having 
+$p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. So $2^{512} / 2^{10} = 2^{502}$ number of checks are required
+at most to find the candidate. Thus the total work is equivalent to $2^{506}$ calls to KECCAK-512 for 3 rounds to find
+the preimage.
+
+The above method for finding the preimage cannot be directly extended to 4 rounds since $\iota$ operation in Keccak
+renders $p^n_{(x, y, x)} \neq 0, 1$. To overcome this, the rotational state is ran on modified Keccak-512 for four rounds
+which does not implement $\iota$ function. Below is the pseudo-code for finding preimage \cite{00022}
+
+\begin{enumerate}
+\item The first 512 bits are chosen at random for state $A^{\leftarrow}$, and KECCAk-f[1600] without the $\iota$
+transformation is run on them.
+\item for n:= 0 to n < 64 do
+  \begin{enumerate}
+  \item candidate := true
+  \item for 9 sets of cordinates $(x, y, z)$ that are in list created from precomputation
+  \newline if $(p^n_{(x, y, z)}) = 0$ and $(A_{(x, y, z)} \neq A^{\leftarrow}_{(x, y, z+n)})$ then candidate := false
+  \newline if $(p^n_{(x, y, z)}) = 1$ and $(A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z+n)})$ then candidate := false
+  \item if (candidate = true) then rotate to guess state by n bits and run 4 round modified Keccak-512 for verification
+  of preimage.
+  \end{enumerate}
+\end{enumerate}
+
+Just like the 3 round preimage finding method, the above method for finding the preimage for 4 rounds has complexity of
+$2^{506}$ calls to Keccak-512.
 
 \section{Finding near collisions with Hill Climbing}
 
@@ -196,40 +318,3 @@ function the performance of the generic algorithm will be equivalent to the rand
 Comparative studies on SHA-3 candidates have been using the statistical test suites provided by NIST to check any 
 deficiencies \cite{00030} \cite{00032}. Other than particular attacks like zero-sum property has been tested on 
 Keccak and Blue Midnight Wish \cite{00031}.
-
-\section{Design of the Experiment}
-
-The experiment has to be designed so that it can satisfy the following goals.
-
-\begin{itemize}
-\item 
-\end{itemize}
-
-  \subsection{Data}
-  
-  For creating the message pair, I intend to choose the first message as "The quick brown fox jumps over the lazy dog.".
-  The initial message contains all the letters of the English alphabet, and seems a good candidate for testing the hash.
-  Another 14 messages will be created from the initial message, so in all we get $\begin{pmatrix} 15 \\ 2 \end{pmatrix}
-  = 105$ pairs of message in total. The rest of the 14 messages will be derived from the first message by applying a
-  shift register operation, that results in a bit flip from the previous message. For example, if my initial message has
-  a bit pattern of 0000. Then the subsequent messages will be 1000, 1100, 1110 and 1111.
-
-  This will give the experiment an advantage of comparing substantial message pairs with small to medium hamming distance.
-  The initial chaining value for experiment is chosen randomly, and does not matter as long it is kept constant provided
-  to all the message pairs in the experiment. Hill climbing algorithm is supposed to refine the initial chaining value,
-  to the solution, which is why choice of it is not a large factor. I intend to use the hash value of empty string generated
-  by Keccak as the initial chaining value for all the pairs.
-
-  \subsection{Procedure}
-
-  Both Keccak and Gr{\o}stl can support variable byte message digest length, but BLAKE based on SHA-2 designs can have
-  message digests of 224, 256, 384 and 512 bits. Thus the experiment for 105 pairs will be done on 4 message sizes as
-  indicated by BLAKE. Keccak does not have a initial state or a chaining value as such, but can be tweaked, so that it
-  has the first sponge state to accept the chaining value and pre-compute it and then apply the hash function on the
-  message.
-
-  Defining the reduced rounds for each of the functions is a bit tricky. Since for each the permutation function behaves
-  differently, and so arbitrarily reducing the number of rounds, for each function to a number. May not create a level
-  playing field for the comparison. But, for the purposes of experiment right now, I intend to just have 2 rounds for 
-  each of the candidate hash functions. The number of rounds may be tweaked as found suitable during the course of 
-  experiment.
