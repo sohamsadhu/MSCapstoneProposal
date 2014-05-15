@@ -16,102 +16,156 @@
 
 %\end{itemize}
 
-\section{Design of the Experiment}
+\section{Experiment Structure}
 
-The experiment has to be designed so that it can satisfy the following goals.
+To prove or disprove the hypothesis, numbers will have to be collected on each of the SHA-3 finalist hashing
+algorithm, being subjected to each of the collision finding algorithm.  
 
-\begin{itemize}
-\item 
-\end{itemize}
+\subsection{Input}
 
-  \subsection{Data}
+The string "The quick brown fox jumps over the lazy dog", was chosen as the root seed message. This seed string
+contains all letters from English alphabet, and is neither too small or large. Pairs were made from this seed
+string, by toggling a bit, from the ASCII/UTF-8 bit representation of this string. The toggling of the bits are
+divided into 3 parts - starting, middle, and end. In starting part the most significant bits of the string are
+toggled, while in the end part the least significant bits are toggled. In the middle part, the bits toggled 
+equally from the most significant and least significant side of the bit that is in middle of the string. For
+example let bit representation of a string be $01100010 00011000$, then in starting section there will be strings
+generated of kind ${\bf 1}1100010 00011000$, $0{\bf 0}100010 00011000$, $01{\bf 0}00010 00011000$ and so on. 
+Only 1 bit from the seed string is toggled, starting from the first bit, then the second bit. This process is
+repeated till the number of bits asked to be toggled. In this case of experiment we updated 20 bits from the
+seed string, thus generating 20 strings from seed string each having a bit difference from the seed.
+
+The generated strings are paired up with the seed string and are written to a file. Each file has a pair of
+strings written to it, separated by newline. The text files holding these pairs are named the number, derived
+from the order in which the bit was updated for the generated string. For example the input file 1.txt will
+have the entry of seed string and the generated string that has the first bit toggled. Following are the contents
+of the file 1.txt in our case.
+
+\begin{center}54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f67
+d4686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f67\end{center}
+
+Notice that the first line is the hexadecimal representation of the seed string "The quick brown fox jumps over
+the lazy dog", and the second line has the first bit toggled, from the seed string. In similar way rest of the 
+20 files are created and named for the bits updated from the most significant bit onwards. These files are then
+stored in the folder "Start", which in turn is stored in the folder called "Input" that holds all the input strings.
+
+In the 
+middle section, depending on the number of pairs you want to generate will the bits be toggled. So in case of 
+two bits being toggled, you will get two strings like $0110001{\bf 1} 00011000$, and $01100010 {\bf 1}0011000$. 
+The bits are flipped in the same way for the end section, with strings generated $01100010 0001100{\bf 1}$,
+$01100010 000110{\bf 1}0$ and so on.
+
+\subsection{Output}
+
+\subsection{Rational for the experiment structure and parameters}
+
+\subsection{Collection of result data}
+
+\section{Implementation}
+
+\subsection{Input Creation}
+
+\subsection{Hash function implementation}
+
+\subsection{Experiment with different collision methods}
+
+\subsection{Testing the implemented code}
+
+%\section{Design of the Experiment}
+
+%The experiment has to be designed so that it can satisfy the following goals.
+
+%\begin{itemize}
+%\item 
+%\end{itemize}
+
+  %\subsection{Data}
   
-  For creating the message pair, I intend to choose the first message as "The quick brown fox jumps over the lazy dog.".
-  The initial message contains all the letters of the English alphabet, and seems a good candidate for testing the hash.
-  Another 14 messages will be created from the initial message, so in all we get $\begin{pmatrix} 15 \\ 2 \end{pmatrix}
-  = 105$ pairs of message in total. The rest of the 14 messages will be derived from the first message by applying a
-  shift register operation, that results in a bit flip from the previous message. For example, if my initial message has
-  a bit pattern of 0000. Then the subsequent messages will be 1000, 1100, 1110 and 1111.
+  %For creating the message pair, I intend to choose the first message as "The quick brown fox jumps over the lazy dog.".
+  %The initial message contains all the letters of the English alphabet, and seems a good candidate for testing the hash.
+  %Another 14 messages will be created from the initial message, so in all we get $\begin{pmatrix} 15 \\ 2 \end{pmatrix}
+  %= 105$ pairs of message in total. The rest of the 14 messages will be derived from the first message by applying a
+  %shift register operation, that results in a bit flip from the previous message. For example, if my initial message has
+  %a bit pattern of 0000. Then the subsequent messages will be 1000, 1100, 1110 and 1111.
 
-  This will give the experiment an advantage of comparing substantial message pairs with small to medium hamming distance.
-  The initial chaining value for experiment is chosen randomly, and does not matter as long it is kept constant provided
-  to all the message pairs in the experiment. Hill climbing algorithm is supposed to refine the initial chaining value,
-  to the solution, which is why choice of it is not a large factor. I intend to use the hash value of empty string generated
-  by Keccak as the initial chaining value for all the pairs.
+  %This will give the experiment an advantage of comparing substantial message pairs with small to medium hamming distance.
+  %The initial chaining value for experiment is chosen randomly, and does not matter as long it is kept constant provided
+  %to all the message pairs in the experiment. Hill climbing algorithm is supposed to refine the initial chaining value,
+  %to the solution, which is why choice of it is not a large factor. I intend to use the hash value of empty string generated
+  %by Keccak as the initial chaining value for all the pairs.
 
-  \subsection{Procedure}
+  %\subsection{Procedure}
 
-  Both Keccak and Gr{\o}stl can support variable byte message digest length, but BLAKE based on SHA-2 designs can have
-  message digests of 224, 256, 384 and 512 bits. Thus the experiment for 105 pairs will be done on 4 message sizes as
-  indicated by BLAKE. Keccak does not have a initial state or a chaining value as such, but can be tweaked, so that it
-  has the first sponge state to accept the chaining value and pre-compute it and then apply the hash function on the
-  message.
+  %Both Keccak and Gr{\o}stl can support variable byte message digest length, but BLAKE based on SHA-2 designs can have
+  %message digests of 224, 256, 384 and 512 bits. Thus the experiment for 105 pairs will be done on 4 message sizes as
+  %indicated by BLAKE. Keccak does not have a initial state or a chaining value as such, but can be tweaked, so that it
+  %has the first sponge state to accept the chaining value and pre-compute it and then apply the hash function on the
+  %message.
 
-  Defining the reduced rounds for each of the functions is a bit tricky. Since for each the permutation function behaves
-  differently, and so arbitrarily reducing the number of rounds, for each function to a number. May not create a level
-  playing field for the comparison. But, for the purposes of experiment right now, I intend to just have 2 rounds for 
-  each of the candidate hash functions. The number of rounds may be tweaked as found suitable during the course of 
-  experiment.
+  %Defining the reduced rounds for each of the functions is a bit tricky. Since for each the permutation function behaves
+  %differently, and so arbitrarily reducing the number of rounds, for each function to a number. May not create a level
+  %playing field for the comparison. But, for the purposes of experiment right now, I intend to just have 2 rounds for 
+  %each of the candidate hash functions. The number of rounds may be tweaked as found suitable during the course of 
+  %experiment.
 
-\section{Architecture}
+%\section{Architecture}
 
-Since, I plan on choosing Java as the primary programming language, hence the design will be 
-object oriented based. The initial data that needs to be calculated for all the pairs of message
-will be static for the rest of the experiment. Hence those can be obtained and stored for rest
-of the experiment.
+%Since, I plan on choosing Java as the primary programming language, hence the design will be 
+%object oriented based. The initial data that needs to be calculated for all the pairs of message
+%will be static for the rest of the experiment. Hence those can be obtained and stored for rest
+%of the experiment.
 
-The first task will be creation of the data. First, pairs of initial message will have to be 
-made. Each of the message from the pair will be line separated, and each of the pair in the file
-will be separated with a blank line. This will be the initial data file. The hash function 
-implementation of the algorithms already exist, so would be using them rather than coding them 
-myself. This would avoid any bugs that could come due to immature understanding of how the compiler
-handles large numbers. The implementations can then be tweaked to produce message digests with 
-reduced rounds. These message digests will be different than the actual hash message obtained from
-those functions since the rounds have been reduced.
+%The first task will be creation of the data. First, pairs of initial message will have to be 
+%made. Each of the message from the pair will be line separated, and each of the pair in the file
+%will be separated with a blank line. This will be the initial data file. The hash function 
+%implementation of the algorithms already exist, so would be using them rather than coding them 
+%myself. This would avoid any bugs that could come due to immature understanding of how the compiler
+%handles large numbers. The implementations can then be tweaked to produce message digests with 
+%reduced rounds. These message digests will be different than the actual hash message obtained from
+%those functions since the rounds have been reduced.
 
-The output for the results will be stored in the following format. The directory structure for the
-output will be digest size. Followed by algorithm name whose digest pairs are being examined. Followed
-by the file name for that particular message pair. For this message I intend to create 15 messages,
-and they can be named from A to O. Thus a pairing of first message to second message will make the
-output file name to be AB.txt. So when the hill climbing algorithm evaluates the hash values pairs
-of Keccak algorithm with digest size of 512 bits, and for message pair. Then the output will be stored
-in directory hierarchy as 512/Keccak/AB.txt.
+%The output for the results will be stored in the following format. The directory structure for the
+%output will be digest size. Followed by algorithm name whose digest pairs are being examined. Followed
+%by the file name for that particular message pair. For this message I intend to create 15 messages,
+%and they can be named from A to O. Thus a pairing of first message to second message will make the
+%output file name to be AB.txt. So when the hill climbing algorithm evaluates the hash values pairs
+%of Keccak algorithm with digest size of 512 bits, and for message pair. Then the output will be stored
+%in directory hierarchy as 512/Keccak/AB.txt.
 
-The output file will be organised in same way as the input files, with each data line separated, and 
-each experiment data separated by a blank line. The output for each experiment in hill climbing will
-have the bit representation of the XOR value of two message digests, along with the chaining value
-that was last obtained and the time taken for that experiment.
+%The output file will be organised in same way as the input files, with each data line separated, and 
+%each experiment data separated by a blank line. The output for each experiment in hill climbing will
+%have the bit representation of the XOR value of two message digests, along with the chaining value
+%that was last obtained and the time taken for that experiment.
 
-\section{Platform, Languages and Tools}
+%\section{Platform, Languages and Tools}
 
-The platform I would most likely choose will be Ubuntu 12.04 LTS, with the primary coding language
-being Java. The other minor book keeping tasks like generation of strings for message and chaining
-value would be done with scripting language like Python. The choice of Ubuntu is based on fact, that
-most machines as RIT CS department run on Ubuntu and hence, the experiments could be replicated
-on that platform. Java with its wide range of packages, and execution speeds closer to C and C++,
-would be an ideal choice to run repeated experiments. The file handling, time keeping, bit 
-manipulation libraries that come with Java, also make it an ideal tool for such a mathematical 
-intensive exercise.
+%The platform I would most likely choose will be Ubuntu 12.04 LTS, with the primary coding language
+%being Java. The other minor book keeping tasks like generation of strings for message and chaining
+%value would be done with scripting language like Python. The choice of Ubuntu is based on fact, that
+%most machines as RIT CS department run on Ubuntu and hence, the experiments could be replicated
+%on that platform. Java with its wide range of packages, and execution speeds closer to C and C++,
+%would be an ideal choice to run repeated experiments. The file handling, time keeping, bit 
+%manipulation libraries that come with Java, also make it an ideal tool for such a mathematical 
+%intensive exercise.
 
-\newpage
+%\newpage
 
-\section{Proposed schedule}
+%\section{Proposed schedule}
 
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{ | p{11.5cm} | c | } \hline
-      Tasks                                                                                                   & Timeline \\ \hline
-      Project proposal Approved. Completing 3rd party cryptanalysis part of report for Keccak.                & July 26 \\ \hline
-      Creation of message pairs and coding 2 hash functions. Write cryptanalysis part for BLAKE in report.    & August 2 \\ \hline
-      Coding the 3rd hash function, validation testing, finishing cryptanalysis part for Gr{\o}stl in report. & August 9 \\ \hline
-      Code and test the hill climbing algorithm, and start collecting data from output.                       & August 16 \\ \hline
-      Run experiments, collect more data, and put them in report. Discuss the results with advisor.           & August 23 \\ \hline
-      Fine tune the experiment, collect data and start writing observations and conclusion part in report.    & August 30 \\ \hline
-      Discuss results and conclusions with advisor. Fine tune report. Run more experiments if required.       & September 6 \\ \hline
-      Format the report properly, and submit it for acceptance. Create presentation for project defense.      & September 13 \\ \hline
-      Check availability of faculty. Announce defense date, book room and defend by September 20              & September 20 \\ \hline
-    \end{tabular}
-  \caption{Proposed schedule for my project implementation.}
-  \end{center}
-\end{table}
-
+%\begin{table}[h]
+  %\begin{center}
+    %\begin{tabular}{ | p{11.5cm} | c | } \hline
+      %Tasks                                                                                                   & Timeline \\ \hline
+      %Project proposal Approved. Completing 3rd party cryptanalysis part of report for Keccak.                & July 26 \\ \hline
+      %Creation of message pairs and coding 2 hash functions. Write cryptanalysis part for BLAKE in report.    & August 2 \\ \hline
+      %Coding the 3rd hash function, validation testing, finishing cryptanalysis part for Gr{\o}stl in report. & August 9 \\ \hline
+      %Code and test the hill climbing algorithm, and start collecting data from output.                       & August 16 \\ \hline
+      %Run experiments, collect more data, and put them in report. Discuss the results with advisor.           & August 23 \\ \hline
+      %Fine tune the experiment, collect data and start writing observations and conclusion part in report.    & August 30 \\ \hline
+      %Discuss results and conclusions with advisor. Fine tune report. Run more experiments if required.       & September 6 \\ \hline
+      %Format the report properly, and submit it for acceptance. Create presentation for project defense.      & September 13 \\ \hline
+      %Check availability of faculty. Announce defense date, book room and defend by September 20              & September 20 \\ \hline
+    %\end{tabular}
+  %\caption{Proposed schedule for my project implementation.}
+  %\end{center}
+%\end{table}
