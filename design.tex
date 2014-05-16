@@ -89,7 +89,7 @@ counterpart of the preimage is searched for, that would reduce the complexity fr
 \begin{enumerate}
 \item Guess first 8 lanes of $A^{\leftarrow}$
 \item Run Keccak-f[1600] for 3 rounds on state $A^{\leftarrow}$
-\item for n:= 0 to n < 64 do
+\item for n:= 0 to n \textless 64 do
   \begin{enumerate}
   \item candidate := true
   \item 10 sets of cordinates $(x, y, z)$ being on list created on precomputation do
@@ -115,7 +115,7 @@ which does not implement $\iota$ function. Below is the pseudo-code for finding 
 \begin{enumerate}
 \item The first 512 bits are chosen at random for state $A^{\leftarrow}$, and KECCAk-f[1600] without the $\iota$
 transformation is run on them.
-\item for n:= 0 to n < 64 do
+\item for n:= 0 to n \textless 64 do
   \begin{enumerate}
   \item candidate := true
   \item for 9 sets of cordinates $(x, y, z)$ that are in list created from precomputation
