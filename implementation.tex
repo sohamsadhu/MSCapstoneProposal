@@ -15,7 +15,10 @@ The experiment is conducted for a number of trials, where the digest lengths are
 lengths of 224, 256, 384 and 512 as standardized by SHA-3. The full version of SHA-3 finalist hashing algorithms
 have been found to be practically secure, so we do the experiments on the reduced versions of these algorithms.
 A hashing algorithm can be reduced in ways like reducing the digest size, the internal state size, or the
-number of permutation rounds. We choose vary the permutation rounds in the hash functions for our experiment.
+number of permutation rounds. We choose to vary the permutation rounds in the hash functions for our experiment.
+The factors that are kept common for comparison are the digest lengths, message pairs and permutation rounds.
+For each trial and each hashing algorithm, the chaining value is randomly chosen and then worked upon by
+the collision finding algorithm.
 
 \subsection{Input}
 
@@ -72,7 +75,8 @@ the hexadecimal representation of bits of the updated string, as shown for the f
 In the similar manner, files are created for the "End" category. Least significant bits are toggled, one by one
 proceeding towards the significant bits. Say the seed string is $01100010 00011000$ then in file 1.txt the seed will
 be paired with string $01100010 0001100{\bf 1}$, and in file 2.txt it will be paired with $01100010 000110{\bf 1}0$
-and so on.
+and so on. The files for input can be found along with the source code implementation
+\href{"https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Input"}{git repository}.
 
 \subsection{Output}
 
@@ -96,13 +100,82 @@ Each file has 8 entries in it, which are
 \item Total cumulative iterations altogether for the experiment for all trials, and average iterations.
 \end{enumerate}
 
-\subsection{Rational for the experiment structure and parameters}
+Instead of parameter time, we note down the average of iterations of operations over number of trials, that it
+takes for the collision finding algorithm, to find near collisions. The output files can be found with source code
+implementation in \href{"https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Output"}
+{git repository}.
 
-\subsection{Collection of result data}
+\subsection{Rational for the experiment structure, parameters and collected data}
+
+After creation of the output files, the average iterations for each case of input that is start, end or middle
+over the pairs starting from 1 to 20 are entered manually into a excel sheet. Thus we get an average of iterations
+for all the hashing algorithms, over all the collision finding algorithms, for all the digest size and number of
+permutation round for input type having strings differing by a bit at a certain point.
+
+Having two different inputs, with slight differences gives us the opportunity to determine the diffusion properties
+of the hashing algorithms. Hashing algorithms ideally should have diffusion properties that distribute small 
+differences in text over the ciphertext so as to make those small updates undetectable from the given two message
+digests. The ease in finding a near collision in two different messages, enables to derive conclusions on the
+strength of diffusion properties of the hash function.
+
+Purpose of dividing the bit difference of the messages into three categories of start, middle and end; is to test
+if the hashing algorithms have any particular vulnerability when messages are updated at select points. Different
+hashing algorithms have different approaches to substitution and permutation, and that could leave gaps in how
+the diffusion of the input message is achieved in digest. Acheiving collision should be equally hard irrespective
+of the point where the message has been changed from the original. This classification of message pair is to
+find if weakness in diffusion in hashing algorithms is in any related to position of bit change in the message.
+
+The experiment is more on lines of black box testing, where we just evaluate the output rather than examining
+how the input is processed. Thus we need a plethora of test cases to cover most possibilities before concluding
+any weakness in one hash function compared to others. The hash functions are compared across the digest lengths
+of 224, 256, 384 and 512 bits, which have been standardized by NIST.
+
+For our experiments, we achieve the reduction in the hashing algorithm by reducing the number of permutation
+rounds in a function. There are other ways to achieve reduction in a hash function, like reducing the internal
+state size, or reducing the number of output digest bits. NIST has specifically increased the digest sizes from
+SHA-1 standard of 128 bits to new 4 different bit sizes of 224, 256, 384 and 512; considering future security
+considerations from increasing computational power. Thus we chose not to reduce the number of output bits.
+Internal state size reduction was another way, but different algorithms have different state sizes. The
+distribution of input and other constant parameters is also different, in each of the hashing algorithm. Thus
+for reducing the state size, a need in reducing the word size or reducing other constants would be required,
+which may diminish the confusion and diffusion properties for hashing algorithms in ways unfair for experimental
+standardization. Thus we decided to reduce the hash function, by reducing the number of rounds.
+
+Although reducing the number of permutation rounds is not the perfect way of reducing a hash function, given 
+that creators of hashing functions do a trade off on a number of factors like word size, state size, S-box,
+the construction model etc. Thus suggesting a recommended number of permutation rounds for the hashing function,
+that would make sure of security of the hashing function considered holistically. However, reducing the number
+of permutation rounds is easy to achieve, and gives a uniform parameter amongst the hashing function to compare.
+That is, are the permutation functions involved in the hashing good enough properties of confusion and
+diffusion in minimal application.
 
 \section{Implementation}
 
 \subsection{Input Creation}
+
+To create the input, a GUI was created in which the seed text could be inserted and then choose the input case,
+like if you want to toggle the bits at the start, middle or end of the string; and number of bits you want
+to toggle. On click of the create input file button, files with the bits flipped to the number provided paired
+with seed string will be created in respective folder.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=5.2in]{inputcreationscreenshot.png}
+  \end{center}
+  \caption{Screen shot of GUI screen input, used to create the input files.}
+  \label{fig:screenshotinputcreation}
+\end{figure}
+
+The click button on the GUI shown in fig 5.1 calls the createFile() function in class CreateInputFile, which is
+responsible for file creation. Details for both the class are shown in fig 5.2.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=4in]{Input.jpg}
+  \end{center}
+  \caption{Class diagram of the input creation.}
+  \label{fig:UMLInputCreation}
+\end{figure}
 
 \subsection{Hash function implementation}
 
