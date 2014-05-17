@@ -179,6 +179,86 @@ responsible for file creation. Details for both the class are shown in fig 5.2.
 
 \subsection{Hash function implementation}
 
+Each of the SHA-3 finalist hashing algorithm, were implemented in their own individual Java class. For the purpose
+of the experiment, we only required the control over what input string went to the hashing algorithm, the number
+of permutation rounds, and digest size in bits. Thus all the SHA-3 algorithms implement the interface "Hash" that
+standardizes the call to each of finalist algorithm. The input string to the hash function, is the hexadecimal 
+string representation of the ASCII bit value of the input string. The digest size is an integer from the following
+four values 224, 256, 384 and 512. And the rounds can be anything between 1 and maximum number of rounds for a
+given hash. For example in Keccak the number of rounds is 24, and if 25 is input in rounds, then the hashing will
+be done for 24 rounds. So a safety check for a upward limit has not been built. By default, if you put zero, then
+the recommended values of permutation rounds for the respective algorithm are used. The class diagram for the
+SHA-3 hash function implementation is shown in fig 5.3.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=6.8in]{SHA3classes.jpg}
+  \end{center}
+  \caption{Class diagram of the classes for the 3 hash functions implemented.}
+  \label{fig:UMLSHA3classes}
+\end{figure}
+
 \subsection{Experiment with different collision methods}
 
+From the experiment selection dropdowns shown in fig 5.4, we can choose from the following factors
+\begin{enumerate}
+  \item The length of the chaining value that will be padded to the message, in bits.
+  \item The algorithm for finding collision.
+  \item The length of message digest in bits.
+  \item The SHA-3 finalist algorithm, for hashing.
+  \item Number of permuation rounds, for the hashing algorithm.
+  \item The input case from start, middle or end, that you want to experiment with.
+\end{enumerate}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=4.25in]{experimentscreenshot.png}
+  \end{center}
+  \caption{Class diagram of the classes for the 3 hash functions implemented.}
+  \label{fig:experimentscreenshot}
+\end{figure}
+
+The classes that instantiate the experiment, and their relation with the GUI class is shown in fig 5.5. It is the
+responsibility of the "Experiment" class, to go over the input files of the said category, and then provide the
+collision finding algorithms with the input message pairs, and instantiating them.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=5.65in]{ExperimentGUIClass.jpg}
+  \end{center}
+  \caption{Class diagram of the GUI class and the initiation of experiment.}
+  \label{fig:UMLExperimentGUIClass}
+\end{figure}
+
+The Experiment class is the one that calls FindCollision algorithm, which is the parent class, that generates
+the random chaining value as per the bit length provided. Evaluates the cost function, and generating neighbourhood
+solution chaining values for the collision finding purpose. The relationship between the classes is shown in the
+UML class diagram shown in fig 5.6.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=7in]{FindCollisionClasses.jpg}
+  \end{center}
+  \caption{Class diagram of the classes for finding collisions.}
+  \label{fig:UMLCollisionFindingClasses}
+\end{figure}
+
 \subsection{Testing the implemented code}
+
+Code implementing hashing involves permuting and substituting large number of bits, resulting in subtle bugs to
+magnify and distort the output results. As a consequence we have written, unit test cases to make sure, that our
+code works in individual and parts, so that the correctness of the results can be guaranteed with absence of bugs
+or bias in the code. InputTest class is created to make sure, that the toggling of the bits is done as expected.
+ExperimentTest class makes sure, that the correct parameters are called and passed like the correct hashing
+algorithm, with the expected digest size and rounds etc. The SHA3Test class makes sure that the implementation of 
+all the SHA-3 finalist create the right message digests as expected. Finally the test class HillClimbTest makes
+sure that neighbourhood test for the chaining value is done properly. The class diagram for the test is shown in
+fig 5.7.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=6.75in]{testingcode.jpg}
+  \end{center}
+  \caption{Class diagram of the classes used for testing, using JUnit4.}
+  \label{fig:UMLJUnitTestClasses}
+\end{figure}
