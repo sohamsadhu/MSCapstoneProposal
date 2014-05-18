@@ -31,19 +31,107 @@ of 3 and 4. All the following observations and numbers can be found on the
 \href{https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Output}{git repository} for the source
 code implementation of the experiment.
 
+\subsection{Choice of programming language}
+
+Java comes as not the best choice in implementing algorithms related to hashing. Although since this experiment 
+required GUI, and platform compatibility which made Java ideal tool. The SHA-3 finalist algorithms have word size
+or state size parameters of 32 or 64 bits, which exploit the computer architecture of having these word sizes
+built in or used, and using them as single data entities. In languages like C, there are primitive data types
+of size 4 bytes or 8 bytes, which can be easily integrated into the hashing algorithm. Java also has similar
+word size, but by default the data type is always signed. This creates problems while bit shifting or implementing
+some of the modulus operations. The leading bit is zero and during bit shifts if the bit is toggled to 1, then 
+the data in it will treated as negative number, due to which some of the optimizations cannot be performed easily.
+
 \subsection{Average iterations}
+
+Table 6.1 to 6.3 show the average iterations for the 
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                 \hline
+                 & \multicolumn{4}{|c|}{Rounds}                 \\ \hline
+     Digest Size & 1         & 2         & 3         & 4        \\ \hline
+     224         & 803.6331  & 891.3276  & 886.56465 & 883.1557 \\ \hline
+     256         & 804.5944  & 891.35455 & 892.13813 & 885.4943 \\ \hline
+     384         & 1137.8868 & 898.2596  & 899.3996  & 902.6081 \\ \hline
+     512         & 1118.9453 & 902.0659  & 903.68877 & 906.0339 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
+    of bit length 32}
+  \end{center}
+\end{table}
 
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                               \hline
-                 & \multicolumn{4}{|c|}{Rounds}               \\ \hline
-     Digest Size & 1        & 2        & 3        & 4         \\ \hline
-     224         & 803.6345 & 891.3258 & 886.0804 & 883.1557  \\ \hline
-     256         & 804.5923 & 884.687  & 892.14   & 888.828   \\ \hline
-     384         & 1137.889 & 898.263  & 899.4    & 902.6081  \\ \hline
-     512         & 1118.947 & 902.052  & 903.687  & 906.0337  \\ \hline
+    \begin{tabular}{ *{5}{| c |} }                                  \hline
+                 & \multicolumn{4}{|c|}{Rounds}                  \\ \hline
+     Digest Size & 1         & 2         & 3         & 4         \\ \hline
+     224         & 875.893   & 888.3345  & 886.71898 & 885.8383  \\ \hline
+     256         & 889.72437 & 887.639   & 891.2398  & 889.7382  \\ \hline
+     384         & 872.1038  & 897.5908  & 898.66531 & 897.1204  \\ \hline
+     512         & 896.17804 & 904.18335 & 904.1414  & 902.55646 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for BLAKE}
+    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
+    of bit length 32}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                 \hline
+                 & \multicolumn{4}{|c|}{Rounds}                 \\ \hline
+     Digest Size & 1         & 2         & 3         & 4        \\ \hline
+     224         & 532.2517  & 880.6999  & 883.23035 & 888.5428 \\ \hline
+     256         & 532.341   & 888.98126 & 889.24855 & 895.0305 \\ \hline
+     384         & 533.9329  & 892.61993 & 899.02125 & 904.8013 \\ \hline
+     512         & 533.70807 & 900.46466 & 905.87    & 902.2507 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
+    of bit length 32}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1         & 2         & 3         \\ \hline
+     224         & 4190.473  & 3465.0413 & 3483.752  \\ \hline
+     256         & 4264.3496 & 3456.9246 & 3431.7415 \\ \hline
+     384         & 3885.6829 & 3515.1746 & 3528.4922 \\ \hline
+     512         & 3984.2366 & 3535.423  & 3559.4246 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
+    of bit length 64}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1         & 2         & 3         \\ \hline
+     224         & 3687.7493 & 3468.3171 & 3469.366  \\ \hline
+     256         & 3714.0242 & 3479.8074 & 3473.6194 \\ \hline
+     384         & 3594.1716 & 3522.1423 & 3512.8254 \\ \hline
+     512         & 3581.0823 & 3544.302  & 3559.9834 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
+    of bit length 64}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1         & 2         & 3         \\ \hline
+     224         & 2118.8818 & 3535.5684 & 3457.5586 \\ \hline
+     256         & 2118.3499 & 3557.9949 & 3466.1624 \\ \hline
+     384         & 2134.1736 & 3676.9707 & 3521.3984 \\ \hline
+     512         & 2139.1523 & 3764.485  & 3562.9753 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
+    of bit length 64}
   \end{center}
 \end{table}
 

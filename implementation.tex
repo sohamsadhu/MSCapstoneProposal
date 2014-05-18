@@ -107,17 +107,32 @@ implementation in \href{"https://github.com/sxs9174/MSProjectCode/tree/master/MS
 
 \subsection{Rational for the experiment structure, parameters and collected data}
 
+\subsubsection{Choosing iterations over execution time and noting collisions}
 After creation of the output files, the average iterations for each case of input that is start, end or middle
 over the pairs starting from 1 to 20 are entered manually into a excel sheet. Thus we get an average of iterations
 for all the hashing algorithms, over all the collision finding algorithms, for all the digest size and number of
 permutation round for input type having strings differing by a bit at a certain point.
 
+The iteration is a whole number starting from zero, unique to a collision finding algorithm instance. Each time in
+the main algorithm loops over to find a collision based on existing chaining value, by choosing one of its
+neighbours; the iteration is incremented. Sometimes the iteration is also incremented for processes inside the
+loop like finding the best neighbour from the neighbourhood in case of tabu search, which is also considered as
+part of algorithm operation. Iterations show how many operations were required before success was obtained. This
+is important in our experiment in hill climbing, where we run the algorithm till we find near collision.
+
+The near collision in this case is defined as having 65\% bits as same. So if a collision algorithm gets 65\% bits
+of two hash digests to be similar then it is noted as a success. This is a small margin, and randomly 50\% of the
+bits can be guessed correctly. However, getting more than 50\% of the bits to be similar, by non random methods with
+finite attempts can be marked as a success. 
+
+\subsubsection{Why have two message pairs in the way they are?}
 Having two different inputs, with slight differences gives us the opportunity to determine the diffusion properties
 of the hashing algorithms. Hashing algorithms ideally should have diffusion properties that distribute small 
 differences in text over the ciphertext so as to make those small updates undetectable from the given two message
 digests. The ease in finding a near collision in two different messages, enables to derive conclusions on the
 strength of diffusion properties of the hash function.
 
+\subsubsection{Breaking down the input, into categories}
 Purpose of dividing the bit difference of the messages into three categories of start, middle and end; is to test
 if the hashing algorithms have any particular vulnerability when messages are updated at select points. Different
 hashing algorithms have different approaches to substitution and permutation, and that could leave gaps in how
@@ -130,6 +145,7 @@ how the input is processed. Thus we need a plethora of test cases to cover most 
 any weakness in one hash function compared to others. The hash functions are compared across the digest lengths
 of 224, 256, 384 and 512 bits, which have been standardized by NIST.
 
+\subsubsection{Achieving reduced versions of algorithms}
 For our experiments, we achieve the reduction in the hashing algorithm by reducing the number of permutation
 rounds in a function. There are other ways to achieve reduction in a hash function, like reducing the internal
 state size, or reducing the number of output digest bits. NIST has specifically increased the digest sizes from
