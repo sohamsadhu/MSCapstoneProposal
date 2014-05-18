@@ -166,8 +166,8 @@ with seed string will be created in respective folder.
   \label{fig:screenshotinputcreation}
 \end{figure}
 
-The click button on the GUI shown in fig 5.1 calls the createFile() function in class CreateInputFile, which is
-responsible for file creation. Details for both the class are shown in fig 5.2.
+The click button on the GUI shown in figure 5.1 calls the createFile() function in class CreateInputFile, which 
+is responsible for file creation. Details for both the class are shown in figure 5.2.
 
 \begin{figure}
   \begin{center}
@@ -188,11 +188,11 @@ four values 224, 256, 384 and 512. And the rounds can be anything between 1 and 
 given hash. For example in Keccak the number of rounds is 24, and if 25 is input in rounds, then the hashing will
 be done for 24 rounds. So a safety check for a upward limit has not been built. By default, if you put zero, then
 the recommended values of permutation rounds for the respective algorithm are used. The class diagram for the
-SHA-3 hash function implementation is shown in fig 5.3.
+SHA-3 hash function implementation is shown in figure 5.3.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=6.8in]{SHA3classes.jpg}
+    \includegraphics[width=6.8	in]{SHA3classes.jpg}
   \end{center}
   \caption{Class diagram of the classes for the 3 hash functions implemented.}
   \label{fig:UMLSHA3classes}
@@ -200,7 +200,7 @@ SHA-3 hash function implementation is shown in fig 5.3.
 
 \subsection{Experiment with different collision methods}
 
-From the experiment selection dropdowns shown in fig 5.4, we can choose from the following factors
+From the experiment selection dropdowns shown in figure 5.4, we can choose from the following factors
 \begin{enumerate}
   \item The length of the chaining value that will be padded to the message, in bits.
   \item The algorithm for finding collision.
@@ -218,9 +218,9 @@ From the experiment selection dropdowns shown in fig 5.4, we can choose from the
   \label{fig:experimentscreenshot}
 \end{figure}
 
-The classes that instantiate the experiment, and their relation with the GUI class is shown in fig 5.5. It is the
-responsibility of the "Experiment" class, to go over the input files of the said category, and then provide the
-collision finding algorithms with the input message pairs, and instantiating them.
+The classes that instantiate the experiment, and their relation with the GUI class is shown in figure 5.5. It is 
+the responsibility of the "Experiment" class, to go over the input files of the said category, and then provide 
+the collision finding algorithms with the input message pairs, and instantiating them.
 
 \begin{figure}
   \begin{center}
@@ -233,7 +233,7 @@ collision finding algorithms with the input message pairs, and instantiating the
 The Experiment class is the one that calls FindCollision algorithm, which is the parent class, that generates
 the random chaining value as per the bit length provided. Evaluates the cost function, and generating neighbourhood
 solution chaining values for the collision finding purpose. The relationship between the classes is shown in the
-UML class diagram shown in fig 5.6.
+UML class diagram shown in figure 5.6.
 
 \begin{figure}
   \begin{center}
@@ -253,7 +253,7 @@ ExperimentTest class makes sure, that the correct parameters are called and pass
 algorithm, with the expected digest size and rounds etc. The SHA3Test class makes sure that the implementation of 
 all the SHA-3 finalist create the right message digests as expected. Finally the test class HillClimbTest makes
 sure that neighbourhood test for the chaining value is done properly. The class diagram for the test is shown in
-fig 5.7.
+figure 5.7.
 
 \begin{figure}
   \begin{center}

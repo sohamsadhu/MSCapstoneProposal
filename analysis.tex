@@ -1,4 +1,4 @@
-\chapter{Observations}
+\chapter{Observations, conclusions and future work}
 
 %% Obviously you need to delete these lines when you have written up your text
 
@@ -11,6 +11,60 @@
 
 %\end{itemize}
 
-For the time being, here is my hypothesis, or the premise of my question. Keccak has been selected over BLAKE and
-Groestl for what? Is there is a basis that Keccak's property is still comparitively immune to zero sum distinguisher
-compared to BLAKE and Groestl in the reduced versions. This is what, I would like to find out and examine.
+%For the time being, here is my hypothesis, or the premise of my question. Keccak has been selected over BLAKE and
+%Groestl for what? Is there is a basis that Keccak's property is still comparitively immune to zero sum distinguisher
+%compared to BLAKE and Groestl in the reduced versions. This is what, I would like to find out and examine.
+
+\section{Observations}
+The experiment first subjected all the 3 SHA-3 finalist algorithm to hill climbing, simulated annealing, and
+random selection; for permutation rounds of 1, 2, 3. The chaining value length was kept at 32 bits; and all
+the possible four message digest sizes were evaluated. Tabu search algorithm was applied only to Gr{\o}stl
+for rounds 1 and 2, for digest size of 224 bits. At first time, each collision finding algorithm was given
+128 trials of experiment, for each hashing algorithm for a particular digest size and permutation round and
+input class. The experiment, was again conducted as mentioned; but with chaining value of length 64 bits. Since
+tabu search had previously proved to be expensive, with absence of encouraging results; it was discontinued.
+The experiment on random selection was not done, since hill climbing and simulated annealing took much longer
+time, than it took for the chaining value of 64 bits, and even that was discontinued. Since the results from
+the 64 bit length chaining value weren't that encouraging, hence we stuck to chaining value of bit length 32.
+We this time repeated our experiment, but with 256 trials instead of 128 trials, and experimented with rounds
+of 3 and 4. All the following observations and numbers can be found on the 
+\href{https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Output}{git repository} for the source
+code implementation of the experiment.
+
+\subsection{Average iterations}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                               \hline
+                 & \multicolumn{4}{|c|}{Rounds}               \\ \hline
+     Digest Size & 1        & 2        & 3        & 4         \\ \hline
+     224         & 803.6345 & 891.3258 & 886.0804 & 883.1557  \\ \hline
+     256         & 804.5923 & 884.687  & 892.14   & 888.828   \\ \hline
+     384         & 1137.889 & 898.263  & 899.4    & 902.6081  \\ \hline
+     512         & 1118.947 & 902.052  & 903.687  & 906.0337  \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for BLAKE}
+  \end{center}
+\end{table}
+
+\subsection{Near collisions found}
+
+\subsection{Time taken and outliers}
+
+\section{Conclusions}
+
+\subsection{Effect of digest size}
+
+\subsection{Effects of the number of rounds}
+
+\subsection{Chaining value length}
+
+\subsection{Bit differences in message in particular positions}
+
+\subsection{Feasibility of the collision algorithms}
+
+\section{Future work}
+
+\begin{enumerate}
+\item
+\end{enumerate}
