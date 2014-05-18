@@ -151,7 +151,22 @@ The increase in number of iterations is more than three and half times, than wha
 
 \subsection{Near collisions found}
 
-\subsection{Time taken and outliers}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{10}{| c |} }                      \hline
+                 & \multicolumn{9}{|c|}{Rounds}      \\ \hline
+     Digest Size & \multicolumn{3}{|c|}{1} & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} \\ \hline
+                 & S & M & E               & S & M & E               & S & M & E               \\ \hline
+     224         & S & M & E               & S & M & E               & S & M & E               \\ \hline
+     256         & S & M & E               & S & M & E               & S & M & E               \\ \hline
+     384         & S & M & E               & S & M & E               & S & M & E               \\ \hline
+     512         & S & M & E               & S & M & E               & S & M & E               \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
+    of bit length 64}
+  \end{center}
+\end{table}
+
 
 \section{Conclusions}
 
