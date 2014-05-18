@@ -44,7 +44,21 @@ the data in it will treated as negative number, due to which some of the optimiz
 
 \subsection{Average iterations}
 
-Table 6.1 to 6.3 show the average iterations for the 
+Table 6.1 to 6.3 show the average iterations for the hill climbing algorithm applied to the 3 SHA-3 finalist algorithm,
+for a chaining value of length 32 bits. For most of the algorithms except for the BLAKE for 1 permutation round
+the number of iterations increase as the digest size is increased. Also the number of iterations also seem to
+increase when number of rounds are increased, but at round 3 and 4 they are almost similar. For 32 bit chaining value
+the number of iterations for hill climbing algorithm applied to all SHA-3 finalist algorithm, remains around 900.
+For Keccak in hill climbing, when the permutation round was set at 1, the average iterations it took was around 532,
+lower than other SHA-3 finalist for same number of rounds. The number of iterations for random selection, simulated
+annealing for 32 bit chaining value were fixed at 1024 iterations.
+
+The average iterations for tabu search for Gr{\o}stl message for digest length 224 and permutation round 1 and 2
+was 335254.443. Also there were no collisions found with this method. Being so computationally expensive and with
+no positive results, the experiment with tabu search was discontinued.
+
+As the number of bits in chaining value is increased from 32 to 64, the number of iterations increases to around 3500.
+The increase in number of iterations is more than three and half times, than what is observed in 32 bit chaining value.
 \begin{table}
   \begin{center}
     \begin{tabular}{ *{5}{| c |} }                                 \hline
