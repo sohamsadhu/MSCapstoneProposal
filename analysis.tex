@@ -1,20 +1,5 @@
 \chapter{Observations, conclusions and future work}
 
-%% Obviously you need to delete these lines when you have written up your text
-
-%\begin{itemize}
-%\item{}  How did you analyze your hyptothesis? Experiments, what did you think were worth measuring, etc.
-%\item{}  Based on your measurements and qualititative analyses, how well did your approach work out?
-%\item{}  Use graphs, tables, and other diagrams to illustrate your analyses.
-%\item{}  Based on your analyses, how well does your implementation or approach match your hypothesis?
-%\item{}  What do you deduce from this effort? How would you change or tweak your hypothesis? 
-
-%\end{itemize}
-
-%For the time being, here is my hypothesis, or the premise of my question. Keccak has been selected over BLAKE and
-%Groestl for what? Is there is a basis that Keccak's property is still comparitively immune to zero sum distinguisher
-%compared to BLAKE and Groestl in the reduced versions. This is what, I would like to find out and examine.
-
 \section{Observations}
 The experiment first subjected all the 3 SHA-3 finalist algorithm to hill climbing, simulated annealing, and
 random selection; for permutation rounds of 1, 2, 3. The chaining value length was kept at 32 bits; and all
@@ -51,7 +36,9 @@ increase when number of rounds are increased, but at round 3 and 4 they are almo
 the number of iterations for hill climbing algorithm applied to all SHA-3 finalist algorithm, remains around 900.
 For Keccak in hill climbing, when the permutation round was set at 1, the average iterations it took was around 532,
 lower than other SHA-3 finalist for same number of rounds. The number of iterations for random selection, simulated
-annealing for 32 bit chaining value were fixed at 1024 iterations.
+annealing for 32 bit chaining value were fixed at 1024 iterations. For the 64 bit length chaining value, for the
+simulated annealing experiment the number of iterations were set to 11 times the number of the digest size in bit
+length. So for digest length 224, 256, 384 and 512 we set iterations at 2464, 2816, 4224, 5632 respectively. 
 
 The average iterations for tabu search for Gr{\o}stl message for digest length 224 and permutation round 1 and 2
 was 335254.443. Also there were no collisions found with this method. Being so computationally expensive and with
@@ -151,6 +138,61 @@ The increase in number of iterations is more than three and half times, than wha
 
 \subsection{Near collisions found}
 
+If the collision algorithm was able to find a chaining value by iteratively going through its neighbourhood, that got
+the two message digests to agree on more than 65\% of the bits, then it was noted as a collision. In the tables
+starting from 6.7 to 6.something we have shown the number of input pairs in a input case of start, middle or end that
+showed collision, and the maximum number of trials in a pair that collision was obtained. In the tables below, the
+letters S, M, E stand for start, middle and end input case. The number of cases of collision, followed by maximum number
+of trials in a case where a collision was obtained, and separated by slash are entered into the tables.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{13}{| c |} }                      \hline
+      \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
+        & \multicolumn{3}{|c|}{1} & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & S    & M      & E       & S   & M   & E           & S    & M   & E          & S   & M & E               \\ \hline
+     224 & 2/50 & 19/128 & 20/128  & 2/2 & 8/1 & 3/2         & 11/2 & 3/1 & 7/2        &  & M & E               \\ \hline
+     256 & 0/0  & 19/128 & 20/128  & 1/1 & 1/1 & 2/1         & 1/1  & 1/1 & 1/1        & S & M & E               \\ \hline
+     384 & 18/128 & 20/128 & 20/128& 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & S & M & E               \\ \hline
+     512 & 18/128 & 20/128 & 20/128& 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & S & M & E               \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for BLAKE with Hill Climbing algorithm for 32 bit 
+    chaining value}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{13}{| c |} }                      \hline
+      \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
+         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & S    & M      & E        & S   & M   & E           & S    & M   & E          & S   & M & E               \\ \hline
+     224 & 9/4  & 1/2    & 0/0      & 4/2 & 6/2 & 6/2         & 5/2  & 3/2 & 8/2        &  & M & E               \\ \hline
+     256 & 1/2  & 0/0    & 0/0      & 3/1 & 1/1 & 2/1         & 1/1  & 0/0 & 1/1        & S & M & E               \\ \hline
+     384 & 0/0  & 0/0    & 12/128   & 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & S & M & E               \\ \hline
+     512 & 8/17 & 0/0    & 14/128   & 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & S & M & E               \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for Gr{\o}stl with Hill Climbing algorithm for 32 bit 
+    chaining value}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{13}{| c |} }                      \hline
+      \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
+         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & S      & M      & E      & S      & M      & E      & S    & M   & E          & S   & M & E               \\ \hline
+     224 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 7/2  & 7/3 & 11/1       &  & M & E               \\ \hline
+     256 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 3/1 & 1/1        & S & M & E               \\ \hline
+     384 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0 & 0/0        & S & M & E               \\ \hline
+     512 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0 & 0/0        & S & M & E               \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for Keccak with Hill Climbing algorithm for 32 bit 
+    chaining value}
+  \end{center}
+\end{table}
+
 \begin{table}
   \begin{center}
     \begin{tabular}{ *{10}{| c |} }                      \hline
@@ -166,7 +208,6 @@ The increase in number of iterations is more than three and half times, than wha
     of bit length 64}
   \end{center}
 \end{table}
-
 
 \section{Conclusions}
 

@@ -93,8 +93,8 @@ counterpart of the preimage is searched for, that would reduce the complexity fr
   \begin{enumerate}
   \item candidate := true
   \item 10 sets of cordinates $(x, y, z)$ being on list created on precomputation do
-  \newline $(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z) \neq A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
-  \newline $(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z) = A^{\leftarrow}_{(x, y, z)}})$ then candidate := false
+  \newline $(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z)} \neq A^{\leftarrow}_{(x, y, z)})$ then candidate := false
+  \newline $(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z)})$ then candidate := false
   \item if (candidate = true) then rotate the guessed state by n bits. Verify by input to Keccak function, that
   runs for 3 rounds.
   \end{enumerate}
