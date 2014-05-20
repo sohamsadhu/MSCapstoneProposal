@@ -142,7 +142,8 @@ the two message digests to agree on more than 65\% of the bits, then it was note
 starting from 6.7 to 6.something we have shown the number of input pairs in a input case of start, middle or end that
 showed collision, and the maximum number of trials in a pair that collision was obtained. In the tables below, the
 letters S, M, E stand for start, middle and end input case. The number of cases of collision, followed by maximum number
-of trials in a case where a collision was obtained, and separated by slash are entered into the tables.
+of trials in a case where a collision was obtained, and separated by slash are entered into the tables. For tabu search
+there were no collisions found in two rounds of Gr{\o}stl that it was implemented on.
 
 \subsection{Hill Climbing}
 
@@ -162,7 +163,7 @@ chaining values of lengths 32 and 64 both.
       \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
         & \multicolumn{3}{|c|}{1}   & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
          & S    & M      & E        & S   & M   & E           & S    & M    & E         & S    & M   & E         \\ \hline
-     224 & 2/50 & 19/128   & 20/128 & 2/2 & 8/1 & 3/2         & 8/3  & 12/2 & 14/3/2    & 12/2 & 7/2 & 6/1       \\ \hline
+     224 & 2/50 & 19/128   & 20/128 & 2/2 & 8/1 & 3/2         & 8/3  & 12/2 & 14/3      & 12/2 & 7/2 & 6/1       \\ \hline
      256 & 0/0  & 19/128   & 20/128 & 1/1 & 1/1 & 2/1         & 5/2  & 2/1  & 3/1       & 1/1  & 0/0 & 2/1       \\ \hline
      384 & 18/128 & 20/128 & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 0/0  & 0/0 & 0/0       \\ \hline
      512 & 18/128 & 20/128 & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & 0/0  & 0/0 & 0/0       \\ \hline
@@ -263,18 +264,21 @@ digest size 512 or rounds more than 3 for digest size 384.
 
 \subsection{Simulated Annealing}
 Similar to Hill Climbing in simulated annealing, collision tables for 32 bit chaining value trials for round 1 and 2 were
-from 128 trials, while for round 3 and 4 were 256 trials. 
+from 128 trials, while for round 3 and 4 were 256 trials. The number of instances and trials where collisions were found
+in simulated annealing as compared to those in hill climbing, are reduced. With higher digest sizes higher than 256 and
+rounds higher than 2, simulated annealing similarly failed to find any success. However for hash algorithms with rounds
+3 and 4 with digests sizes 224 and 256; random search seems to perform better than simulated annealing.
 
 \begin{table}
   \begin{center}
     \begin{tabular}{ *{13}{| c |} }                      \hline
       \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
         & \multicolumn{3}{|c|}{1}   & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
-         & S    & M      & E        & S   & M   & E           & S    & M    & E         & S    & M   & E         \\ \hline
-     224 & 2/50 & 19/128   & 20/128 & 2/2 & 8/1 & 3/2         & 8/3  & 12/2 & 14/3/2    & 12/2 & 7/2 & 6/1       \\ \hline
-     256 & 0/0  & 19/128   & 20/128 & 1/1 & 1/1 & 2/1         & 5/2  & 2/1  & 3/1       & 1/1  & 0/0 & 2/1       \\ \hline
-     384 & 18/128 & 20/128 & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 0/0  & 0/0 & 0/0       \\ \hline
-     512 & 18/128 & 20/128 & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & 0/0  & 0/0 & 0/0       \\ \hline
+         & S      & M      & E      & S   & M   & E           & S    & M    & E         & S    & M   & E         \\ \hline
+     224 & 0/0    & 19/128 & 20/128 & 0/0 & 0/0 & 0/0         & 1/1  & 0/0  & 0/0       & 0/0  & 1/1 & 0/0       \\ \hline
+     256 & 0/0    & 18/128 & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 1/1  & 0/0 & 1/1       \\ \hline
+     384 & 10/116 & 9/109  & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 0/0  & 0/0 & 0/0       \\ \hline
+     512 & 14/110 & 16/104 & 20/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 0/0  & 0/0 & 0/0       \\ \hline
     \end{tabular}
     \caption{Collisions and maximum trials a input pair had collision for BLAKE with Simulated Annealing algorithm for 32 bit 
     chaining value.}
@@ -287,10 +291,10 @@ from 128 trials, while for round 3 and 4 were 256 trials.
       \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
          & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
          & S    & M      & E        & S   & M   & E           & S    & M    & E         & S    & M   & E          \\ \hline
-     224 & 9/4  & 1/2    & 0/0      & 4/2 & 6/2 & 6/2         & 11/2 & 10/3 & 8/2       & 13/3 & 9/2 & 11/4       \\ \hline
-     256 & 1/2  & 0/0    & 0/0      & 3/1 & 1/1 & 2/1         & 3/1  & 4/1  & 3/1       & 2/1  & 2/1 & 3/1        \\ \hline
-     384 & 0/0  & 0/0    & 12/128   & 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & 0/0  & 0/0 & 0/0        \\ \hline
-     512 & 8/17 & 0/0    & 14/128   & 0/0 & 0/0 & 0/0         & 0/0  & 0/0 & 0/0        & 0/0  & 0/0 & 0/0        \\ \hline
+     224 & 1/1  & 0/0    & 0/0      & 1/1 & 0/0 & 0/0         & 1/1  & 1/1  & 0/0       & 0/0  & 0/0 & 0/0        \\ \hline
+     256 & 0/0  & 0/0    & 0/0      & 0/0 & 0/0 & 0/0         & 1/1  & 0/0  & 0/0       & 0/0  & 1/1 & 0/0        \\ \hline
+     384 & 0/0  & 0/0    & 12/128   & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 0/0  & 0/0 & 0/0        \\ \hline
+     512 & 1/1  & 0/0    & 14/128   & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       & 0/0  & 0/0 & 0/0        \\ \hline
     \end{tabular}
     \caption{Collisions and maximum trials a input pair had collision for Gr{\o}stl with Simulated Annealing algorithm for 32 bit 
     chaining value.}
@@ -299,16 +303,100 @@ from 128 trials, while for round 3 and 4 were 256 trials.
 
 \begin{table}
   \begin{center}
+    \begin{tabular}{ *{10}{| c |} }                      \hline
+      \multirow{3}{*}{Digest size} & \multicolumn{9}{|c|}{Rounds}      \\ \cline{2-10}
+        & \multicolumn{3}{|c|}{1}   & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} \\ \cline{2-10}
+         & S      & M      & E      & S   & M   & E           & S    & M    & E         \\ \hline
+     224 & 0/0    & 0/0    & 0/0    & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       \\ \hline
+     256 & 0/0    & 0/0    & 0/0    & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       \\ \hline
+     384 & 1/128  & 0/0    & 12/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       \\ \hline
+     512 & 3/1    & 16/104 & 16/128 & 0/0 & 0/0 & 0/0         & 0/0  & 0/0  & 0/0       \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for Gr{\o}stl with Simulated Annealing algorithm for 64 bit 
+    chaining value.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
     \begin{tabular}{ *{13}{| c |} }                      \hline
       \multirow{3}{*}{Size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
-         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2} & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2}  & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
          & S      & M      & E      & S      & M      & E      & S    & M    & E         & S    & M    & E        \\ \hline
-     224 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 11/3 & 12/3 & 17/5      & 12/3 & 11/3 & 10/2     \\ \hline
-     256 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 2/1  & 4/1  & 5/2       & 4/1  & 1/1  & 3/1      \\ \hline
-     384 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 1/1       & 0/0  & 0/0  & 0/0      \\ \hline
-     512 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0 & 0/0        & 0/0  & 0/0  & 0/0      \\ \hline
+     224 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     256 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 1/1  & 0/0      \\ \hline
+     384 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     512 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
     \end{tabular}
     \caption{Collisions and maximum trials a input pair had collision for Keccak with Simulated Annealing algorithm for 32 bit 
+    chaining value. "all" stands for 20/128.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{10}{| c |} }                      \hline
+      \multirow{3}{*}{Digest size} & \multicolumn{9}{|c|}{Rounds}      \\ \cline{2-10}
+        & \multicolumn{3}{|c|}{1}   & \multicolumn{3}{|c|}{2}  & \multicolumn{3}{|c|}{3} \\ \cline{2-10}
+         & S      & M      & E      & S   & M   & E            & S    & M    & E         \\ \hline
+     224 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 1/1  & 0/0       \\ \hline
+     256 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for Keccak with Simulated Annealing algorithm for 64 bit 
+    chaining value.}
+  \end{center}
+\end{table}
+
+\subsection{Random Selection}
+
+Random selection was not applied with chaining value of 64 bit length, after not so optimum results obtained from its'
+use in hill climbing algorithm; and simulated annealing applied on Gr{\o}stl. Random selection also had similar success
+like hill climbing and simulated annealing for digests obtained from rounds above 2, and digests lengths above 256.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{13}{| c |} }                      \hline
+      \multirow{3}{*}{Size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
+         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2}  & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & S      & M      & E      & S      & M      & E      & S    & M    & E         & S    & M    & E        \\ \hline
+     224 & 2/35   & 19/128 & 20/128 & 3/2    & 4/2    & 3/1    & 7/1  & 10/3 & 7/2       & 11/2 & 8/3  & 9/1      \\ \hline
+     256 & 0/0    & 19/128 & 20/128 & 1/1    & 2/1    & 0/0    & 3/1  & 1/1  & 0/0       & 4/1  & 1/1  & 2/1      \\ \hline
+     384 & 18/128 & 19/128 & 20/128 & 0/0    & 0/0    & 0/0    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     512 & 18/128 & 20/128 & 20/128 & 0/0    & 0/0    & 0/0    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for BLAKE with random selection algorithm for 32 bit 
+    chaining value.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{13}{| c |} }                      \hline
+      \multirow{3}{*}{Size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
+         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2}  & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & S      & M      & E      & S      & M      & E      & S    & M    & E         & S    & M    & E        \\ \hline
+     224 & 6/3    & 1/3    & 0/0    & 2/1    & 8/2    & 5/1    & 9/4  & 8/1  & 9/2       & 7/2  & 6/3  & 7/2      \\ \hline
+     256 & 0/0    & 0/0    & 0/0    & 0/0    & 0/0    & 0/0    & 2/1  & 1/1  & 0/0       & 1/1  & 1/1  & 1/1      \\ \hline
+     384 & 0/0    & 0/0    & 12/128 & 0/0    & 0/0    & 0/0    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     512 & 8/20   & 0/0    & 14/128 & 0/0    & 0/0    & 0/0    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for Gr{\o}stl with random selection algorithm for 32 bit 
+    chaining value.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{13}{| c |} }                      \hline
+      \multirow{3}{*}{Size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
+         & \multicolumn{3}{|c|}{1}  & \multicolumn{3}{|c|}{2}  & \multicolumn{3}{|c|}{3} & \multicolumn{3}{|c|}{4} \\ \cline{2-13}
+         & S      & M      & E      & S      & M      & E      & S    & M    & E         & S    & M    & E        \\ \hline
+     224 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 4/2  & 5/1  & 6/2       & 0/0  & 0/0  & 0/0      \\ \hline
+     256 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 3/2  & 4/1  & 6/1       & 3/1  & 2/1  & 3/1      \\ \hline
+     384 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     512 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+    \end{tabular}
+    \caption{Collisions and maximum trials a input pair had collision for Keccak with random selection algorithm for 32 bit 
     chaining value.}
   \end{center}
 \end{table}
