@@ -1,4 +1,4 @@
-\chapter{Evaluation and expected outcomes}
+\chapter{Conclusions and future work}
 
 %\section{Current Status}
 
@@ -6,43 +6,69 @@
 
 %\section{Lessons Learned}
 
-The experiment with each of the pair, will be run for approximately $2^{10}$ times or rather 1024 times.
-The following are the parameters on which I propose to evaluate the algorithms. 
+%The experiment with each of the pair, will be run for approximately $2^{10}$ times or rather 1024 times.
+%The following are the parameters on which I propose to evaluate the algorithms. 
 
-\begin{enumerate}
-  \item How much time for each of the respective message digest size, did it take for the hill climbing
-    algorithm to find a collision.
-  \item How much is the hamming distance on an average for the chaining value that is manipulated by
-    hill climbing for each of the algorithms.
-  \item Till how many rounds, is the hill climbing algorithm a feasible option to find near collisions,
-    for each of the algorithms.
-  \item Is the weight of the hamming distance between message pair co-related to the amount of work
-    hill climbing algorithm does to find a collision.
-  \item Does the hamming weight distance between message pair, vary for each of the hashing algorithm
-    with respect to amount of work on average required by hill climbing algorithm. This will be an
-    indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
-  \item On an average what was the hamming distance of the chaining value obtained from a successful
-    experiment from the individual message. This will help in understanding if, chaining values and
-    message are closely related in reduced rounds.
-\end{enumerate}
+%\begin{enumerate}
+  %\item How much time for each of the respective message digest size, did it take for the hill climbing
+    %algorithm to find a collision.
+  %\item How much is the hamming distance on an average for the chaining value that is manipulated by
+    %hill climbing for each of the algorithms.
+  %\item Till how many rounds, is the hill climbing algorithm a feasible option to find near collisions,
+    %for each of the algorithms.
+  %\item Is the weight of the hamming distance between message pair co-related to the amount of work
+    %hill climbing algorithm does to find a collision.
+  %\item Does the hamming weight distance between message pair, vary for each of the hashing algorithm
+    %with respect to amount of work on average required by hill climbing algorithm. This will be an
+    %indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
+  %\item On an average what was the hamming distance of the chaining value obtained from a successful
+    %experiment from the individual message. This will help in understanding if, chaining values and
+    %message are closely related in reduced rounds.
+%\end{enumerate}
 
-The above list is tentative, and by no means exhaustive. If during the course of experiment, more 
-interesting figures come in front, then they will be added.
+%The above list is tentative, and by no means exhaustive. If during the course of experiment, more 
+%interesting figures come in front, then they will be added.
 
-\section{Conclusions}
+\section{Validity of the hypothesis}
 
-\subsection{Effect of digest size}
+In section 4.4 two hypothesis were suggested, both have been sort of some what disproved. When the reduced version
+of an algorithm is only done by reducing the number of rounds, then for just rounds 1 and 2, Keccak performs worse
+than BLAKE and Gr{\o}stl. Also from the numbers and taking into account the number of success in getting collisions,
+hill climbing performs better than simulated annealing and tabu search. Random selection also performs, some what 
+comparable to simulated annealing, but not much. Suggesting that for reduced rounds, that random selection could
+also be used to find near collisions.
 
-\subsection{Effects of the number of rounds}
+%Give the explanation later, first get the conclusions in.
 
-\subsection{Chaining value length}
+\subsection{Collision resistance of SHA-3 finalist in reduced rounds}
 
-\subsection{Bit differences in message in particular positions}
+For 1 round permutation, all the algorithms should almost equivalent weakness, that is collision in almost all instances
+that is message pairs, and trial. However for Keccak for the three collision finding algorithms hill climbing, simulated
+annealing, and random selection; collisions were seen in every instance and trial. This behaviour is again noticed
+in Keccak for permuation of round 2; however for BLAKE and Gr{\o}stl, this number of trials and instances in which
+collision could be found are reduced.
+
+However as the permutation rounds are increased to 3 and 4, the resistance to collision finding algorithms for Keccak
+becomes equivalent to that of BLAKE and Gr{\o}stl. For digest sizes, of 224 and 256; some message pairs do show
+collision in trials less than 10. But for digest sizes of 384 and 512; no collisions are found.
 
 \subsection{Feasibility of the collision algorithms}
+
+From the collision algorithms; hill climbing seems to be the most optimised in terms of collision finding to time required
+ratio. Tabu search performs the worst, in terms of collision to CPU time required. For example using tabu search on 
+Gr{\o}stl for message digest of 224 bits, and rounds 1 and 2; tabu search required around 334894 iterations on average,
+without any collisions. For the same conditions hill climbing did not require more than 900 iterations, with some success. 
+
+\section{Effect of digest size}
+
+\section{Effects of the number of rounds}
+
+\section{Chaining value length}
+
+\section{Bit differences in message in particular positions}
 
 \section{Future work}
 
 \begin{enumerate}
-\item
+\item 
 \end{enumerate}
