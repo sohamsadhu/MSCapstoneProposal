@@ -132,6 +132,21 @@ differences in text over the ciphertext so as to make those small updates undete
 digests. The ease in finding a near collision in two different messages, enables to derive conclusions on the
 strength of diffusion properties of the hash function.
 
+\subsubsection{Limiting neighbourhood number to 2}
+The set of k-bit neighbourhood for for the chaining value is defined as 
+\begin{center}$S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$\end{center}
+where
+\begin{center}$ size \thickspace of \thickspace S^{k}_{CV} = 
+\displaystyle \sum \limits_{i = 0}^{k} \begin{pmatrix} n \\ i \end{pmatrix}$.\end{center}
+
+Thus the size of neighbourhood is summation of the combinatorial series of chaining value bit length, to selections
+starting from 1 to k, where k is the at most number of bits you want to be updated in the chaining value to be
+included in the neighbourhood set.
+
+For the experiment we are keeping the k-bit of neighbourhood at 2. Increasing the k-bit neighbourhood above 3, 
+may get better solutions, but then the neighbourhood set size grows too fast. Searching in such a huge neighbourhood
+does not leave any of the collision methods feasible.
+
 \subsubsection{Breaking down the input, into categories}
 Purpose of dividing the bit difference of the messages into three categories of start, middle and end; is to test
 if the hashing algorithms have any particular vulnerability when messages are updated at select points. Different

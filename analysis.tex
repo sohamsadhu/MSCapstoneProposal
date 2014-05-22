@@ -15,7 +15,7 @@ of 3 and 4. All the following observations and numbers can be found on the
 \href{https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Output}{git repository} for the source
 code implementation of the experiment.
 
-\section{Choice of programming language}
+\section{Observations on programming implementations}
 
 Java comes as not the best choice in implementing algorithms related to hashing. Although since this experiment 
 required GUI, and platform compatibility which made Java ideal tool. The SHA-3 finalist algorithms have word size
@@ -25,6 +25,10 @@ of size 4 bytes or 8 bytes, which can be easily integrated into the hashing algo
 word size, but by default the data type is always signed. This creates problems while bit shifting or implementing
 some of the modulus operations. The leading bit is zero and during bit shifts if the bit is toggled to 1, then 
 the data in it will treated as negative number, due to which some of the optimizations cannot be performed easily.
+
+While implementing Keccak care should be taken, that bytes should be arranged in little endian rather than the
+usual big endian format. This makes applying the permutation on the lanes straightforward mapping of algebraic
+functions to Java.
 
 \section{Average iterations}
 

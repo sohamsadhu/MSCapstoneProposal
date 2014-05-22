@@ -1,34 +1,5 @@
 \chapter{Conclusions and future work}
 
-%\section{Current Status}
-
-%\section{Future Work}
-
-%\section{Lessons Learned}
-
-%The experiment with each of the pair, will be run for approximately $2^{10}$ times or rather 1024 times.
-%The following are the parameters on which I propose to evaluate the algorithms. 
-
-%\begin{enumerate}
-  %\item How much time for each of the respective message digest size, did it take for the hill climbing
-    %algorithm to find a collision.
-  %\item How much is the hamming distance on an average for the chaining value that is manipulated by
-    %hill climbing for each of the algorithms.
-  %\item Till how many rounds, is the hill climbing algorithm a feasible option to find near collisions,
-    %for each of the algorithms.
-  %\item Is the weight of the hamming distance between message pair co-related to the amount of work
-    %hill climbing algorithm does to find a collision.
-  %\item Does the hamming weight distance between message pair, vary for each of the hashing algorithm
-    %with respect to amount of work on average required by hill climbing algorithm. This will be an
-    %indication, on how much diffusion each of the reduced versions of the algorithm are able to obtain.
-  %\item On an average what was the hamming distance of the chaining value obtained from a successful
-    %experiment from the individual message. This will help in understanding if, chaining values and
-    %message are closely related in reduced rounds.
-%\end{enumerate}
-
-%The above list is tentative, and by no means exhaustive. If during the course of experiment, more 
-%interesting figures come in front, then they will be added.
-
 \section{Validity of the hypothesis}
 
 In section 4.4 two hypothesis were suggested, both have been sort of some what disproved. When the reduced version
@@ -37,8 +8,6 @@ than BLAKE and Gr{\o}stl. Also from the numbers and taking into account the numb
 hill climbing performs better than simulated annealing and tabu search. Random selection also performs, some what 
 comparable to simulated annealing, but not much. Suggesting that for reduced rounds, that random selection could
 also be used to find near collisions.
-
-%Give the explanation later, first get the conclusions in.
 
 \subsection{Collision resistance of SHA-3 finalist in reduced rounds}
 
@@ -57,18 +26,110 @@ collision in trials less than 10. But for digest sizes of 384 and 512; no collis
 From the collision algorithms; hill climbing seems to be the most optimised in terms of collision finding to time required
 ratio. Tabu search performs the worst, in terms of collision to CPU time required. For example using tabu search on 
 Gr{\o}stl for message digest of 224 bits, and rounds 1 and 2; tabu search required around 334894 iterations on average,
-without any collisions. For the same conditions hill climbing did not require more than 900 iterations, with some success. 
+without any collisions. For the same conditions hill climbing did not require more than 900 iterations, with some success.
+
+At lower permutation rounds like 1 and 2, for Keccak; and for round 1 for BLAKE and Gr{\o}stl random selection is as 
+effective as hill climbing and simulated annealing. Even for higher rounds like 3 and 4; for lower digest sizes of 224
+and 256, random selection was able to find collision amongst all three SHA-3 candidate algorithms in around 10 instances 
+in trials less than 10. This performance is comparable to that of simulated annealing.
+
+Tabu search performs poorly, given that it goes for the steepest descent approach. Tabu search tries to pick the best 
+chaining value from the neighbourhood, where the k-bit neighbourhood, whose size is roughly equal to $n^{2}$ where n
+is the bit length of the chaining value. Also the tabu search has to go through elements of neighbourhood comparing each
+of them with the tabu list, before inserting them into the candidate set where they will be considered as solution.
+This places additional overhead on the algorithm performance. The tabu list can be made up of states, solutions previously
+found, moves previously made. For our case the best element for tabu list would have been elements from previous iteration
+that were not selected, but this still makes our set large. Although the process can be speed up, by getting the best
+element from neighbourhood during neighbourhood creation, but you still have the over head of comparing the elements
+twice for the best element and the comparing with tabu list. The problem does not mould well, with the tabu search
+solution, because trying to store state, previous solution, or moves in tabu list are all expensive.
+
+Simulated annealing though trying to avoid the local minima, does not perform any better than hill climbing, when finding
+near collisions. Over trials over 256 and 128, and chaining values 32 and 64; simulated annealing found far fewer collisions
+than hill climbing. While hill climbing was able to find collision in instances in more than 50\% of the message
+pairs for each of the SHA-3 algorithm for message digest of 224 and 256, for permutation rounds of 3 and 4. But 
+simulated annealing is only able to find collision in 1 instance out of 60 for 1 trial.
 
 \section{Effect of digest size}
 
+It seems as the digest size is increased, the near collision resistance increases, only if the rounds are above 2. The
+input text here "The quick brown fox jumps over the lazy dog" was of 344 bits, and as per table 7.1 even with 32 bit
+chaining value, the entire message is treated in one part itself, as seen from table 7.1. Thus our modifications to 
+the message pairs do make it through in one go, rather than blocks of message from the pairs which have all bits same.
+
+The reason higher message digests seem to have more collision resistance may be due to the fact that they have more
+bits to shuffle around, thus making it harder for simple algorithms without any heuristics to find the collisions. Note
+should be made that near collisions in this case is done when bits matching are more than 65\% of the digest length.
+So it could be that bits upto 64\% might match and yet be rejected not as near collision found. Also the higher
+digest sizes like 384 and 512 only show collision resistance only if applied with rounds 3 and 4.
+
+Thus the minimum security recommendation for collision avoidance would be go for digest sizes of 384 and above.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                 \hline
+     \multirow{2}{*}{Hash algorithm} & \multicolumn{4}{|c|}{Digest size} \\ \cline{2-5}
+               & 224  & 256  & 384  & 512  \\ \hline
+     BLAKE     & 512  & 512  & 1024 & 1024 \\ \hline
+     Gr{\o}stl & 512  & 512  & 1024 & 1024 \\ \hline
+     Keccak    & 1152 & 1088 & 832  & 576  \\ \hline
+    \end{tabular}
+    \caption{Number of input bits to one function block, in the respective SHA-3 finalist algorithm}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                 \hline
+     \multirow{2}{*}{Hash algorithm} & \multicolumn{4}{|c|}{Digest size} \\ \cline{2-5}
+               & 224 & 256 & 384 & 512 \\ \hline
+     BLAKE     & 16  & 16  & 16  & 16  \\ \hline
+     Gr{\o}stl & 10  & 10  & 14  & 14  \\ \hline
+     Keccak    & 24  & 24  & 24  & 24  \\ \hline
+    \end{tabular}
+    \caption{Number of permutation rounds, in the respective SHA-3 finalist algorithm}
+  \end{center}
+\end{table}
+
 \section{Effects of the number of rounds}
+
+From the observation of tables 6.7 to 6.20, we can conclude that higher the number of permutation rounds, the
+more is the collision resistance. Rounds 1 and 2, can be considered as not secure. It should be noted that
+for permutation rounds 1 and 2; Keccak seems to perform poorly against BLAKE and Gr{\o}stl. But as rounds
+are increased to 3 and 4, the performance of Keccak with respect to other algorithms is comparable. 
+
+On the basis of observation it can be stated that, at minimum 3 rounds of permutation are required, and 4 to 
+be secure as per the results of this experiment with limited resources. Please note that as per table 7.2,
+the recommended number of permutation rounds for each SHA-3 finalist algorithm is different. While Gr{\o}stl
+has the least number of rounds, Keccak has most number of rounds. This could be one explanation of Gr{\o}stl
+and BLAKE's, better performance though not most ideal; than Keccak for rounds 1 and 2.
 
 \section{Chaining value length}
 
+Longer chaining value do not seem to help in getting near collisions. For perfect collisions, longer chaining values
+might be helpful. However for near collisions, shorter chaining values work fine. With larger chaining values,
+the number of times the algorithm has to loop through also increases. For increase in chaining value from 32 bits
+to 64 bits, the loop execution increased by factor of 3 times more than what it required for 32 bits.
+
 \section{Bit differences in message in particular positions}
+
+All the SHA-3 algorithms displayed lack of diffusion property if any, irrespective of input bit updated in any
+of the three positions start, middle and end specified in the message input string. The bit update made to middle,
+and end to the input message are almost equivalent, since, the input message is padded with the chaining value. 
+Thus we do not experiment with the bits updated at the end of the input string, only with bits updated at start
+of the string or in the middle of the string. Since in the experiment trials the chaining value is chosen randomly,
+hence small differences in finding collisions amongst the input, for a given hashing algorithm, digest size and round
+can be ignored. Based on this fact, it seems that diffusion in the given algorithm is place agnostic. 
 
 \section{Future work}
 
 \begin{enumerate}
-\item 
+\item This experiment can be repeated with the two other finalist algorithm Skein and JH, alongwith Keccak.
+\item Instead of reducing the number of rounds, the reduced version of the finalist algorithm could be obtained
+by reducing the state size, and repeating this experiment.
+\item Experiments can also be done with other combinations of factors of hashing algorithms, like reducing the
+digest size, but increasing the number of rounds.
+\item In this experiment, the near collision was benchmarked at 65\% of the output bits match. Instead further work
+can be done to find the effort required to find perfect collisions for message pairs for reduced rounds for
+certain hashing algorithms.
 \end{enumerate}
