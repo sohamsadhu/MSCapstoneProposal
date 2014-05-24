@@ -1,0 +1,14 @@
+\frametitle {Compression algorithm}
+  \begin{algorithm}[H]
+  \begin{algorithmic}[1]
+    \State $ h^{0} \gets IV $
+    \For {$i = 0,\dots, N - 1$}
+      \State $h^{i+1} \gets compress(h^{i}, m^{i}, s, l^{i})$
+    \EndFor
+    \State\Return{$h^{N}$}
+  \end{algorithmic}
+  \caption[BLAKE Compression]{BLAKE Compression procedure\footnotemark}
+  \label{alg:seq}
+  \end{algorithm}
+  \footnotetext[8]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+http://www.131002.net/blake/blake.pdf, April 2012.}
