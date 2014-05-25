@@ -59,9 +59,10 @@ from a weak key schedule. \cite{00019}
   \end{figure}
 
   In order to fit the varying input length message to the block sizes of $ l $ padding is defined. First bit '1' is
-  appended, then $ w = -N - 65 mod l $ 0 bits are appended; where N is the length of the original message. Finally a
-  64 bit representation of $(N + w + 65) / l $. Given the need for message length, the maximum size of message digest
-  in bits for Gr{\o}stl-512 version is $2^{73}-577$ bits, and that for 1024 version is $2^{74}-1089$bits.
+  appended, then $ w = -N - 65 \thickspace mod \thickspace l $ 0 bits are appended; where N is the length of the
+  original message. Finally a 64 bit representation of $(N + w + 65) / l $. Given the need for message length, the
+  maximum size of message digest in bits for Gr{\o}stl-512 version is $2^{73}-577$ bits, and that for 1024 version
+  is $2^{74}-1089$bits.
 
   \subsection{Design of P and Q permutations}
 
@@ -290,8 +291,8 @@ equal to 32 bits for BLAKE-256 variant, while 64 bit for variant BLAKE-512.
       Symbol                  & Meaning \\ \hline
       $\gets$                 & variable assignment \\
       $+$                     & addition modulo $2^{32}$ or (modulo $2^{64}$) \\
-      $\gg k$                 & rotate k bits to least significant bits \\
-      $\ll k$                 & rotate k bits to most significant bits \\
+      $\ggg k$                & rotate k bits to least significant bits \\
+      %$\ll k$                 & rotate k bits to most significant bits \\
       $\langle l \rangle_{k}$ & encoding of integer $l$ over $k$ bits \\ \hline
     \end{tabular}
     \caption{Convention of symbols used in BLAKE algorithm}
@@ -384,14 +385,14 @@ chain value of 8 words.
     \newpage
     
     $
-    a \gets a + b + (m_{\sigma_{r}(21)} \oplus c_{\sigma_{r}(2i + 1)}) \\
-    d \gets (d \oplus a) \gg 16 \\
+    a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)}) \\
+    d \gets (d \oplus a) \ggg 16 \\
     c \gets c + d \\
-    b \gets (b \oplus c) \gg 12 \\
+    b \gets (b \oplus c) \ggg 12 \\
     a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)}) \\
-    d \gets (d \oplus a) \gg 8 \\
+    d \gets (d \oplus a) \ggg 8 \\
     c \gets c + d \\
-    b \gets (b \oplus c) \gg 7
+    b \gets (b \oplus c) \ggg 7
     $
 
     The implementation of the G function is shown below.
@@ -471,14 +472,14 @@ and 3.9), compression function and the way message is padded.
   is given as 
 
   $
-  a \gets a + b + (m_{\sigma_{r}(21)} \oplus c_{\sigma_{r}(2i + 1)}) \\
-  d \gets (d \oplus a) \gg 32 \\
+  a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)}) \\
+  d \gets (d \oplus a) \ggg 32 \\
   c \gets c + d \\
-  b \gets (b \oplus c) \gg 25 \\
+  b \gets (b \oplus c) \ggg 25 \\
   a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)}) \\
-  d \gets (d \oplus a) \gg 16 \\
+  d \gets (d \oplus a) \ggg 16 \\
   c \gets c + d \\
-  b \gets (b \oplus c) \gg 11
+  b \gets (b \oplus c) \ggg 11
   $
   
   Once more than 9 rounds are done, the permutation table rules kick in, for example if round r \textgreater 9 then

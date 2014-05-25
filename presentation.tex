@@ -96,7 +96,7 @@ editors, Encyclopedia of Cryptography and Security, pages 1027–1028. Springer 
 \begin{enumerate}
 \item {\bf Digital forensics:} take a hash value of evidence, to later prove that it has not been tampered.
 \footnotemark
-\item {\bf Password stored:} is salted and hased, before inserting to database.
+\item {\bf Password stored:} is salted and hashed, before inserting to database.
 \item {\bf File integrity:} take hash value of files between time intervals, to make sure; they have not
 been tampered.
 \item {\bf Pseudo random:} generator, based on a seed value.
@@ -106,24 +106,78 @@ been tampered.
 \end{frame}
 
 \subsection{Standards and SHA-3 competition}
+
 \begin{frame}
-\frametitle{Standards and SHA-3 competition}
-\begin{enumerate}
-\item SHA-0 proposed by NSA in 1993, standardised by NIST. In 1995, SHA-0 replaced by SHA-1, designed by NSA.
-\footnotemark
-\item SHA-1 had block size of 512 bits, size of 160 bits; and additional circular shift operation, to rectify
-weakness from SHA-0.
-\item SHA-2 designed by NSA, released by NIST in 2001. Family of functions of SHA-224, SHA-256, SHA-384, SHA-512.
-\item SHA-3 competition announced on November, 2007. Submissions accepted till October, 2008. From 64 submissions,
-that included 5 finalist, Keccak announced as winner on October 2, 2012 by NIST.
-\end{enumerate}
-\footnotetext[5]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All.
-Elsevier Science, 2008.}
+\frametitle{SHA-0}
+\begin{itemize}
+\item SHA-0 proposed by NSA in 1993, later standardised by NIST. 
+\item In 1995 Florent Chabaud and Antoine Joux, found collisions in SHA-0 with complexity of $2^{61}$.
+\item In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 out of 160 bits to be equal.
+\item Full collisions were also found, when the number of rounds for the algorithm were reduced from 80 to 62.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{SHA-1}
+\begin{itemize}
+\item In 1995, SHA-0 replaced by SHA-1, designed by NSA\footnotemark. SHA-1 had block size of 512 bits, size of 
+160 bits; and additional circular shift operation, to rectify weakness from SHA-0.
+\item In 2005, team from Shandong University found collisions on full version of SHA-1 requiring $2^{69}$ 
+operations\footnotemark.
+\end{itemize}
+\footnotetext[5]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
+\footnotetext[6]{Bruce Schneier. Sha-1 broken.
+http://www.schneier.com/blog/archives/2005/02/sha1\_broken.html, February 2005.}
+\end{frame}
+
+\begin{frame}
+\frametitle{SHA-2}
+\begin{itemize}
+\item SHA-2 was designed by NSA, and released in 2001 by NIST. Family of functions of SHA-224, SHA-256, 
+SHA-384, SHA-512.
+\item Computational operations for finding collisions in SHA-256 for 23-step was found to be around 
+$2^{11.5}$, and for 24 step was $2^{28.5}$ respectively.
+\item Computational operations for finding collisions in SHA-512 for 23-step was found to be around 
+$2^{16.5}$, and for 24 step was $2^{32.5}$ respectively\footnotemark.
+\end{itemize}
+\footnotetext[7]{Somitra Kumar Sanadhya and Palash Sarkar. New collision attacks against up to 24-
+step sha-2. In Dipanwita Roy Chowdhury, Vincent Rijmen, and Abhijit Das, editors, INDOCRYPT, volume 5365 
+of Lecture Notes in Computer Science, pages 91–103. Springer, 2008.}
+\end{frame}
+
+\begin{frame}
+\frametitle{SHA-3}
+\begin{itemize}
+\item NIST announced competition for choosing SHA-3 on November, 2007. Entries accepted till October, 2008.
+\item 51 candidates from 64 submissions, were accepted for first round on December 9, 2008.
+\item Out of 5 finalists, on October 2, 2012; Keccak was announced winner amongst other four finalist, which
+included BLAKE and Gr{\o}stl.
+\item Keccak was chosen for large security margin, flexibility, and efficient hardware implementation.
+\end{itemize}
 \end{frame}
 
 \section{SHA-3 finalists}
 
 \subsection{BLAKE}
+
+\begin{frame}
+\frametitle{Properties of BLAKE hash function}
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ *{6}{c} } \hline
+      Algorithm & Word & Message    & Block & Digest & Salt \\ \hline
+      BLAKE-224 & 32   & $< 2^{64}$  & 512   & 224    & 128  \\
+      BLAKE-256 & 32   & $< 2^{64}$  & 512   & 256    & 128  \\
+      BLAKE-384 & 64   & $< 2^{128}$ & 1024  & 384    & 256  \\
+      BLAKE-512 & 64   & $< 2^{128}$ & 1024  & 512    & 256  \\ \hline
+    \end{tabular}
+    \caption{Specification of available input, output, block and salt sizes for various BLAKE hash functions,
+    size in bits. \footnotemark}
+  \end{center}
+\end{table}
+\footnotetext[9]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+http://www.131002.net/blake/blake.pdf, April 2012.}
+\end{frame}
 
 \begin{frame}
 \frametitle{BLAKE construction}
@@ -136,10 +190,22 @@ Merkle-Damg\.{a}rd function.
   \caption{Local wide construction of BLAKE's compression function\footnotemark}
   \label{fig:seq}
 \end{figure}
-\footnotetext[6]{Eli Biham and Orr Dunkelman. A framework for iterative hash functions - haifa.
+\footnotetext[10]{Eli Biham and Orr Dunkelman. A framework for iterative hash functions - haifa.
 Cryptology ePrint Archive, Report 2007/278, 2007.}
-\footnotetext[7]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+\footnotetext[11]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Padding rule}
+\begin{itemize}
+\item For variant producing digest size 224, 256 input message is padded with '1' followed by '0' bits,
+so that length is 447 modulo 512. Followed by bit '1', and 64 bit unsigned big endian representation 
+of block length. 
+\item For variant producing digest size 384, 512 input message is padded by bit '1', followed by '0' bits
+till length is 895 modulo 1024. Followed by bit '1', and 128 bit unsigned big endian representation of 
+block length in bits.
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -155,11 +221,108 @@ http://www.131002.net/blake/blake.pdf, April 2012.}
   \caption[BLAKE Compression]{BLAKE Compression procedure\footnotemark}
   \label{alg:seq}
   \end{algorithm}
-  \footnotetext[8]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+  \footnotetext[12]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
 \end{frame}
 
+\begin{frame}
+\frametitle{Initialization of the state}
+\begin{center}
+$\begin{pmatrix} v_{0} & v_{1} & v_{2} & v_{3} \\ v_{4} & v_{5} & v_{6} & v_{7} \\
+                 v_{8} & v_{9} & v_{10} & v_{11} \\ v_{12} & v_{13} & v_{14} & v_{15}\end{pmatrix} 
+\gets
+\begin{pmatrix} h_{0} & h_{1} & h_{2} & h_{3} \\ h_{4} & h_{5} & h_{6} & h_{7} \\
+   s_{0} \oplus c_{0} & s_{1} \oplus c_{1} & s_{2} \oplus c_{2} & s_{3} \oplus c_{3} \\ 
+   t_{0} \oplus c_{4} & t_{0} \oplus c_{5} & t_{1} \oplus c_{6} & t_{1} \oplus c_{7} \end{pmatrix}$
+\end{center}
+After initialization the matrix is operated for 14 or 16 rounds depending on version, on the following 
+groups represented as $G_{i}(a, b, c, d)$
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{3}{c}}
+    $ G_{0}(v_{0}, v_{8}, v_{12})$ & $G_{1}(v_{1}, v_{5}, v_{9}, v_{13})$ & $G_{2}(v_{2}, v_{6}, v_{10}, v_{14})$ \\
+    $G_{3}(v_{3}, v_{7}, v_{11}, v_{15}) $ & $G_{4}(v_{0}, v_{5}, v_{10}, v_{15})$ & $G_{5}(v_{1}, v_{6}, v_{11}, v_{12})$ \\
+    $G_{6}(v_{2}, v_{7}, v_{8}, v_{13})$ & $G_{7}(v_{3}, v_{4}, v_{9}, v_{14})$
+    \end{tabular}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{BLAKE permutation operation for 224 and 256 variant}
+$a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)}) $ \\
+$d \gets (d \oplus a) \ggg 16$ \\
+$c \gets c + d$ \\
+$b \gets (b \oplus c) \ggg 12$ \\
+$a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)})$ \\
+$d \gets (d \oplus a) \ggg 8$ \\
+$c \gets c + d$ \\
+$b \gets (b \oplus c) \ggg 7$ \\ 
+\noindent\rule{10cm}{0.4pt} \\
+\vspace{1mm}
++ addition in modulo $2^{32}$ \\
+$\ggg k$ rotate to right by k bits \\
+$\oplus$ bitwise XOR \\
+r permutation round \\
+i is from $G_{i}$
+\end{frame}
+
+\begin{frame}
+\frametitle{Permutation round selection, $\sigma$ function\footnotemark}
+  \resizebox{\linewidth}{!} {
+      %\begin{table}
+        %\begin{center}
+          \begin{tabular}{ c| *{16}{c}} \hline
+            $\sigma_{0}$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 \\
+            $\sigma_{1}$ & 14 & 10 & 4  & 8  & 9  & 15 & 13 & 6  & 1  & 12 & 0  & 2  & 11 & 7  & 5  & 3  \\
+            $\sigma_{2}$ & 11 & 8  & 12 & 0  & 5  & 2  & 15 & 13 & 10 & 14 & 3  & 6  & 7  & 1  & 9  & 4  \\
+            $\sigma_{3}$ & 7  & 9  & 3  & 1  & 13 & 12 & 11 & 14 & 2  & 6  & 5  & 10 & 4  & 0  & 15 & 8  \\
+            $\sigma_{4}$ & 9  & 0  & 5  & 7  & 2  & 4  & 10 & 15 & 14 & 1  & 11 & 12 & 6  & 8  & 3  & 13 \\
+            $\sigma_{5}$ & 2  & 12 & 6  & 10 & 0  & 11 & 8  & 3  & 4  & 13 & 7  & 5  & 15 & 14 & 1  & 9  \\
+            $\sigma_{6}$ & 12 & 5  & 1  & 15 & 14 & 13 & 4  & 10 & 0  & 7  & 6  & 3  & 9  & 2  & 8  & 11 \\
+            $\sigma_{7}$ & 13 & 11 & 7  & 14 & 12 & 1  & 3  & 9  & 5  & 0  & 15 & 4  & 8  & 6  & 2  & 10 \\
+            $\sigma_{8}$ & 6  & 15 & 14 & 9  & 11 & 3  & 0  & 8  & 12 & 2  & 13 & 7  & 1  & 4  & 10 & 5  \\
+            $\sigma_{9}$ & 10 & 2  & 8  & 4  & 7  & 6  & 1  & 5  & 15 & 11 & 9  & 14 & 3  & 12 & 13 & 0  \\ \hline
+          \end{tabular}
+          %\caption{Permutations used from 0 to 15, and are modulo 10\footnotemark}
+        %\end{center}
+      %\end{table}
+  }
+  \footnotetext[13]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+http://www.131002.net/blake/blake.pdf, April 2012.}
+\end{frame}
+
+\begin{frame}
+\frametitle{BLAKE permutation operation for 384 and 512 variant}
+$a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)})$ \\
+$d \gets (d \oplus a) \ggg 32$ \\
+$c \gets c + d$ \\
+$b \gets (b \oplus c) \ggg 25$ \\
+$a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)})$ \\
+$d \gets (d \oplus a) \ggg 16$ \\
+$c \gets c + d$ \\
+$b \gets (b \oplus c) \ggg 11$ \\
+\noindent\rule{10cm}{0.4pt} \\
+\vspace{1mm}
++ addition in modulo $2^{64}$ \\
+\end{frame}
+
+\begin{frame}
+\frametitle{Finalization}
+$h'_{0} \gets h_{0} \oplus s_{0} \oplus v_{0} \oplus v_{8}$ \\
+$h'_{1} \gets h_{1} \oplus s_{1} \oplus v_{1} \oplus v_{9}$ \\
+$h'_{2} \gets h_{2} \oplus s_{2} \oplus v_{2} \oplus v_{10}$ \\
+$h'_{3} \gets h_{3} \oplus s_{3} \oplus v_{3} \oplus v_{11}$ \\
+$h'_{4} \gets h_{4} \oplus s_{0} \oplus v_{4} \oplus v_{12}$ \\
+$h'_{5} \gets h_{5} \oplus s_{1} \oplus v_{5} \oplus v_{13}$ \\
+$h'_{6} \gets h_{6} \oplus s_{2} \oplus v_{6} \oplus v_{14}$ \\
+$h'_{7} \gets h_{7} \oplus s_{3} \oplus v_{7} \oplus v_{15}$ \\
+\end{frame}
+
 \subsection{Gr{\o}stl}
+
+\begin{frame}
+\end{frame}
 
 \subsection{Keccak}
 
