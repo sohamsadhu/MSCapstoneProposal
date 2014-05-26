@@ -17,7 +17,7 @@ from a weak key schedule. \cite{00019}
   processed sequentially. The initial l-bit chaining value $h_{0}$ = iv is defined, and the blocks $m_{i}$ are
   processed as 
 
-  \begin{center}$ h_{i}\gets f(h_{i-1}, m_{i}) for i = 1,\ldots, t.$\end{center}
+  \begin{center}$ h_{i}\gets f(h_{i-1}, m_{i})\thickspace for \thickspace i = 1,\ldots, t.$\end{center}
 
   Thus $f$ consumes two $l-bits$ input, and maps to output of $l-bits$. For variants up to 256 bits output, size of $l$ is
   512 bits. And for digest sizes larger than 256 bits, $l$ is 1024 bits.
@@ -96,7 +96,7 @@ from a weak key schedule. \cite{00019}
         384 & 00 $\dots$ 00 01 80 \\
         512 & 00 $\dots$ 00 02 00 \\ \hline
       \end{tabular}
-    \caption{Above are initial values for Gr{\o}stl-n function. The numbers on left denote digest size in bits.\cite{00019}}
+    \caption{Initial values for Gr{\o}stl-n function. The numbers on left denote digest size in bits.\cite{00019}}
     \end{center}
   \end{table}
 
@@ -158,7 +158,7 @@ from a weak key schedule. \cite{00019}
 
     and 
 
-    $Q_{512}: C[i] = \begin{bmatrix}
+    $Q_{1024}: C[i] = \begin{bmatrix}
       ff     & ff     & ff     & ff     & ff     & ff     & ff     & ff     \dots ff    \\
       ff     & ff     & ff     & ff     & ff     & ff     & ff     & ff     \dots ff    \\
       ff     & ff     & ff     & ff     & ff     & ff     & ff     & ff     \dots ff    \\
