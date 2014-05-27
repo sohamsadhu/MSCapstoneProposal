@@ -488,6 +488,8 @@ candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
 \begin{frame}
 \frametitle{Mix byte}
 $ A \gets B \times A$ \\
+B is a finite field over $\mathbb{F}_{256}$, 
+defined over $\mathbb{F}_{2}$ by polynomial $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$. \\
 \vspace{3mm}
 $B = \begin{bmatrix}
 02 & 02 & 03 & 04 & 05 & 03 & 05 & 07 \\
@@ -502,5 +504,154 @@ $B = \begin{bmatrix}
 \end{frame}
 
 \subsection{Keccak}
+
+\begin{frame}
+\frametitle{Keccak sponge construction}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.5]{keccakspongeconstruction.jpg}
+  \end{center}
+  \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[21]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. Cryptographic
+sponge functions. http://sponge.noekeon.org/CSF-0.1.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Keccak state}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.25]{keccakstateterminology.jpg}
+  \end{center}
+  \caption{Keccak state terminology $Z = Sponge[f, pad, r](M, l)$\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[22]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Padding and permutations}
+\begin{itemize}
+\item The message is padded with $1 0^{*}1$ to make it multiple of the block length.
+\item $R = \iota \circ \chi \circ \pi \circ \rho \circ \theta$
+\item The permutation round R is repeated for 12 + 2l times, where l is the lane length. The default
+capacity size is 576.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Contents of Keccak permutation round}
+\begin{align*}
+  \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
+  \rho &: a[x][y][z] & \gets & \thickspace a[x][y][z - (t + 1)(t + 2) / 2], \\
+  & & & \thickspace t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
+  \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
+  in \thickspace GF(5)^{2 \times 2}, \\
+  & & & \thickspace or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
+  \pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
+  \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
+  \chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
+  \iota &: a & \gets & \thickspace a + RC[i_{r}].
+\end{align*}
+\end{frame}
+
+\begin{frame}
+\frametitle{$\theta$ step}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.5]{keccaktheta.jpg}
+  \end{center}
+  \caption{$\theta$ applied to a single row\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[23]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{$\rho$ step}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.5]{keccakrho.jpg}
+  \end{center}
+  \caption{$\rho$ transformation applied to lanes\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[24]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{$\pi$ step}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.35]{keccakpi.jpg}
+  \end{center}
+  \caption{$\pi$ applied to a single slice\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[25]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{$\chi$ step}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.35]{keccakchi.jpg}
+  \end{center}
+  \caption{$\chi$ applied to a single row.\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[26]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{$\iota$ step}
+\begin{itemize}
+\item The round constants are given by
+\begin{center}$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$,\end{center}
+\item $rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$]
+\end{itemize}
+\end{frame}
+
+\section{Related work, hypothesis based on hill climbing}
+
+\subsection{Rotational cryptanalysis of reduced round Keccak}
+
+\begin{frame}
+\frametitle{Rotational cryptanalysis in ARX}
+\begin{itemize}
+\item Rotational cryptanalysis that studies propogation of rotational pair throug a primitive, is used on 
+reduced version of Threefish, a core of Skein\footnotemark.
+\item Pair of two 1600-bit states $(A, A^{\leftarrow})$ are called rotational pair when each lane in 
+state $A^{\leftarrow}$ is created by bitwise rotation of operation of corresponding lane in state $A$
+\footnotemark.
+\end{itemize}
+\footnotetext[27]{Dmitry Khovratovich and Ivica Nikoli. Rotational cryptanalysis of arx. In Seokhie
+Hong and Tetsu Iwata, editors, Fast Software Encryption, volume 6147 of Lecture
+Notes in Computer Science, pages 333–346. Springer Berlin Heidelberg, 2010.}
+\footnotetext[28]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Definitions}
+\begin{enumerate}
+\item Set $S_n$ is a set of $2^{1600}$ pairs of states which are created by an operation of KECCAK-f[1600] 
+applied to all possible rotational pairs.
+\item Probability $p^{n}_{(x, y, z)}$ is the probability for pair of states $(A, A^{\leftarrow})$ randomly 
+selected from the set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$.
+\item Given probability distribution $\mathcal{D}_n$ that assigns probability $\frac{1}{n!}$ for each 
+$p \in \mathcal{P}_n$. A permutation is random, if chosen from $\mathcal{D}_n$.
+\end{enumerate}
+\end{frame}
+
+\subsection{Hill climbing}
+\subsection{Other search algorithms}
+\subsection{Hypothesis}
 
 \end{document}

@@ -1,12 +1,5 @@
 \chapter{Related work and hypothesis based on Hill Climbing to find near collisions}
 
-%% Obviously you need to delete these lines when you have written up your text
-%\begin{itemize}
-%\item{} How you designed your solution
-%\item{} Rationale for decisions
-%\item{} Compare and contrast design with other approaches (related work) 
-%\end{itemize}
-
 \section{Rotational cryptanalysis of round-reduced KECCAK}
 
 Rotational cryptanalysis\cite{00041} is used to to follow relation between states $(A, A^{\leftarrow})$ of 
@@ -55,13 +48,13 @@ Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per de
 $P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$ \cite{00022}
 \end{lem}
 
-A 4 round rotational is built, and found that some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
+A 4 round rotational was built, and found that some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
 random samples of rotational pairs are ran on 4 round KECCAK-f[1600]. The mean from that sample is 5682 which is beyond
 range from mean of $\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5. Thus demonstrating a distinguisher for 4 rounds.
 After 4 rounds all $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended. But instead probability
 that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ and 
 $(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution $\mathcal{B}(10000, 0.5)$.
-Values for $p^63_{(2, 1, 37)}$ and $p^63_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
+Values for $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
 probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
 (1 - p^n_{(x, y, z)})$ which comes to 0.499024. The $\rho$ and $\pi$ steps in Keccak only change the position of the
 probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_{(2, 0, 16)}, A^{\leftarrow}_{(2, 0, 17)})$.

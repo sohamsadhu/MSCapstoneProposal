@@ -600,7 +600,7 @@ structure rather than linear strings, or 2 dimensional arrays.
   The $x, y$ coordinates are taken modulo 5, while the $z$ coordinate is taken as modulo $w$.  \cite{00015}
 
   There are five steps, for a permutation round R. 
-  \begin{center}$R = \zeta \circ \chi \circ \pi \circ \rho \circ \theta$\end{center}
+  \begin{center}$R = \iota \circ \chi \circ \pi \circ \rho \circ \theta$\end{center}
   The permutations are repeated for $12 + 2l$ times, with $l$ dependent on the variant chosen. \\
   \begin{align*}
     \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
@@ -612,7 +612,7 @@ structure rather than linear strings, or 2 dimensional arrays.
     \pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
     \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
     \chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
-    \zeta &: a & \gets & \thickspace a + RC[i_{r}].
+    \iota &: a & \gets & \thickspace a + RC[i_{r}].
   \end{align*}
 
   The addition and the multiplications are in Galois field GF(2), except for the round constants $RC[i_{r}]$. The round constants 

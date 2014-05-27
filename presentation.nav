@@ -74,8 +74,35 @@
 \headcommand {\beamer@framepages {30}{30}}
 \headcommand {\slideentry {2}{2}{11}{31/31}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {31}{31}}
-\headcommand {\beamer@partpages {1}{31}}
-\headcommand {\beamer@subsectionpages {32}{31}}
-\headcommand {\beamer@sectionpages {12}{31}}
-\headcommand {\beamer@documentpages {31}}
-\headcommand {\def \inserttotalframenumber {31}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{32}{Keccak}}\headcommand {\beamer@subsectionpages {21}{31}}
+\headcommand {\slideentry {2}{3}{1}{32/32}{Keccak}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\slideentry {2}{3}{2}{33/33}{Keccak}{0}}
+\headcommand {\beamer@framepages {33}{33}}
+\headcommand {\slideentry {2}{3}{3}{34/34}{Keccak}{0}}
+\headcommand {\beamer@framepages {34}{34}}
+\headcommand {\slideentry {2}{3}{4}{35/35}{Keccak}{0}}
+\headcommand {\beamer@framepages {35}{35}}
+\headcommand {\slideentry {2}{3}{5}{36/36}{Keccak}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\slideentry {2}{3}{6}{37/37}{Keccak}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\slideentry {2}{3}{7}{38/38}{Keccak}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\slideentry {2}{3}{8}{39/39}{Keccak}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {2}{3}{9}{40/40}{Keccak}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\sectionentry {3}{Related work, hypothesis based on hill climbing}{41}{Related work, hypothesis based on hill climbing}{0}}
+\headcommand {\beamer@sectionpages {12}{40}}
+\headcommand {\beamer@subsectionpages {32}{40}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{41}{Rotational cryptanalysis of reduced round Keccak}}\headcommand {\beamer@subsectionpages {41}{40}}
+\headcommand {\slideentry {3}{1}{1}{41/41}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\slideentry {3}{1}{2}{42/42}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\beamer@partpages {1}{42}}
+\headcommand {\beamer@subsectionpages {43}{42}}
+\headcommand {\beamer@sectionpages {41}{42}}
+\headcommand {\beamer@documentpages {42}}
+\headcommand {\def \inserttotalframenumber {42}}
