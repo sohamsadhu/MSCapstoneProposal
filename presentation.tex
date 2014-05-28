@@ -1,13 +1,3 @@
-% This text is proprietary.
-% It's a part of presentation made by myself.
-% It may not used commercial.
-% The noncommercial use such as private and study is free
-% May 2007
-% Author: Sascha Frank 
-% University Freiburg 
-% www.informatik.uni-freiburg.de/~frank/
-%
-% 
 \documentclass{beamer}
 \setbeamertemplate{navigation symbols}{}
 
@@ -650,8 +640,276 @@ $p \in \mathcal{P}_n$. A permutation is random, if chosen from $\mathcal{D}_n$.
 \end{enumerate}
 \end{frame}
 
+\begin{frame}
+\frametitle{Probability distribution and distinguisher}
+\begin{itemize}
+\item Random permutation $p^n_{(x, y, z)}$ should follow binomial distribution $\mathcal{B}(t, s)$ that is equal
+to 0.5. Experimental values are supposed to fall within range of $0.5t\pm2\sigma$ with 95\% confidence interval.
+\item A 4 round rotational for Keccak was built, and 10,000 samples selected from it. $p^{54}_{(4, 4, 14)} = 0.5625$
+had highest deviation, and the mean was 5682. Mean should not have exceeded from range of 
+$\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5.
+\item After four rounds however, $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Extend probabilities beyond 4 round Keccak}
+\begin{enumerate}
+\item Find probability that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ 
+and $(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution 
+$\mathcal{B}(10000, 0.5)$.
+\item Bit wise operations like NOT, or rotation in Keccak do not affect the probabilities, but AND and XOR do.
+\item AND operation $P_{out} = \frac{1}{2}(p_{a} + p_{b} - p_{a} p_{b})$ \footnotemark
+\item XOR operation $P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$
+\end{enumerate}
+\footnotetext[29]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Extending probability beyond 4 rounds}
+\begin{itemize}
+\item $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round.
+\item Probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
+(1 - p^n_{(x, y, z)})$ which is around 0.499024.
+\item To observe bias generate 403,000,000 samples obtained by selecting $\in$ error at 0.05 in Chernoff inequality \\
+\[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Extending probability beyond 4 rounds}
+  \begin{algorithm}[H]
+  \begin{algorithmic}[1]
+    \State Generate 403,000,000 rotational pairs.
+    \ForAll{403,000,000 rotational pairs}
+      \State Run Keccak for 5 rounds on states $A$ and $A^{\leftarrow}$.
+      \If{$(A_{(1, 2, 43)} \oplus A^{\leftarrow}_{(1, 2, 44)} \oplus A_{(2, 0, 16)} \oplus A^{\leftarrow}_{(2, 0, 17)} = 0)$}
+      \State mean := mean + 1
+      \EndIf
+    \EndFor
+    \State \Return mean
+  \end{algorithmic}
+  \caption[Find pair probabililty]{Find pair probabililty\footnotemark}
+  \label{alg:seq}
+  \end{algorithm}
+\footnotetext[30]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Distinguisher Keccak and fin preimage}
+\begin{enumerate}
+\item Mean for $\mathcal{B}(403000000, 0.5)$ with the standard deviation has range of 201,500,000$\pm$2.10037, 
+but experimentally from above procedure it comes to around 201,450,503.
+\item For primage, unknown message with cyclical property like 4 0's followed by 4 1's, alternatively of 512 bits
+is chosen. There are 256 possible message for rotational counterpart.
+\item A rotational counterpart of the preimage is searched, that reduces complexity of random search.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Preimage for 3 rounds of Keccak \footnotemark}
+\begin{algorithmic}[1]
+  \State Guess first 8 lanes of $A^{\leftarrow}$
+  \State Run Keccak-f[1600] for 3 rounds on state $A^{\leftarrow}$
+  \For {for n:= 0 to n \textless 64}
+    \State candidate := true
+    \For{10 sets of cordinates $(x, y, z)$ being on list created on precomputation}
+      \If{$(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z)})$}
+        \State candidate := false
+      \EndIf
+      \If{$(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z)} \neq A^{\leftarrow}_{(x, y, z)})$}
+        \State candidate := false
+      \EndIf
+    \EndFor
+    \If{ candidate = true }
+      \State Rotate the guessed state by n bits
+      \State Verify input to Keccak, that runs for 3 rounds.
+    \EndIf
+  \EndFor
+\end{algorithmic}
+\footnotetext[32]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+\end{frame}
+
+\begin{frame}
+\frametitle{How the search is better than random search}
+\begin{enumerate}
+\item For guessing 512 bits, from 64 rotational pairs, the probability for guessing rotational counterpart
+is $A^{\leftarrow}$ is $2^{-512} \cdot 64 = 2^{-506}$.
+\item There are $2^{256}$ messages of the cyclic pattern, and 10 sets of $(x, y, z)$ cordinates for each of
+the rotational number.
+\item The probability of the candidate having $p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. 
+So $2^{512} / 2^{10} = 2^{502}$ number of checks are required at most.
+\item You can extend this to 4 rounds of Keccak, but will have to drop the $\iota$, round constant addition
+round, since it makes $p^n_{(x, y, z)} \neq 0, 1$.
+\end{enumerate}
+\end{frame}
+
 \subsection{Hill climbing}
+
+\begin{frame}
+\frametitle{Table of effort to find near collisions with random search}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | } \hline
+      $\epsilon / n $            & Complexity $( \approx )$ \\ \hline
+      128/256, 256/512, 512/1024 & $2^{4}$ \\ \hline
+      151/256, 287/512, 553/1024 & $2^{10}$ \\ \hline
+      166/256, 308/512, 585/1024 & $2^{20}$ \\ \hline
+      176/256, 323/512, 606/1024 & $2^{30}$ \\ \hline
+      184/256, 335/512, 623/1024 & $2^{40}$ \\ \hline
+      191/256, 345/512, 638/1024 & $2^{50}$ \\ \hline
+      197/256, 354/512, 651/1024 & $2^{60}$ \\ \hline
+    \end{tabular}
+    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search
+    \footnotemark}
+  \end{center}
+\end{table}
+\footnotetext[34]{Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
+fugue, hamsi and jh. Second SHA-3 conference, August 2010. 
+http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions found with hill climbing}
+\begin{enumerate}
+\item Near collisions in which more than 75\% of the bits were same for two different messages, were found 
+for reduced rounds of BLAKE-32, Hamsi-256 and JH.
+\item $\epsilon / n $ bit near collision for hash function for two messages $M_{1}$ and $M_{2}$, where 
+$M_{1} \neq M_{2}$ is defined as $HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $.
+\item Hill Climbing starts with a random candidate, and then choosing a random successor that has a better
+fit to the solution. Ideally $HW( h(M, CV) \oplus h(M, CV + \delta) ) = n / 2 $ where $\delta$ is n-bit 
+vector with small Hamming weight.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{How hill climbing works}
+\begin{enumerate}
+\item Hill climbing algorithm will be to minimize the function 
+$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$.
+\item CV is chosen as any random chaining value. Then the set of k-bit neighbours for the CV are created
+$S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$.
+\item Hill climbing is used to obtain k-optimum condition from k-bit neighbours 
+$f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{fragile}
+\frametitle{Hill Climbing algorithm}
+\begin{algorithm}[H]
+  \begin{algorithmic}[1]
+    \State Randomly select CV
+    \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
+    \State \While {(CV is not k-opt)}
+    \State CV = x such that $x \in S^{k}_{CV}$ with $f(x) < f(best)$
+    \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
+    \State \EndWhile
+    \State \Return (CV, $f_{best}$)
+  \end{algorithmic}
+  \caption{Hill Climbing algorithm ($M_{1}, M_{2}, k$)}
+\end{algorithm}
+\end{frame}
+
 \subsection{Other search algorithms}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Simulated annealing}
+  \begin{algorithmic}[1]
+    \Function {Simulated-annealing}{$M_{1}, M_{2}, CV,$ schedule}
+      \State current $\gets \thickspace CV$
+      \For { t = 1 to $\infty$ }
+        \State T $\gets$ schedule( t )
+        \If { T = 0}
+          \State \Return current
+        \EndIf
+        \State next $\gets$ a randomly selected successor from set $S^{k}_{current}$
+        \State $\Delta E \gets  \thickspace f_{M_{1}, M_{2}}(current) - f_{M_{1}, M_{2}}(next)$
+        \If { $\Delta$E $>$ 0 }
+          \State current $\gets$ next
+        \Else
+          \State current $\gets$ next, with probability $e^{\Delta E / T}$
+        \EndIf
+      \EndFor
+    \EndFunction
+  \end{algorithmic}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Tabu search}
+  \begin{algorithmic}[1]
+    \Function {Tabu-search}{$TabuList_{size}, M_{1}, M_{2}, CV$}
+      \State $S_{best}$ $\gets \thickspace CV$
+      \State $TabuList \thickspace \gets$ null
+      \While {$S_{best}$ not k-opt}
+        \State CandidateList $\gets$ null
+        \State $S_{neighbourhood} \gets S^{k}_{S_{best}}$
+        \For { $S_{candidate} \in S_{best_{neighbourhood}}$}
+          \If {($\lnot$ContainsAnyFeatures( $S_{candidate}, TabuList$ ))} 
+            \State CandidateList $\gets$ $S_{candidate}$
+          \EndIf
+        \EndFor
+        \State $S_{candidate}$ $\gets$ LocateBestCandidate( CandidateList )
+        \If { Cost( $S_{candidate}$ ) $\leq$ Cost( $S_{best}$ ) }
+          \State $S_{best} \gets S_{candidate}$
+          \State $TabuList \gets$ featureDifferences$(S_{candidate}, S_{best})$
+          \While { $TabuList >TabuList_{size}$ }
+            \State DeleteFeature( $TabuList$ )
+          \EndWhile
+        \EndIf
+      \EndWhile 
+      \State \Return $S_{best}$
+    \EndFunction
+  \end{algorithmic}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Random selection}
+  \begin{algorithmic}[1]
+    \Function {Random-Selection}{$ M_{1}, M_{2}, CV,$ number\_of\_trials}
+      \State current $\gets \thickspace CV$
+      \State trial $\gets$ 0
+      \While { trial $<$ number\_of\_trials }
+        \State next $\gets$ randomly selected candidate from $S^{k}_{current}$
+        \If { $f_{M_{1}, M_{2}}(next) - f_{M_{1}, M_{2}}(current) $ }
+          \State current $\gets$ next
+        \EndIf
+      \EndWhile 
+      \State \Return current
+    \EndFunction
+  \end{algorithmic}
+\end{frame}
+
 \subsection{Hypothesis}
 
+\begin{frame}
+\frametitle{Hypothesis}
+\begin{itemize}
+\item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl. For 
+the attack algorithms hill climbing, simulated annealing, tabu search and random selection.
+\item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
+climbing and random selection.      
+\end{itemize}
+\end{frame}
+
+\section{Experiment design}
+
+\subsection{Input and output}
+
+\subsection{Chaining value and number of trials}
+
+\subsection{Demo}
+\begin{frame}
+\frametitle{Demo}
+Demo
+\end{frame}
+
+\section{Observations}
+\subsection{Average iterations}
+\subsection{Near collisions}
+
+\section{Conclusions}
+\subsection{Future work}
 \end{document}
