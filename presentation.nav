@@ -5,151 +5,209 @@
 \headcommand {\beamer@framepages {2}{2}}
 \headcommand {\slideentry {0}{0}{3}{3/3}{}{0}}
 \headcommand {\beamer@framepages {3}{3}}
-\headcommand {\sectionentry {1}{Introduction}{4}{Introduction}{0}}
-\headcommand {\beamer@sectionpages {1}{3}}
-\headcommand {\beamer@subsectionpages {1}{3}}
-\headcommand {\beamer@subsectionentry {0}{1}{1}{4}{Hash function}}\headcommand {\beamer@subsectionpages {4}{3}}
-\headcommand {\slideentry {1}{1}{1}{4/4}{Hash function}{0}}
-\headcommand {\beamer@framepages {4}{4}}
-\headcommand {\beamer@subsectionentry {0}{1}{2}{5}{Property of hash function}}\headcommand {\beamer@subsectionpages {4}{4}}
-\headcommand {\slideentry {1}{2}{1}{5/5}{Property of hash function}{0}}
-\headcommand {\beamer@framepages {5}{5}}
-\headcommand {\beamer@subsectionentry {0}{1}{3}{6}{Security model}}\headcommand {\beamer@subsectionpages {5}{5}}
-\headcommand {\slideentry {1}{3}{1}{6/6}{Security model}{0}}
+\headcommand {\slideentry {0}{0}{3}{3/4}{}{0}}
+\headcommand {\beamer@framepages {3}{4}}
+\headcommand {\slideentry {0}{0}{3}{3/5}{}{0}}
+\headcommand {\beamer@framepages {3}{5}}
+\headcommand {\sectionentry {1}{Introduction}{6}{Introduction}{0}}
+\headcommand {\beamer@sectionpages {1}{5}}
+\headcommand {\beamer@subsectionpages {1}{5}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{6}{Hash function}}\headcommand {\beamer@subsectionpages {6}{5}}
+\headcommand {\slideentry {1}{1}{1}{6/6}{Hash function}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\beamer@subsectionentry {0}{1}{4}{7}{Application}}\headcommand {\beamer@subsectionpages {6}{6}}
-\headcommand {\slideentry {1}{4}{1}{7/7}{Application}{0}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{7}{Property of hash function}}\headcommand {\beamer@subsectionpages {6}{6}}
+\headcommand {\slideentry {1}{2}{1}{7/7}{Property of hash function}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\beamer@subsectionentry {0}{1}{5}{8}{Standards and SHA-3 competition}}\headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\slideentry {1}{5}{1}{8/8}{Standards and SHA-3 competition}{0}}
+\headcommand {\beamer@subsectionentry {0}{1}{3}{8}{Security model}}\headcommand {\beamer@subsectionpages {7}{7}}
+\headcommand {\slideentry {1}{3}{1}{8/8}{Security model}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {1}{5}{2}{9/9}{Standards and SHA-3 competition}{0}}
+\headcommand {\beamer@subsectionentry {0}{1}{4}{9}{Application}}\headcommand {\beamer@subsectionpages {8}{8}}
+\headcommand {\slideentry {1}{4}{1}{9/9}{Application}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {1}{5}{3}{10/10}{Standards and SHA-3 competition}{0}}
+\headcommand {\beamer@subsectionentry {0}{1}{5}{10}{Standards and SHA-3 competition}}\headcommand {\beamer@subsectionpages {9}{9}}
+\headcommand {\slideentry {1}{5}{1}{10/10}{Standards and SHA-3 competition}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\slideentry {1}{5}{4}{11/11}{Standards and SHA-3 competition}{0}}
+\headcommand {\slideentry {1}{5}{2}{11/11}{Standards and SHA-3 competition}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\sectionentry {2}{SHA-3 finalists}{12}{SHA-3 finalists}{0}}
-\headcommand {\beamer@sectionpages {4}{11}}
-\headcommand {\beamer@subsectionpages {8}{11}}
-\headcommand {\beamer@subsectionentry {0}{2}{1}{12}{BLAKE}}\headcommand {\beamer@subsectionpages {12}{11}}
-\headcommand {\slideentry {2}{1}{1}{12/12}{BLAKE}{0}}
+\headcommand {\slideentry {1}{5}{3}{12/12}{Standards and SHA-3 competition}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\slideentry {2}{1}{2}{13/13}{BLAKE}{0}}
+\headcommand {\slideentry {1}{5}{4}{13/13}{Standards and SHA-3 competition}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\slideentry {2}{1}{3}{14/14}{BLAKE}{0}}
+\headcommand {\sectionentry {2}{SHA-3 finalists}{14}{SHA-3 finalists}{0}}
+\headcommand {\beamer@sectionpages {6}{13}}
+\headcommand {\beamer@subsectionpages {10}{13}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{14}{BLAKE}}\headcommand {\beamer@subsectionpages {14}{13}}
+\headcommand {\slideentry {2}{1}{1}{14/14}{BLAKE}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\slideentry {2}{1}{4}{15/15}{BLAKE}{0}}
+\headcommand {\slideentry {2}{1}{2}{15/15}{BLAKE}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\slideentry {2}{1}{5}{16/16}{BLAKE}{0}}
+\headcommand {\slideentry {2}{1}{3}{16/16}{BLAKE}{0}}
 \headcommand {\beamer@framepages {16}{16}}
-\headcommand {\slideentry {2}{1}{6}{17/17}{BLAKE}{0}}
+\headcommand {\slideentry {2}{1}{4}{17/17}{BLAKE}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\slideentry {2}{1}{7}{18/18}{BLAKE}{0}}
+\headcommand {\slideentry {2}{1}{5}{18/18}{BLAKE}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\slideentry {2}{1}{8}{19/19}{BLAKE}{0}}
+\headcommand {\slideentry {2}{1}{6}{19/19}{BLAKE}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\slideentry {2}{1}{9}{20/20}{BLAKE}{0}}
+\headcommand {\slideentry {2}{1}{7}{20/20}{BLAKE}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\beamer@subsectionentry {0}{2}{2}{21}{Gr{\o }stl}}\headcommand {\beamer@subsectionpages {12}{20}}
-\headcommand {\slideentry {2}{2}{1}{21/21}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{1}{8}{21/21}{BLAKE}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\slideentry {2}{2}{2}{22/22}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{1}{9}{22/22}{BLAKE}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\slideentry {2}{2}{3}{23/23}{Gr{\o }stl}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{23}{Gr{\o }stl}}\headcommand {\beamer@subsectionpages {14}{22}}
+\headcommand {\slideentry {2}{2}{1}{23/23}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {23}{23}}
-\headcommand {\slideentry {2}{2}{4}{24/24}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{2}{24/24}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {24}{24}}
-\headcommand {\slideentry {2}{2}{5}{25/25}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{3}{25/25}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {25}{25}}
-\headcommand {\slideentry {2}{2}{6}{26/26}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{4}{26/26}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {26}{26}}
-\headcommand {\slideentry {2}{2}{7}{27/27}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{5}{27/27}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {27}{27}}
-\headcommand {\slideentry {2}{2}{8}{28/28}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{6}{28/28}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {28}{28}}
-\headcommand {\slideentry {2}{2}{9}{29/29}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{7}{29/29}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\slideentry {2}{2}{10}{30/30}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{8}{30/30}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {30}{30}}
-\headcommand {\slideentry {2}{2}{11}{31/31}{Gr{\o }stl}{0}}
+\headcommand {\slideentry {2}{2}{9}{31/31}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {31}{31}}
-\headcommand {\beamer@subsectionentry {0}{2}{3}{32}{Keccak}}\headcommand {\beamer@subsectionpages {21}{31}}
-\headcommand {\slideentry {2}{3}{1}{32/32}{Keccak}{0}}
+\headcommand {\slideentry {2}{2}{10}{32/32}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {32}{32}}
-\headcommand {\slideentry {2}{3}{2}{33/33}{Keccak}{0}}
+\headcommand {\slideentry {2}{2}{11}{33/33}{Gr{\o }stl}{0}}
 \headcommand {\beamer@framepages {33}{33}}
-\headcommand {\slideentry {2}{3}{3}{34/34}{Keccak}{0}}
+\headcommand {\beamer@subsectionentry {0}{2}{3}{34}{Keccak}}\headcommand {\beamer@subsectionpages {23}{33}}
+\headcommand {\slideentry {2}{3}{1}{34/34}{Keccak}{0}}
 \headcommand {\beamer@framepages {34}{34}}
-\headcommand {\slideentry {2}{3}{4}{35/35}{Keccak}{0}}
+\headcommand {\slideentry {2}{3}{2}{35/35}{Keccak}{0}}
 \headcommand {\beamer@framepages {35}{35}}
-\headcommand {\slideentry {2}{3}{5}{36/36}{Keccak}{0}}
+\headcommand {\slideentry {2}{3}{3}{36/36}{Keccak}{0}}
 \headcommand {\beamer@framepages {36}{36}}
-\headcommand {\slideentry {2}{3}{6}{37/37}{Keccak}{0}}
+\headcommand {\slideentry {2}{3}{4}{37/37}{Keccak}{0}}
 \headcommand {\beamer@framepages {37}{37}}
-\headcommand {\slideentry {2}{3}{7}{38/38}{Keccak}{0}}
+\headcommand {\slideentry {2}{3}{5}{38/38}{Keccak}{0}}
 \headcommand {\beamer@framepages {38}{38}}
-\headcommand {\slideentry {2}{3}{8}{39/39}{Keccak}{0}}
+\headcommand {\slideentry {2}{3}{6}{39/39}{Keccak}{0}}
 \headcommand {\beamer@framepages {39}{39}}
-\headcommand {\slideentry {2}{3}{9}{40/40}{Keccak}{0}}
+\headcommand {\slideentry {2}{3}{7}{40/40}{Keccak}{0}}
 \headcommand {\beamer@framepages {40}{40}}
-\headcommand {\sectionentry {3}{Related work, hypothesis based on hill climbing}{41}{Related work, hypothesis based on hill climbing}{0}}
-\headcommand {\beamer@sectionpages {12}{40}}
-\headcommand {\beamer@subsectionpages {32}{40}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{41}{Rotational cryptanalysis of reduced round Keccak}}\headcommand {\beamer@subsectionpages {41}{40}}
-\headcommand {\slideentry {3}{1}{1}{41/41}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {2}{3}{8}{41/41}{Keccak}{0}}
 \headcommand {\beamer@framepages {41}{41}}
-\headcommand {\slideentry {3}{1}{2}{42/42}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {2}{3}{9}{42/42}{Keccak}{0}}
 \headcommand {\beamer@framepages {42}{42}}
-\headcommand {\slideentry {3}{1}{3}{43/43}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\sectionentry {3}{Related work, hypothesis based on hill climbing}{43}{Related work, hypothesis based on hill climbing}{0}}
+\headcommand {\beamer@sectionpages {14}{42}}
+\headcommand {\beamer@subsectionpages {34}{42}}
+\headcommand {\beamer@subsectionentry {0}{3}{1}{43}{Rotational cryptanalysis of reduced round Keccak}}\headcommand {\beamer@subsectionpages {43}{42}}
+\headcommand {\slideentry {3}{1}{1}{43/43}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {43}{43}}
-\headcommand {\slideentry {3}{1}{4}{44/44}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {3}{1}{2}{44/44}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {44}{44}}
-\headcommand {\slideentry {3}{1}{5}{45/45}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {3}{1}{3}{45/45}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {45}{45}}
-\headcommand {\slideentry {3}{1}{6}{46/46}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {3}{1}{4}{46/46}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {46}{46}}
-\headcommand {\slideentry {3}{1}{7}{47/47}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {3}{1}{5}{47/47}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {47}{47}}
-\headcommand {\slideentry {3}{1}{8}{48/48}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {3}{1}{6}{48/48}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {48}{48}}
-\headcommand {\slideentry {3}{1}{8}{48/49}{Rotational cryptanalysis of reduced round Keccak}{0}}
-\headcommand {\beamer@framepages {48}{49}}
-\headcommand {\slideentry {3}{1}{9}{50/50}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\slideentry {3}{1}{7}{49/49}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\beamer@framepages {49}{49}}
+\headcommand {\slideentry {3}{1}{8}{50/50}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {50}{50}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{51}{Hill climbing}}\headcommand {\beamer@subsectionpages {41}{50}}
-\headcommand {\slideentry {3}{2}{1}{51/51}{Hill climbing}{0}}
-\headcommand {\beamer@framepages {51}{51}}
-\headcommand {\slideentry {3}{2}{2}{52/52}{Hill climbing}{0}}
+\headcommand {\slideentry {3}{1}{8}{50/51}{Rotational cryptanalysis of reduced round Keccak}{0}}
+\headcommand {\beamer@framepages {50}{51}}
+\headcommand {\slideentry {3}{1}{9}{52/52}{Rotational cryptanalysis of reduced round Keccak}{0}}
 \headcommand {\beamer@framepages {52}{52}}
-\headcommand {\slideentry {3}{2}{3}{53/53}{Hill climbing}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{2}{53}{Hill climbing}}\headcommand {\beamer@subsectionpages {43}{52}}
+\headcommand {\slideentry {3}{2}{1}{53/53}{Hill climbing}{0}}
 \headcommand {\beamer@framepages {53}{53}}
-\headcommand {\slideentry {3}{2}{4}{54/54}{Hill climbing}{0}}
+\headcommand {\slideentry {3}{2}{2}{54/54}{Hill climbing}{0}}
 \headcommand {\beamer@framepages {54}{54}}
-\headcommand {\beamer@subsectionentry {0}{3}{3}{55}{Other search algorithms}}\headcommand {\beamer@subsectionpages {51}{54}}
-\headcommand {\slideentry {3}{3}{1}{55/55}{Other search algorithms}{0}}
+\headcommand {\slideentry {3}{2}{3}{55/55}{Hill climbing}{0}}
 \headcommand {\beamer@framepages {55}{55}}
-\headcommand {\slideentry {3}{3}{1}{55/56}{Other search algorithms}{0}}
-\headcommand {\beamer@framepages {55}{56}}
-\headcommand {\slideentry {3}{3}{2}{57/57}{Other search algorithms}{0}}
+\headcommand {\slideentry {3}{2}{4}{56/56}{Hill climbing}{0}}
+\headcommand {\beamer@framepages {56}{56}}
+\headcommand {\beamer@subsectionentry {0}{3}{3}{57}{Other search algorithms}}\headcommand {\beamer@subsectionpages {53}{56}}
+\headcommand {\slideentry {3}{3}{1}{57/57}{Other search algorithms}{0}}
 \headcommand {\beamer@framepages {57}{57}}
-\headcommand {\slideentry {3}{3}{2}{57/58}{Other search algorithms}{0}}
+\headcommand {\slideentry {3}{3}{1}{57/58}{Other search algorithms}{0}}
 \headcommand {\beamer@framepages {57}{58}}
-\headcommand {\slideentry {3}{3}{3}{59/59}{Other search algorithms}{0}}
+\headcommand {\slideentry {3}{3}{2}{59/59}{Other search algorithms}{0}}
 \headcommand {\beamer@framepages {59}{59}}
-\headcommand {\beamer@subsectionentry {0}{3}{4}{60}{Hypothesis}}\headcommand {\beamer@subsectionpages {55}{59}}
-\headcommand {\slideentry {3}{4}{1}{60/60}{Hypothesis}{0}}
-\headcommand {\beamer@framepages {60}{60}}
-\headcommand {\sectionentry {4}{Experiment design}{61}{Experiment design}{0}}
-\headcommand {\beamer@sectionpages {41}{60}}
-\headcommand {\beamer@subsectionpages {60}{60}}
-\headcommand {\beamer@subsectionentry {0}{4}{1}{61}{Input and output}}\headcommand {\beamer@subsectionpages {61}{60}}
-\headcommand {\beamer@subsectionentry {0}{4}{2}{61}{Chaining value and number of trials}}\headcommand {\beamer@subsectionpages {61}{60}}
-\headcommand {\beamer@subsectionentry {0}{4}{3}{61}{Demo}}\headcommand {\beamer@subsectionpages {61}{60}}
-\headcommand {\slideentry {4}{3}{1}{61/61}{Demo}{0}}
+\headcommand {\slideentry {3}{3}{2}{59/60}{Other search algorithms}{0}}
+\headcommand {\beamer@framepages {59}{60}}
+\headcommand {\slideentry {3}{3}{3}{61/61}{Other search algorithms}{0}}
 \headcommand {\beamer@framepages {61}{61}}
-\headcommand {\beamer@partpages {1}{61}}
-\headcommand {\beamer@subsectionpages {62}{61}}
-\headcommand {\beamer@sectionpages {62}{61}}
-\headcommand {\beamer@documentpages {61}}
-\headcommand {\def \inserttotalframenumber {61}}
+\headcommand {\beamer@subsectionentry {0}{3}{4}{62}{Hypothesis}}\headcommand {\beamer@subsectionpages {57}{61}}
+\headcommand {\slideentry {3}{4}{1}{62/62}{Hypothesis}{0}}
+\headcommand {\beamer@framepages {62}{62}}
+\headcommand {\sectionentry {4}{Experiment design}{63}{Experiment design}{0}}
+\headcommand {\beamer@sectionpages {43}{62}}
+\headcommand {\beamer@subsectionpages {62}{62}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{63}{Input and output}}\headcommand {\beamer@subsectionpages {63}{62}}
+\headcommand {\slideentry {4}{1}{1}{63/63}{Input and output}{0}}
+\headcommand {\beamer@framepages {63}{63}}
+\headcommand {\slideentry {4}{1}{2}{64/64}{Input and output}{0}}
+\headcommand {\beamer@framepages {64}{64}}
+\headcommand {\slideentry {4}{1}{3}{65/65}{Input and output}{0}}
+\headcommand {\beamer@framepages {65}{65}}
+\headcommand {\slideentry {4}{1}{4}{66/66}{Input and output}{0}}
+\headcommand {\beamer@framepages {66}{66}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{67}{Chaining value and number of trials}}\headcommand {\beamer@subsectionpages {63}{66}}
+\headcommand {\slideentry {4}{2}{1}{67/67}{Chaining value and number of trials}{0}}
+\headcommand {\beamer@framepages {67}{67}}
+\headcommand {\slideentry {4}{2}{2}{68/68}{Chaining value and number of trials}{0}}
+\headcommand {\beamer@framepages {68}{68}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{69}{Demo}}\headcommand {\beamer@subsectionpages {67}{68}}
+\headcommand {\slideentry {4}{3}{1}{69/69}{Demo}{0}}
+\headcommand {\beamer@framepages {69}{69}}
+\headcommand {\sectionentry {5}{Observations}{70}{Observations}{0}}
+\headcommand {\beamer@sectionpages {63}{69}}
+\headcommand {\beamer@subsectionpages {69}{69}}
+\headcommand {\slideentry {5}{0}{2}{70/70}{}{0}}
+\headcommand {\beamer@framepages {70}{70}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{71}{Average iterations}}\headcommand {\beamer@subsectionpages {70}{70}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{71}{Near collisions}}\headcommand {\beamer@subsectionpages {71}{70}}
+\headcommand {\slideentry {5}{2}{1}{71/71}{Near collisions}{0}}
+\headcommand {\beamer@framepages {71}{71}}
+\headcommand {\slideentry {5}{2}{2}{72/72}{Near collisions}{0}}
+\headcommand {\beamer@framepages {72}{72}}
+\headcommand {\slideentry {5}{2}{3}{73/73}{Near collisions}{0}}
+\headcommand {\beamer@framepages {73}{73}}
+\headcommand {\slideentry {5}{2}{4}{74/74}{Near collisions}{0}}
+\headcommand {\beamer@framepages {74}{74}}
+\headcommand {\sectionentry {6}{Conclusions}{75}{Conclusions}{0}}
+\headcommand {\beamer@sectionpages {70}{74}}
+\headcommand {\beamer@subsectionpages {71}{74}}
+\headcommand {\beamer@subsectionentry {0}{6}{1}{75}{Hypothesis validity}}\headcommand {\beamer@subsectionpages {75}{74}}
+\headcommand {\slideentry {6}{1}{1}{75/75}{Hypothesis validity}{0}}
+\headcommand {\beamer@framepages {75}{75}}
+\headcommand {\slideentry {6}{1}{2}{76/76}{Hypothesis validity}{0}}
+\headcommand {\beamer@framepages {76}{76}}
+\headcommand {\slideentry {6}{1}{3}{77/77}{Hypothesis validity}{0}}
+\headcommand {\beamer@framepages {77}{77}}
+\headcommand {\beamer@subsectionentry {0}{6}{2}{78}{Other parameters}}\headcommand {\beamer@subsectionpages {75}{77}}
+\headcommand {\slideentry {6}{2}{1}{78/78}{Other parameters}{0}}
+\headcommand {\beamer@framepages {78}{78}}
+\headcommand {\slideentry {6}{2}{2}{79/79}{Other parameters}{0}}
+\headcommand {\beamer@framepages {79}{79}}
+\headcommand {\slideentry {6}{2}{3}{80/80}{Other parameters}{0}}
+\headcommand {\beamer@framepages {80}{80}}
+\headcommand {\slideentry {6}{2}{4}{81/81}{Other parameters}{0}}
+\headcommand {\beamer@framepages {81}{81}}
+\headcommand {\beamer@subsectionentry {0}{6}{3}{82}{Future work}}\headcommand {\beamer@subsectionpages {78}{81}}
+\headcommand {\slideentry {6}{3}{1}{82/82}{Future work}{0}}
+\headcommand {\beamer@framepages {82}{82}}
+\headcommand {\sectionentry {7}{Questions}{83}{Questions}{0}}
+\headcommand {\beamer@sectionpages {75}{82}}
+\headcommand {\beamer@subsectionpages {82}{82}}
+\headcommand {\slideentry {7}{0}{2}{83/83}{}{0}}
+\headcommand {\beamer@framepages {83}{83}}
+\headcommand {\beamer@partpages {1}{83}}
+\headcommand {\beamer@subsectionpages {83}{83}}
+\headcommand {\beamer@sectionpages {83}{83}}
+\headcommand {\beamer@documentpages {83}}
+\headcommand {\def \inserttotalframenumber {83}}

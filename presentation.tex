@@ -26,7 +26,7 @@ climbing, random selection, simulated annealing and tabu search.
 \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]{Outline}
 \frametitle{Table of contents}
 \tableofcontents
 \end{frame} 
@@ -898,7 +898,77 @@ climbing and random selection.
 
 \subsection{Input and output}
 
+\begin{frame}
+\frametitle{Input}
+\begin{itemize}
+\item The seed message is "The quick brown fox jumps over the lazy dog". 20 pairs are made from the
+string, for each of the three categories start, middle and end.
+\item The pair contains the original seed message and the seed message toggled for one bit. For each
+category 20 bits are toggled. The bits are toggled at the start, middle and end of the seed string.
+\item For input string $01100010\thickspace00011000$, then in input file 1.txt; pair will be made with this seed
+string and ${\bf 1}1100010\thickspace00011000$, in file 2.txt the other  string will be 
+$0{\bf 0}100010\thickspace00011000$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Input}
+\begin{enumerate}
+\item For the middle section, the bits are toggled to either side of the middle bit, in the string. For example
+for seed string $01100010\thickspace00011000$, the file 1.txt will have seed and string 
+$0110001{\bf 1}\thickspace00011000$, and file 2.txt will have modified string as 
+$01100010\thickspace{\bf 1}0011000$.
+\item For the ending section the bit toggling starts from the least significant bits, so for seed string
+$01100010\thickspace00011000$, file 1.txt has updated string $01100010\thickspace0001100{\bf 1}$, and 
+file 2.txt have updated string $01100010\thickspace000110{\bf 1}0$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Output structure}
+\begin{enumerate}
+\item The output folder is arranged to have the results in the following way starting from the upper most
+folder 
+Output/chaining\_value/collision\_search/digest\_size/SHA3\_finalist/number\_of\_rounds/input\_category/output\_file.
+\item The results for the input message pair of the respective file are inserted to corresponding output file.
+Output for input file start/1.txt will be found in experiment parameter defined path and then start/1.txt
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Ouput file}
+\begin{enumerate}
+\item The file contains 8 parameters, 3 each for either success or failure. Success is defined as finding near 
+collision that is more than 65\% of the bits similar. The parameters are number of trials in success/failure,
+total iterations, and average iterations.
+\item The rest 2 are total iterations and average iterations. These iteration numbers are mostly useful for
+hill climbing, since iterations for other algorithms are fixed.
+\end{enumerate}
+\end{frame}
+
 \subsection{Chaining value and number of trials}
+
+\begin{frame}
+\frametitle{Number of trials and iterations}
+\begin{enumerate}
+\item The number of trials was initially kept at 128, but then increased to 256 to get more accurate numbers.
+In each trial of experiment, the chaining value is randomly selected.
+\item The iterations are the number of times that that algorithm has to loop through for its' operation. This is
+chosen, over time required since differences in algorithm implementation may skew the time taken for finding
+effectiveness of the search algorithm.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Chaining value and neighbourhood}
+\begin{enumerate}
+\item The chaining value length can be varied from 32, 64, 128, 256, 512 and 1024. We chose to do experiment
+with 32 bit chaining value, and then 64 bit chaining value.
+\item Other higher chaining value lengths were not tried, given the expensive time computation, and relatively
+less success, in finding collisions.
+\item k for k bit neighbourhood value is limited to less than equal to 2. Numbers above that are not optimal. 
+\end{enumerate}
+\end{frame}
 
 \subsection{Demo}
 \begin{frame}
@@ -907,9 +977,133 @@ Demo
 \end{frame}
 
 \section{Observations}
+
+\begin{frame}
+\frametitle{Observations on implementation}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{frame}
+
 \subsection{Average iterations}
 \subsection{Near collisions}
 
+\begin{frame}
+\frametitle{Hill climbing}
+\end{frame}
+
+\begin{frame}
+\frametitle{Simulated annealing}
+\end{frame}
+
+\begin{frame}
+\frametitle{Tabu search}
+\end{frame}
+
+\begin{frame}
+\frametitle{Random selection}
+\end{frame}
+
 \section{Conclusions}
+
+\subsection{Hypothesis validity}
+
+\begin{frame}
+\frametitle{Validity of hypothesis}
+\begin{enumerate}
+\item Both hypothesis are disproved. Keccak performs poorly for reduced rounds of 1, and 2. And
+equivalent performance to that of Gr{\o}stl and BLAKE, for rounds 3 and 4.
+\item Simulated annealing does not perform as good as hill climbing for finding collisions in
+reduced rounds of the examined algorithm.
+\item Random selection performance is almost comparable to simulated annealing.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Collision resistance in reduced rounds}
+\begin{enumerate}
+\item For round 1 in all SHA-3 examined algorithm, collisions were found in almost all instances and
+trials.
+\item For round 2, this behaviour is continued in Keccak for all collision search algorithm except tabu
+search. Thus Keccak is weaker for 2 rounds compared to BLAKE and Gr{\o}stl.
+\item For rounds 3 and 4, Keccak seems to have equivalent resistance to that of BLAKE and Gr{\o}stl.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Feasibility of collision search algorithm}
+\begin{enumerate}
+\item Hill climbing, with greedy ascent seems to be the most feasible search algorithm for finding near
+collisions, while tabu search is least feasible.
+\item Hill climbing consistently finds more collisions than any other algorithm, with less iterations.
+\item Random selection is comparable with simulated annealing, in finding near collisions in 3 selected
+hashing algorithms.
+\end{enumerate}
+\end{frame}
+
+\subsection{Other parameters}
+
+\begin{frame}
+\frametitle{Effect of digest size}
+\begin{enumerate}
+\item Collision resistance seems to be proportional to the digest size.
+\item This could be due to exponential increase in the search space, it becomes harder to find better peaks
+for the search algorithm to move on.
+\item A reason could be, that higher digest sizes have more internal state space, to execute the functions,
+thus making them more collision resistant.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Effect of number of rounds}
+\begin{enumerate}
+\item The collision resistance increases as the number of rounds is increased.
+\item No collisions are found in 256 trials, for digest sizes 384 and above; having processed more than 4
+rounds, for any of the hashing algorithms.
+\item It should be noted that for each algorithm permutation recommended permutation rounds differ. Gr{\o}stl
+has least number of permutation round, while Keccak has most of the permutation round.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Chaining value length}
+\begin{enumerate}
+\item The effort to find collision, rises asymptotically for chaining value lengths.
+\item Smaller chaining value lengths, like 32 bits are more effective in finding collision, than 64 bit
+chaining value.
+\item Smaller chaining values, have smaller neighbourhoods to choose from thus increasing the feasibility.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bit differences in particular position}
+\begin{enumerate}
+\item On whole collision resistance is agnostic to bit difference in any specific position.
+\item All the 3 algorithms inspected here with search algorithms, show little variation or bias, in finding
+collisions based on where the bit is updated.
+\item Teh diffusion property seems to hold uniformly for all the 3 hashing algorithms.
+\end{enumerate}
+\end{frame}
+
 \subsection{Future work}
+
+\begin{frame}
+\frametitle{Future work}
+\begin{enumerate}
+\item The experiment can be repeated with Skein and JH, other SHA-3 finalist alongwith Keccak.
+\item The state size can be reduced and experimented with.
+\item Other parameters could manipulated could be, decrease digest size but increase rounds.
+\item Instead of benchmark at 65\% bits match for near collision, try for more exacting match
+for collisions.
+\item Try to see a relationship between chaining values, if possible.
+\end{enumerate}
+\end{frame}
+
+\section{Questions}
+
+\begin{frame}
+\frametitle{Questions}
+Questions
+\end{frame}
+
 \end{document}
