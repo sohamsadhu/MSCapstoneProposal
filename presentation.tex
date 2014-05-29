@@ -5,6 +5,7 @@
 \usepackage{algorithm}
 \usepackage{float}
 \usepackage{algpseudocode}
+\usepackage{hyperref}
 
 \begin{document}
 \title{Evaluation of hill climbing, simulated annealing, tabu search and random selection: search algorithms
@@ -1081,7 +1082,7 @@ chaining value.
 \item On whole collision resistance is agnostic to bit difference in any specific position.
 \item All the 3 algorithms inspected here with search algorithms, show little variation or bias, in finding
 collisions based on where the bit is updated.
-\item Teh diffusion property seems to hold uniformly for all the 3 hashing algorithms.
+\item The diffusion property seems to hold uniformly for all the 3 hashing algorithms.
 \end{enumerate}
 \end{frame}
 
@@ -1099,11 +1100,37 @@ for collisions.
 \end{enumerate}
 \end{frame}
 
-\section{Questions}
+\section{Acknowledgements and questions}
+
+\subsection{Acknowledgement}
+
+\begin{frame}
+\frametitle{Acknowledgements}
+\begin{itemize}
+\item Thanks to redditors \href{"http://www.reddit.com/user/p1mrx"}{p1mrx} and 
+\href{"http://www.reddit.com/user/deejaydarvin"}{deejaydarvin}, and crypto stack exchange user 
+\href{"http://crypto.stackexchange.com/users/8050/richie-frame"}{Richie Frame} for explanation of bit/byte 
+ordering in Keccak.
+\item Crypto stack exchange user \href{"http://crypto.stackexchange.com/users/555/fgrieu"}{fgrieu} for help
+in mix byte implementation in Gr{\o}stl.
+\item \href{"http://www.seanet.com/~bugbee"}{Larry Bugbee} for fixing up his 
+\href{http://www.seanet.com/~bugbee/crypto/blake/}{BLAKE Python implementation}, which I used as reference 
+for my Java implementation.
+\item \href{"http://stackoverflow.com/users/472109/geoffrey-de-smet"}{Geoffrey De Smet} for 
+\href{"http://docs.jboss.org/drools/release/latest/optaplanner-docs/html\_single/index.html\#tabuSearch"}
+{tabu lists document}.
+\item \href{"http://stackoverflow.com/users/535871/ted-hopp"}{Ted Hopp}, for pointing out correct way
+of bit wise XOR for long in Java.
+\item \href{"http://crypto.stackexchange.com/users/4136/alexandre-yamajako"}{Alexandre Yamajako} for pointing
+specification to find inverse degree of Keccak function.
+\end{itemize}
+\end{frame}
+
+\subsection{Questions}
 
 \begin{frame}
 \frametitle{Questions}
-Questions
+Questions?
 \end{frame}
 
 \end{document}

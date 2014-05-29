@@ -201,13 +201,17 @@
 \headcommand {\beamer@subsectionentry {0}{6}{3}{82}{Future work}}\headcommand {\beamer@subsectionpages {78}{81}}
 \headcommand {\slideentry {6}{3}{1}{82/82}{Future work}{0}}
 \headcommand {\beamer@framepages {82}{82}}
-\headcommand {\sectionentry {7}{Questions}{83}{Questions}{0}}
+\headcommand {\sectionentry {7}{Acknowledgements and questions}{83}{Acknowledgements and questions}{0}}
 \headcommand {\beamer@sectionpages {75}{82}}
 \headcommand {\beamer@subsectionpages {82}{82}}
-\headcommand {\slideentry {7}{0}{2}{83/83}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{7}{1}{83}{Acknowledgement}}\headcommand {\beamer@subsectionpages {83}{82}}
+\headcommand {\slideentry {7}{1}{1}{83/83}{Acknowledgement}{0}}
 \headcommand {\beamer@framepages {83}{83}}
-\headcommand {\beamer@partpages {1}{83}}
-\headcommand {\beamer@subsectionpages {83}{83}}
-\headcommand {\beamer@sectionpages {83}{83}}
-\headcommand {\beamer@documentpages {83}}
-\headcommand {\def \inserttotalframenumber {83}}
+\headcommand {\beamer@subsectionentry {0}{7}{2}{84}{Questions}}\headcommand {\beamer@subsectionpages {83}{83}}
+\headcommand {\slideentry {7}{2}{1}{84/84}{Questions}{0}}
+\headcommand {\beamer@framepages {84}{84}}
+\headcommand {\beamer@partpages {1}{84}}
+\headcommand {\beamer@subsectionpages {84}{84}}
+\headcommand {\beamer@sectionpages {83}{84}}
+\headcommand {\beamer@documentpages {84}}
+\headcommand {\def \inserttotalframenumber {84}}
