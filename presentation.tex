@@ -979,18 +979,146 @@ Demo
 
 \section{Observations}
 
+\subsection{Implementation}
+
 \begin{frame}
 \frametitle{Observations on implementation}
 \begin{itemize}
-\item 
+\item Use system or language representation of words like int and long, instead of array of bytes, made
+it easier.
+\item Java has signed representation of int and long. This should be considered when rotating blocks.
+\item In Keccak the bits are ordered in little endian format, which is differnt that other general
+implementation that take big endian.
 \end{itemize}
 \end{frame}
 
 \subsection{Average iterations}
+
+\begin{frame}
+\frametitle{Iterations for BLAKE, chaining value 32 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                 \hline
+                 & \multicolumn{4}{|c|}{Rounds}                 \\ \hline
+     Digest Size & 1         & 2         & 3         & 4        \\ \hline
+     224         & 803.6331  & 891.3276  & 886.56465 & 883.1557 \\ \hline
+     256         & 804.5944  & 891.35455 & 892.13813 & 885.4943 \\ \hline
+     384         & 1137.8868 & 898.2596  & 899.3996  & 902.6081 \\ \hline
+     512         & 1118.9453 & 902.0659  & 903.68877 & 906.0339 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
+    of bit length 32}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for BLAKE, chaining value 64 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1         & 2         & 3         \\ \hline
+     224         & 4190.473  & 3465.0413 & 3483.752  \\ \hline
+     256         & 4264.3496 & 3456.9246 & 3431.7415 \\ \hline
+     384         & 3885.6829 & 3515.1746 & 3528.4922 \\ \hline
+     512         & 3984.2366 & 3535.423  & 3559.4246 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
+    of bit length 64}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for Gr{\o}stl, chaining value 32 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                  \hline
+                 & \multicolumn{4}{|c|}{Rounds}                  \\ \hline
+     Digest Size & 1         & 2         & 3         & 4         \\ \hline
+     224         & 875.893   & 888.3345  & 886.71898 & 885.8383  \\ \hline
+     256         & 889.72437 & 887.639   & 891.2398  & 889.7382  \\ \hline
+     384         & 872.1038  & 897.5908  & 898.66531 & 897.1204  \\ \hline
+     512         & 896.17804 & 904.18335 & 904.1414  & 902.55646 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
+    of bit length 32}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for Gr{\o}stl, chaining value 64 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1         & 2         & 3         \\ \hline
+     224         & 3687.7493 & 3468.3171 & 3469.366  \\ \hline
+     256         & 3714.0242 & 3479.8074 & 3473.6194 \\ \hline
+     384         & 3594.1716 & 3522.1423 & 3512.8254 \\ \hline
+     512         & 3581.0823 & 3544.302  & 3559.9834 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
+    of bit length 64}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for Keccak, chaining value 32 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                                 \hline
+                 & \multicolumn{4}{|c|}{Rounds}                 \\ \hline
+     Digest Size & 1         & 2         & 3         & 4        \\ \hline
+     224         & 532.2517  & 880.6999  & 883.23035 & 888.5428 \\ \hline
+     256         & 532.341   & 888.98126 & 889.24855 & 895.0305 \\ \hline
+     384         & 533.9329  & 892.61993 & 899.02125 & 904.8013 \\ \hline
+     512         & 533.70807 & 900.46466 & 905.87    & 902.2507 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
+    of bit length 32}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for Keccak, chaining value 64 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1         & 2         & 3         \\ \hline
+     224         & 2118.8818 & 3535.5684 & 3457.5586 \\ \hline
+     256         & 2118.3499 & 3557.9949 & 3466.1624 \\ \hline
+     384         & 2134.1736 & 3676.9707 & 3521.3984 \\ \hline
+     512         & 2139.1523 & 3764.485  & 3562.9753 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
+    of bit length 64}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for other search algorithms}
+\begin{enumerate}
+\item Number of iterations for random simulation, simulated annealing for 32 bit chaining value is fixed
+at 1024 iterations.
+\item For 64 bit chaining value, iterations are set to 11 times the digest size. That is 2464, 2816, 4224,
+5632 iterations for digest sizes 224, 256, 384 and 512 bits.
+\item For tabu search for Gr{\o}stl digest length 224, and for rounds 1 and 2, averaged in iterations 
+about 335254.443.
+\end{enumerate}
+\end{frame}
+
 \subsection{Near collisions}
 
 \begin{frame}
 \frametitle{Hill climbing}
+
 \end{frame}
 
 \begin{frame}
@@ -1113,7 +1241,7 @@ for collisions.
 ordering in Keccak.
 \item Crypto stack exchange user \href{"http://crypto.stackexchange.com/users/555/fgrieu"}{fgrieu} for help
 in mix byte implementation in Gr{\o}stl.
-\item \href{"http://www.seanet.com/~bugbee"}{Larry Bugbee} for fixing up his 
+\item \href{"http://www.seanet.com/~bugbee"}{Larry Bugbee} for updating his 
 \href{http://www.seanet.com/~bugbee/crypto/blake/}{BLAKE Python implementation}, which I used as reference 
 for my Java implementation.
 \item \href{"http://stackoverflow.com/users/472109/geoffrey-de-smet"}{Geoffrey De Smet} for 
