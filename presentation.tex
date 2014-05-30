@@ -1114,23 +1114,223 @@ about 335254.443.
 \end{enumerate}
 \end{frame}
 
-\subsection{Near collisions}
+\subsection{Near collisions in hill climbing}
 
 \begin{frame}
-\frametitle{Hill climbing}
-
+\frametitle{Near collisions BLAKE with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2    & 3    & 4     \\ \hline
+     224         & 41/306 & 13/5 & 34/8 & 25/5 \\ \hline
+     256         & 39/256 & 4/3  & 10/4 & 3/2  \\ \hline
+     384         & 58/384 & 0/0  & 0/0  & 0/0  \\ \hline
+     512         & 58/384 & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions BLAKE with 32 bit chaining value}
+  \end{center}
+\end{table}
 \end{frame}
 
 \begin{frame}
-\frametitle{Simulated annealing}
+\frametitle{Near collisions BLAKE with 64 bit chaining value}
+\begin{table}
+  \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1      & 2     & 3         \\ \hline
+     224         & 56/384 & 38/13 & 43/10 \\ \hline
+     256         & 55/384 & 9/3   & 16/4  \\ \hline
+     384         & 60/284 & 0/0   & 0/0   \\ \hline
+     512         & 59/384 & 0/0   & 0/0   \\ \hline
+  \end{tabular}
+  \caption{Near collisions BLAKE with 64 bit chaining value}
+\end{table}
 \end{frame}
 
 \begin{frame}
-\frametitle{Tabu search}
+\frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2    & 3    & 4     \\ \hline
+     224         & 10/6   & 16/6 & 29/7 & 33/9  \\ \hline
+     256         & 1/2    & 6/3  & 10/3 & 7/3   \\ \hline
+     384         & 12/128 & 0/0  & 0/0  & 0/0   \\ \hline
+     512         & 22/145 & 0/0  & 0/0  & 0/0   \\ \hline
+    \end{tabular}
+    \caption{Near collisions Gr{\o}stl with 32 bit chaining value}
+  \end{center}
+\end{table}
 \end{frame}
 
 \begin{frame}
-\frametitle{Random selection}
+\frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
+\begin{table}
+  \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1      & 2     & 3         \\ \hline
+     224         & 43/23  & 40/12 & 49/11 \\ \hline
+     256         & 25/10  & 14/5  & 15/3  \\ \hline
+     384         & 14/256 & 0/0   & 0/0   \\ \hline
+     512         & 28/158 & 0/0   & 0/0   \\ \hline
+  \end{tabular}
+  \caption{Near collisions Gr{\o}stl with 64 bit chaining value}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Keccak with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+     224         & 60/384 & 60/384 & 40/11 & 33/8 \\ \hline
+     256         & 60/384 & 60/384 & 11/4  & 8/3  \\ \hline
+     384         & 60/384 & 60/384 & 1/1   & 0/0  \\ \hline
+     512         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions Keccak with 32 bit chaining value}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Keccak with 64 bit chaining value}
+\begin{table}
+  \begin{tabular}{ *{4}{| c |} }                      \hline
+                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
+     Digest Size & 1      & 2      & 3         \\ \hline
+     224         & 60/384 & 60/384 & 55/21 \\ \hline
+     256         & 60/384 & 60/384 & 20/7  \\ \hline
+     384         & 60/384 & 60/384 & 1/1   \\ \hline
+     512         & 60/384 & 60/384 & 0/0   \\ \hline
+  \end{tabular}
+  \caption{Near collisions Keccak with 64 bit chaining value}
+\end{table}
+\end{frame}
+
+\subsection{Near collisions with simulated annealing}
+
+\begin{frame}
+\frametitle{Near collisions BLAKE with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+     224         & 39/256 & 0/0    & 1/1   & 1/1  \\ \hline
+     256         & 38/256 & 0/0    & 0/0   & 1/1  \\ \hline
+     384         & 39/353 & 0/0    & 0/0   & 0/0  \\ \hline
+     512         & 50/342 & 0/0    & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions BLAKE with 32 bit chaining value}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+     224         & 1/1    & 1/1    & 2/2   & 0/0  \\ \hline
+     256         & 0/0    & 0/0    & 1/1   & 1/1  \\ \hline
+     384         & 12/128 & 0/0    & 0/0   & 0/0  \\ \hline
+     512         & 15/129 & 0/0    & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions Gr{\o}stl with 32 bit chaining value}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
+\begin{table}
+  \begin{tabular}{ *{4}{| c |} }                    \hline
+                 & \multicolumn{3}{|c|}{Rounds}  \\ \hline
+     Digest Size & 1      & 2   & 3         \\ \hline
+     224         & 0/0    & 0/0 & 0/0 \\ \hline
+     256         & 0/0    & 0/0 & 0/0 \\ \hline
+     384         & 13/256 & 0/0 & 0/0 \\ \hline
+     512         & 19/129 & 0/0 & 0/0 \\ \hline
+  \end{tabular}
+  \caption{Near collisions Gr{\o}stl with 64 bit chaining value}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Keccak with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+     224         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
+     256         & 60/384 & 60/384 & 0/0   & 1/1  \\ \hline
+     384         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
+     512         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions Keccak with 32 bit chaining value}
+  \end{center}
+\end{table}
+\end{frame}
+
+\subsection{Near collisions with random selection}
+
+\begin{frame}
+\frametitle{Near collisions BLAKE with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2    & 3     & 4    \\ \hline
+     224         & 41/291 & 10/5 & 24/6  & 28/6 \\ \hline
+     256         & 39/256 & 3/2  & 4/2   & 7/3  \\ \hline
+     384         & 57/384 & 0/0  & 0/0   & 0/0  \\ \hline
+     512         & 58/384 & 0/0  & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions BLAKE with 32 bit chaining value}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2    & 3     & 4    \\ \hline
+     224         & 7/6    & 15/4 & 26/7  & 20/7 \\ \hline
+     256         & 0/0    & 0/0  & 3/2   & 3/3  \\ \hline
+     384         & 12/128 & 0/0  & 0/0   & 0/0  \\ \hline
+     512         & 22/148 & 0/0  & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions Gr{\o}stl with 32 bit chaining value}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions Keccak with 32 bit chaining value}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ *{5}{| c |} }                 \hline
+                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
+     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+     224         & 60/384 & 60/384 & 30/11 & 24/5 \\ \hline
+     256         & 60/384 & 60/384 & 13/4  & 8/3  \\ \hline
+     384         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
+     512         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Near collisions Keccak with 32 bit chaining value}
+  \end{center}
+\end{table}
 \end{frame}
 
 \section{Conclusions}
