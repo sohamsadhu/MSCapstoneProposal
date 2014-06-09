@@ -15,7 +15,7 @@ hashing algorithm.
 Applications of hash function have been discussed in the next chapter. One of the main
 use of hashing function is digital signature. Digital signatures based on asymmetric algorithm like
 RSA, have a input size limitation of around 128 to 324 bytes. However most documents in practice are
-longer than that. \cite{00017}
+longer than that \cite{00017}.
 
 One approach would be to divide the message into blocks of size acceptable by that of the signing 
 algorithm, and sign each block separately. However, the cons to approach are following.
@@ -37,11 +37,11 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
 
 \section{Standards and NIST Competition} 
 
-  \subsection{Secure Hashing Algorithm(SHA)-0 and SHA-1}
+  \subsection{Secure Hashing Algorithm SHA-0 and SHA-1}
 
   SHA-0 was initially proposed by National Security Agency(NSA) as a standardised hashing algorithm
   in 1993. It was later standardised by National Institute of Standards and Technology(NIST). In 
-  1995 SHA-0 was replaced by SHA-1 designed by NSA. \cite{00006, 00007}
+  1995 SHA-0 was replaced by SHA-1 designed by NSA \cite{00006, 00007}.
 
   In 1995 Florent Chabaud and Antoine Joux, found collisions in SHA-0 with complexity of $2^{61}$. In
   2004, Eli Biham and Chen found near collisions for SHA-0, about 142 out of 160 bits to be equal. Full
@@ -54,14 +54,14 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   In 2005 a team from Shandong University in China consisting of Xiaoyun Wang, Yiqun Lisa Yin, 
   and Hongbo Yu, announced that they had found a way to find collisions on full version of SHA-1 
   requiring $2^{69}$ operations. This number was less than the number of operations required if you
-  did a brute force search, which would be $2^{80}$ in this case.\cite{00010} An ideal hash function 
+  did a brute force search, which would be $2^{80}$ in this case \cite{00010}. An ideal hash function 
   should require the number of operations to find a collision be equal to a brute force search, to 
   idealize the random oracle. 
 
   Analysis was done by Jesse Walker from Skein team, on the feasibility of finding a collision in 
   SHA-1, using HashClash developed by Marc Stevens. It was estimated that the cost for hiring 
-  computational power, as of October 2012, to find the collision, would have been \$ 2.77 million.
-  \cite{00008}
+  computational power, as of October 2012, to find the collision, would have been \$ 2.77 million
+  \cite{00008}.
 
   \begin{table}[h]
     \begin{center}
@@ -91,14 +91,14 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   Collisions for 22-step attack on SHA-256 and SHA-512 were found with a probability of 1. Computational
   operations to find collisions for 23-step and 24-step for SHA-256 attack were $2^{11.5}$ and $2^{28.5}$ 
   respectively. For SHA-512 reduced versions of 23 and 24 step, the corresponding values for were 
-  $2^{16.5}$ and $2^{32.5}$.\cite{00012} Here steps, are analogous to rounds of compression
+  $2^{16.5}$ and $2^{32.5}$ \cite{00012}. Here steps, are analogous to rounds of compression
   on the input given. Since, SHA-2 family relies on the $Merkle-Damg\dot{a}rd$ construction, the whole
   process of creation of hash can be considered as repeated application of certain operations generally called
   as compression function, on the input cumulatively. The steps here refer to the number of rounds of
   compression applied to the input.
 
   Preimage attacks on reduced versions of 41-step SHA-256 and 46-step SHA-512 have been found. As per the
-  specifications, SHA-256 consisted of 64 rounds, while SHA-512 consisted of 80 rounds.\cite{00011} As, it
+  specifications, SHA-256 consisted of 64 rounds, while SHA-512 consisted of 80 rounds \cite{00011}. As, it
   can be seen, the SHA-2 functions can be said as partially susceptible to preimage attacks.
 
   \subsection{NIST competition and SHA-3}

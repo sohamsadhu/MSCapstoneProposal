@@ -10,22 +10,22 @@ A pair of two 1600-bit states $(A, A^{\leftarrow})$ is called rotational pair wh
 is created by bitwise rotation of operation of corresponding lane in state $A$. The operation moves the bit from 
 position $(x, y, z)$ to the position $(x, y, z + n)$, where z + n is done on modulo 64. $x$ and $y$ values range from 0 
 to 4, and $z$ value ranges from 0 to 63. $n$ is the rotational number and is same for every lane. Thus rotational pairs
-are $\forall(x, y, z) : A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$. \cite{00022}
+are $\forall(x, y, z) : A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$ \cite{00022}.
 \end{defn}
 
 \begin{defn}
 Set $S_n$ is a set of $2^{1600}$ pairs of states which are created by an operation of KECCAK-f[1600] applied to all
-possible rotational pairs. \cite{00022}
+possible rotational pairs \cite{00022}.
 \end{defn}
 
 \begin{defn}
 Probability $p^{n}_{(x, y, z)}$ is the probability for pair of states $(A, A^{\leftarrow})$ randomly selected from the
-set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$. \cite{00022}
+set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$ \cite{00022}.
 \end{defn}
 
 \begin{defn}
 Given probability distribution $\mathcal{D}_n$ that assigns probability $\frac{1}{n!}$ for each $p \in \mathcal{P}_n$.
-A permutation is called random if it is chosen according to uniform distribution $\mathcal{D}_n$.\cite{00022}
+A permutation is called random if it is chosen according to uniform distribution $\mathcal{D}_n$ \cite{00022}.
 \end{defn}
 
 It is assumed that random permutation $p^n_{(x, y, z)}$ follows binomial distribution $\mathcal{B}(t, s)$ where $t$ is
@@ -60,7 +60,7 @@ probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot
 probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_{(2, 0, 16)}, A^{\leftarrow}_{(2, 0, 17)})$.
 The bias is observed by generating sufficient number of samples 'm' based on Chernoff bound based on inequality 
 \[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
-where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following steps are implemented.\cite{00022}
+where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following steps are implemented \cite{00022}
   \begin{algorithm}
   \begin{algorithmic}[1]
     \State Generate 403,000,000 rotational pairs.
@@ -72,7 +72,7 @@ where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following s
     \EndFor
     \State \Return mean
   \end{algorithmic}
-  \caption[Find pair probabililty]{Find pair probabililty\cite{00022}}
+  \caption[Find pair probabililty]{Find pair probabililty \cite{00022}}
   \label{alg:seq}
   \end{algorithm}
 
@@ -105,7 +105,7 @@ the steps.
   \EndFor
 \end{algorithmic}
 \caption[Preimage for 3 round Keccak for unknown cyclic input]
-{Preimage for 3 round Keccak for unknown cyclic input\cite{00022}}
+{Preimage for 3 round Keccak for unknown cyclic input \cite{00022}}
 \label{alg:seq}
 \end{algorithm}
 
@@ -142,7 +142,7 @@ which does not implement $\iota$ function. Algorithm 4.3 is for finding preimage
   \EndFor
 \end{algorithmic}
 \caption[Preimage for 4 round Keccak for unknown cyclic input without $\iota$ function in Keccak]
-{Preimage for 4 round Keccak for unknown cyclic input without $\iota$ function in Keccak\cite{00022}}
+{Preimage for 4 round Keccak for unknown cyclic input without $\iota$ function in Keccak \cite{00022}}
 \label{alg:seq}
 \end{algorithm}
 
@@ -174,7 +174,7 @@ where HW is the Hamming weight, and CV is the chaining value, and n is the hash 
       191 / 256, 345 / 512, 638 / 1024 & $2^{50}$ \\ \hline
       197 / 256, 354 / 512, 651 / 1024 & $2^{60}$ \\ \hline
     \end{tabular}
-    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search\cite{00029}}
+    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search \cite{00029}}
   \end{center}
 \end{table}
 
@@ -285,7 +285,7 @@ Tabu search implements the neighbourhood search for the solutions, until the ter
 uses a fixed amount of memory, to keep note of states, visited some fixed amount of time in past. The idea behind
 keeping the state, is to restrict the search, to states that have not been visited previously. The algorithm can be
 tweaked, to accept moves in tabu list through aspiration criteria, or inferior moves just to explore new possible
-states. Tabu search has been applied to mostly combinatorial optimization problems\cite{00034, 00035}.
+states. Tabu search has been applied to mostly combinatorial optimization problems \cite{00034, 00035}.
 
 \begin{algorithm}[h]
   \caption{ Random selection from k-bit neighbourhood of $CV$ }
