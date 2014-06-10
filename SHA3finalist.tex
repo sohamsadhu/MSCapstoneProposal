@@ -729,5 +729,21 @@ structure rather than linear strings, or 2 dimensional arrays.
 
 \section{SHA-3}
 
-SHA-3 contains 4 cryptogrpahic hash function variations of Keccak for digest sizes 224, 256, 384 and 512; along with two 
-extendable output functions \cite{00042}.
+SHA-3 contains 4 cryptographic hash function variations of Keccak for digest sizes 224, 256, 384 and 512; along with two 
+extendable output functions(XOF) \cite{00042}. XOF are hash functions, whose output can be extended to desired length. 
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+    \multirow{2}{*}{{\bf Function}} & \multirow{2}{*}{{\bf Output size}} & \multicolumn{3}{ c| }{{\bf Security strength in bits}} \\ \cline{3-5}
+             &     & {\bf Collision} & {\bf Preimage}     & {\bf 2nd Preimage} \\ \hline
+    SHA3-224 & 224 & 112             & 224                & 224 \\ \hline
+    SHA3-256 & 256 & 128             & 256                & 256 \\ \hline
+    SHA3-384 & 384 & 192             & 384                & 384 \\ \hline
+    SHA3-512 & 512 & 256             & 512                & 512 \\ \hline
+    SHAKE128 & d   & min(d/2, 128)   & $\geq$ min(d, 128) & min(d, 128) \\ \hline
+    SHAKE256 & d   & min(d/2, 256)   & $\geq$ min(d, 256) & min(d, 256) \\ \hline
+    \end{tabular}
+    \caption{Security strength of SHA-3 funcitons \cite{00042}}
+  \end{center}
+\end{table}
