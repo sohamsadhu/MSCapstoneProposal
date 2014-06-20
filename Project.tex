@@ -35,6 +35,7 @@
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage{makecell}
 \theoremstyle{plain}
 \newtheorem{lem}{Lemma}[section]
 \theoremstyle{definition}
@@ -99,24 +100,41 @@
 % The dedication - if you choose to include one.
 % It should be vertically centered in the page. Since the style format doesn't 
 % do it for you automatically, you can use the following technique.
-%\prefacesection{Dedication}
-%\vfill
-%\begin{center}
-%To my parents.
-%\end{center}
-%\vfill
+\prefacesection{Dedication}
+\vfill
+\begin{center}
+Dedicated to my parents.
+\end{center}
+\vfill
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The acknowledgements page - if you choose to include one. 
 % As in the dedication, it should be centered vertically in the page.
 %
-%\prefacesection{Acknowledgments}
-%\vfill
-%\begin{center}
-%\indent I am grateful to Prof. Stanis{\l}aw Radziszowski, for his guidance.
-%\end{center}
-%\vfill
+\prefacesection{Acknowledgments}
+\vfill
+I am grateful to Prof. Stanis{\l}aw Radziszowski, for his patiende and guidance. \newline \newline
+I would also like to thank 
+\begin{enumerate}
+\item Redditors \href{"http://www.reddit.com/user/p1mrx"}{p1mrx} and 
+\href{"http://www.reddit.com/user/deejaydarvin"}{deejaydarvin}, and crypto stack exchange user 
+\href{"http://crypto.stackexchange.com/users/8050/richie-frame"}{Richie Frame} for explanation of bit/byte 
+ordering in Keccak.
+\item Crypto stack exchange user \href{"http://crypto.stackexchange.com/users/555/fgrieu"}{fgrieu} for help
+in mix byte implementation in Gr{\o}stl.
+\item \href{"http://www.seanet.com/~bugbee"}{Larry Bugbee} for updating his 
+\href{http://www.seanet.com/~bugbee/crypto/blake/}{BLAKE Python implementation}, which I used as reference 
+for my Java implementation.
+\item \href{"http://stackoverflow.com/users/472109/geoffrey-de-smet"}{Geoffrey De Smet} for 
+\href{"http://docs.jboss.org/drools/release/latest/optaplanner-docs/html\_single/index.html\#tabuSearch"}
+{tabu lists document}.
+\item \href{"http://stackoverflow.com/users/535871/ted-hopp"}{Ted Hopp}, for pointing out correct way
+of bit wise XOR for long in Java.
+\item \href{"http://crypto.stackexchange.com/users/4136/alexandre-yamajako"}{Alexandre Yamajako} for pointing
+specification to find inverse degree of Keccak function.
+\end{enumerate}
+\vfill
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

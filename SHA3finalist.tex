@@ -736,14 +736,21 @@ extendable output functions(XOF) \cite{00042}. XOF are hash functions, whose out
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
     \multirow{2}{*}{{\bf Function}} & \multirow{2}{*}{{\bf Output size}} & \multicolumn{3}{ c| }{{\bf Security strength in bits}} \\ \cline{3-5}
-             &     & {\bf Collision} & {\bf Preimage}     & {\bf 2nd Preimage} \\ \hline
-    SHA3-224 & 224 & 112             & 224                & 224 \\ \hline
-    SHA3-256 & 256 & 128             & 256                & 256 \\ \hline
-    SHA3-384 & 384 & 192             & 384                & 384 \\ \hline
-    SHA3-512 & 512 & 256             & 512                & 512 \\ \hline
-    SHAKE128 & d   & min(d/2, 128)   & $\geq$ min(d, 128) & min(d, 128) \\ \hline
-    SHAKE256 & d   & min(d/2, 256)   & $\geq$ min(d, 256) & min(d, 256) \\ \hline
+                &     & {\bf Collision} & {\bf Preimage}       & {\bf 2nd Preimage} \\ \Xhline{2\arrayrulewidth}
+    SHA-1       & 160 & \textless \thickspace80    & 160       & 160 - $L(M)$ \\ \Xhline{2\arrayrulewidth}
+    SHA-224     & 224 & 112             & 224                  & min(224, 256 - $L(M)$) \\ \hline
+    SHA-512/224 & 224 & 112             & 224                  & 224 \\ \hline
+    SHA-256     & 256 & 128             & 256                  & 256 - $L(M)$ \\ \hline
+    SHA-512/256 & 256 & 128             & 256                  & 256 \\ \hline
+    SHA-384     & 384 & 192             & 384                  & 384 \\ \hline
+    SHA-512     & 512 & 256             & 512                  & 512 - $L(M)$ \\ \Xhline{2\arrayrulewidth}
+    SHA3-224    & 224 & 112             & 224                  & 224 \\ \hline
+    SHA3-256    & 256 & 128             & 256                  & 256 \\ \hline
+    SHA3-384    & 384 & 192             & 384                  & 384 \\ \hline
+    SHA3-512    & 512 & 256             & 512                  & 512 \\ \Xhline{2\arrayrulewidth}
+    SHAKE128    & $d$ & min($d$/2, 128) & $\geq$ min($d$, 128) & min($d$, 128) \\ \hline
+    SHAKE256    & $d$ & min($d$/2, 256) & $\geq$ min($d$, 256) & min($d$, 256) \\ \hline
     \end{tabular}
-    \caption{Security strength of SHA-3 funcitons \cite{00042}}
+    \caption{Security strength of SHA-1, SHA-2, SHA-3 funcitons \cite{00042}}
   \end{center}
 \end{table}

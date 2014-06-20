@@ -2,18 +2,16 @@
 
 \section{Cryptographic Hash Functions}
 
-A cryptographic hash function, is an algorithm capable of intaking arbitrarily long input string, and
-output a fixed size string. The output string is often called message digest, since the long input
-message appears in compact digested form or hash value of the input. The message digest for two strings
-even differing by a single bit should ideally be completely different, and no two input message should
-have the same hash value. The properties of hash function are described in more mathematical detail in
-next chapter. Following is the section about initial attempts at standardizing and choosing a strong
-hashing algorithm.
+A cryptographic hash function, is a function that accepts an arbitrarily long input string, and outputs
+a fixed length string that is uniquely related to the input string. The output string is either called message
+digest, or hash value of the given input string. Hash functions should be one way, that is given the message
+digest, it should not be possible to find the input string. Two input strings even differing in a single
+bit should output two different hash values, that are not close or display any co-relation to each other.
 
 \section{The need for cryptographic hash function} 
 
-Applications of hash function have been discussed in the next chapter. One of the main
-use of hashing function is digital signature. Digital signatures based on asymmetric algorithm like
+Digital signatures are method of authenticating electronic documents, and hash functions are used to ease the
+process of digitally signing a document. Digital signatures based on asymmetric algorithm like
 RSA, have a input size limitation of around 128 to 324 bytes. However most documents in practice are
 longer than that \cite{00017}.
 
@@ -39,29 +37,24 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
 
   \subsection{Secure Hashing Algorithm SHA-0 and SHA-1}
 
-  SHA-0 was initially proposed by National Security Agency(NSA) as a standardised hashing algorithm
-  in 1993. It was later standardised by National Institute of Standards and Technology(NIST). In 
-  1995 SHA-0 was replaced by SHA-1 designed by NSA \cite{00006, 00007}.
+  In 1993 National Security Agency(NSA) proposed SHA-0 as standard hashing algorithm, which was later
+  standardised by NIST. However by 1995, Florent Chabaud and Antoine Joux, found collisions in SHA-0 
+  with complexity of $2^{61}$. In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 
+  out of 160 bits to be equal. Full  collisions were also found, when the number of rounds for the 
+  algorithm were reduced from 80 to 62.
 
-  In 1995 Florent Chabaud and Antoine Joux, found collisions in SHA-0 with complexity of $2^{61}$. In
-  2004, Eli Biham and Chen found near collisions for SHA-0, about 142 out of 160 bits to be equal. Full
-  collisions were also found, when the number of rounds for the algorithm were reduced from 80 to 62.
-
-  SHA-1 was introduced in 1995, which has block size of 512 and output bits of 160, which are similar
-  to that of SHA-0. SHA-1 has an additional circular shift operation, that is meant to rectify the 
-  weakness in SHA-0.
+  In 1995 SHA-0 was replaced by SHA-1 designed by NSA \cite{00006, 00007}. It has block size of 512 bits
+  and output of 160 bits, which is similar to that of SHA-0. SHA-1 has an additional circular shift operation, 
+  that rectifies the weakness in SHA-0.
 
   In 2005 a team from Shandong University in China consisting of Xiaoyun Wang, Yiqun Lisa Yin, 
-  and Hongbo Yu, announced that they had found a way to find collisions on full version of SHA-1 
-  requiring $2^{69}$ operations. This number was less than the number of operations required if you
-  did a brute force search, which would be $2^{80}$ in this case \cite{00010}. An ideal hash function 
-  should require the number of operations to find a collision be equal to a brute force search, to 
-  idealize the random oracle. 
+  and Hongbo Yu, found a way to find collisions on full version of SHA-1 requiring $2^{69}$ operations. 
+  This is less than the number of operations required by brute force search for finding colliisions, which
+  is $2^{80}$ \cite{00010}. An ideal hash function requires the number of operations to find a collision 
+  to be equal to a brute force search, to be considered secure. 
 
-  Analysis was done by Jesse Walker from Skein team, on the feasibility of finding a collision in 
-  SHA-1, using HashClash developed by Marc Stevens. It was estimated that the cost for hiring 
-  computational power, as of October 2012, to find the collision, would have been \$ 2.77 million
-  \cite{00008}.
+  In October 2012, Jesse Walker from Skein team estimated the computational cost for finding collisions 
+  in SHA-1 to be \$ 2.77 million, based on HashClash developed by Marc Stevens \cite{00008}.
 
   \begin{table}[h]
     \begin{center}
@@ -81,14 +74,14 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
 
   \subsection{SHA-2}
 
-  SHA-2 was designed by NSA, and released in 2001 by NIST. It is basically a family of hash functions 
-  consisting of SHA-224, SHA-256, SHA-384, SHA-512. Table 1.1 above gives a brief overview of specifications
+  SHA-2 was designed by NSA, and released in 2001 by NIST. It is a family of hash functions consisting of 
+  SHA-224, SHA-256, SHA-384, SHA-512. Table 1.1 above gives a brief overview of specifications
   of SHA-1 and family of SHA-2 hash functions. The number suffix after the SHA acronym, 
   indicates the bit length, of the output of that hash function. Although SHA-2 family of algorithms
   were influenced by SHA-1 design, but the attacks on SHA-1 have not been successfully extended completely
   to SHA-2.
 
-  Collisions for 22-step attack on SHA-256 and SHA-512 were found with a probability of 1. Computational
+  Collisions for 22-step attack, on SHA-256 and SHA-512 were found with a probability of 1. Computational
   operations to find collisions for 23-step and 24-step for SHA-256 attack were $2^{11.5}$ and $2^{28.5}$ 
   respectively. For SHA-512 reduced versions of 23 and 24 step, the corresponding values for were 
   $2^{16.5}$ and $2^{32.5}$ \cite{00012}. Here steps, are analogous to rounds of compression
