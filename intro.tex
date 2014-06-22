@@ -11,12 +11,12 @@ bit should output two different hash values, that are not close or display any c
 \section{The need for cryptographic hash function} 
 
 Digital signatures are method of authenticating electronic documents, and hash functions are used to ease the
-process of digitally signing a document. Digital signatures based on asymmetric algorithm like
-RSA, have a input size limitation of around 128 to 324 bytes. However most documents in practice are
-longer than that \cite{00017}.
+process of digitally signing a document. Digital signatures based on asymmetric algorithm like RSA, have a input 
+size limitation of around 128 to 324 bytes \cite{00017}. However most documents in practice are longer
+than 324 bytes.
 
 One approach would be to divide the message into blocks of size acceptable by that of the signing 
-algorithm, and sign each block separately. However, the cons to approach are following.
+algorithm, and sign each block separately. However, there are disadvantages to this are -
 
 \begin{enumerate}
   \item \emph{Computationally intensive:} Modular exponentiation of large integers used in asymmetric
@@ -75,29 +75,29 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   \subsection{SHA-2}
 
   SHA-2 was designed by NSA, and released in 2001 by NIST. It is a family of hash functions consisting of 
-  SHA-224, SHA-256, SHA-384, SHA-512. Table 1.1 above gives a brief overview of specifications
+  SHA-224, SHA-256, SHA-384, SHA-512. Table 1.1 gives a brief overview of specifications
   of SHA-1 and family of SHA-2 hash functions. The number suffix after the SHA acronym, 
   indicates the bit length, of the output of that hash function. Although SHA-2 family of algorithms
   were influenced by SHA-1 design, but the attacks on SHA-1 have not been successfully extended completely
   to SHA-2.
 
-  Collisions for 22-step attack, on SHA-256 and SHA-512 were found with a probability of 1. Computational
-  operations to find collisions for 23-step and 24-step for SHA-256 attack were $2^{11.5}$ and $2^{28.5}$ 
-  respectively. For SHA-512 reduced versions of 23 and 24 step, the corresponding values for were 
-  $2^{16.5}$ and $2^{32.5}$ \cite{00012}. Here steps, are analogous to rounds of compression
-  on the input given. Since, SHA-2 family relies on the $Merkle-Damg\dot{a}rd$ construction, the whole
+  Collisions were found on SHA-256 and SHA-512, that were reduced to 22 permutation rounds. Computational
+  operations to find collisions in 23 and 24 reduced rounds of SHA-256 were $2^{11.5}$ and $2^{28.5}$ 
+  corresponding calls to their respectively reduced functions. For SHA-512 reduced versions of 23 and 24 rounds, 
+  the corresponding values for were $2^{16.5}$ and $2^{32.5}$ calls \cite{00012}.
+  Since, SHA-2 family relies on the Merkle-Damg\.{a}rd construction, the whole
   process of creation of hash can be considered as repeated application of certain operations generally called
-  as compression function, on the input cumulatively. The steps here refer to the number of rounds of
-  compression applied to the input.
+  as compression function, on the input cumulatively. The rounds here refer to the number of times the permutations
+  applied to the input during its compression.
 
-  Preimage attacks on reduced versions of 41-step SHA-256 and 46-step SHA-512 have been found. As per the
-  specifications, SHA-256 consisted of 64 rounds, while SHA-512 consisted of 80 rounds \cite{00011}. As, it
-  can be seen, the SHA-2 functions can be said as partially susceptible to preimage attacks.
+  Preimage attacks have been a success, on 41 reduced rounds of SHA-256 and 46 reduced rounds of SHA-512. 
+  As per specifications, SHA-256 contains 64 rounds, while SHA-512 consists of 80 rounds \cite{00011}. It can be
+  said that SHA-2 functions are partially susceptible to preimage attacks.
 
   \subsection{NIST competition and SHA-3}
 
-  In response to advances made in cryptanalysis of SHA-2. NIST through a Federal Register Notice announced 
-  a public competition on November 2, 2007. For a new cryptographic hash algorithm, that would be SHA-3.
+  In November 2, 2007 NIST through a Federal Register Notice announced a public competition for selection of
+  new SHA-3 algorithm. This was done in response to advances madei in cryptanalysis of SHA-2.
   Submission requirements stated to provide a cover sheet, algorithm specifications and supporting
   documentation, optimized implementations as per specifications of NIST, and intellectual property statements.
 
@@ -106,3 +106,44 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   winner of the competition to be Keccak, amongst the other four finalist, which were BLAKE, Gr{\o}stl, JH
   and Skein. Keccak was chosen for its' large security margin, efficient hardware implementation, and 
   flexibility.
+  
+\section{Our work}
+
+In this project we compare the reduced versions of three hashing algorithms, that made it to final round in SHA-3.
+They are BLAKE, Gr{\o}stl, and Keccak. The three algorithms are first compared on the basis of reduced number of
+permutation rounds, that are kept equal for all three of them. After that we compare variants of Keccak hashing
+algorithm, that have their internal state reduced by different amounts. For this part also we reduce the number
+of permutation rounds.
+
+The comparison is done on the basis of near collisions found in the reduced version of the algorithms. A
+$\epsilon / n $ bit near collision for hash function h and two messages $M_{1}$ and $M_{2}$, where 
+$M_{1} \neq M_{2}$ is defined as
+\begin{center}$ HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $\end{center}
+where HW is the Hamming weight, and CV is the chaining value, and n is the hash size in bits. 60 different message
+pairs are made from a seed string "A quick brown fox jumps over the lazy dog", and 60 other strings that differ
+from seed string in one bit. The output of the message pairs is compared for a near collision, and improvements
+on it are made by iterating it over search algorithms that are: hill climbing, simulated annealing, tabu search 
+and random selection.
+
+\begin{center}
+  \framebox
+  {
+    \parbox{400pt}
+    {
+      \centering \textsc{Hypothesis} \\
+      \begin{itemize}
+      \item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl. For the
+      attack algorithms hill climbing, simulated annealing, tabu search and random selection.
+      \item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
+      climbing and random selection.
+      \item State size has no effect on efficiency of Keccak permutation rounds, for reduced number of rounds.
+      \end{itemize}
+    }
+  }
+\end{center}
+
+Through our experiments as formulated through our hypothesis, we aim to determine a search algorithm, that
+would be optimum in finding near collisions in reduced versions of hashing algorithm. In our comparison of
+the three SHA-3 finalist algorithm, we try to evaluate the winner Keccak and its competitors efficiency, when
+the number of permuation rounds are reduced. Lastly we investigate if reduced internal state size of Keccak,
+in any way reduces effectiveness of permutation rounds, if the permutation rounds are reduced.

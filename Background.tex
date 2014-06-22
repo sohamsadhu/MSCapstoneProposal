@@ -1,8 +1,8 @@
 \chapter{Background}
 
 \section{Hashing}
-A cryptographic hash function, is a function that can take string data of arbitrary length as input. 
-And output a bit string of fixed length, that is ideally unique to the input string given. The 
+A cryptographic hash function, is a function that intakes a string of arbitrary, and outputs a string of 
+fixed length, that is unique to the input string given. The 
 aforementioned is description of a single fixed hash function. But, hash functions can be tweaked
 with an extra key parameter. This gives rise multiple hash functions or \emph{hash family} as 
 defined below \cite{00005}
@@ -31,23 +31,25 @@ a finite set, since the length of bit string or hash function output, that defin
 finite. A pair (x, y) $\in \mathcal{X} \times \mathcal{Y}$ is a \emph{valid pair} under key K, if 
 $h_{k}(x) = y$.
 
-If $\mathcal{F}^{\mathcal{X}\mathcal{Y}}$ denotes set of all functions that map from domain $\mathcal{X}$
-to co-domain $\mathcal{Y}$. And if $\mid\mathcal{X}\mid$ = N and $\mid\mathcal{Y}\mid$ = M, then 
-$\mid\mathcal{F}^{\mathcal{XY}}\mid$ = $M^{N}$. Then any hash family $\mathcal{F} \subseteq \mathcal{F}^{\mathcal{XY}}$
-is called as (N, M) - hash family.
+A hash family $\mathcal{F} \subseteq \mathcal{F}^{\mathcal{XY}}$ is called as (N, M) - hash family, where
+$\mathcal{F}^{\mathcal{X}\mathcal{Y}}$ denotes set of all functions that map from domain $\mathcal{X}$
+to co-domain $\mathcal{Y}$; if $\mid\mathcal{X}\mid$ = N and $\mid\mathcal{Y}\mid$ = M, and 
+$\mid\mathcal{F}^{\mathcal{XY}}\mid$ = $M^{N}$.
 
 An \emph{unkeyed hash function} is a function $h_{k}: \mathcal{X} \to \mathcal{Y}$, where $\mathcal{X}$ and
-$\mathcal{Y}$ are as defined above, and where $\mid\mathcal{K}\mid$ = 1. Thus a single fixed function h(x) = y,
-or an unkeyed hash function as hash family with only one key. For the purpose of this document, we will
-be concentrating on unkeyed hash family or fixed hash functions only, and will be referring to them as
-hash functions, unless mentioned otherwise.
+$\mathcal{Y}$ are as defined previously, and where $\mid\mathcal{K}\mid$ = 1. 
+%Thus a single fixed function h(x) = y, or an unkeyed hash function as hash family with only one key. 
+In our work we have worked only with unkeyed hash family of fixed hash function only. Although the algorithms
+we deal with can have their keys varied, but we keep them as constant.
+%For the purpose of this document, we will be concentrating on unkeyed hash family or fixed hash functions only, 
+%and will be referring to them as hash functions, unless mentioned otherwise.
 
 The output of a hash function is generally called as a message digest. Since, it can viewed as a unique
 snapshot of the message, that cannot be replicated if the bits in message are tampered with.
   
 \subsection{Properties of an ideal hash function}
 An ideal hash function should be easy to evaluate in practice. However, it should satisfy the following
-three properties primarily, for a hash function to be considered \emph{secure}.
+three properties primarily, for a hash function to be considered \emph{secure} \cite{00005}.
 
 1. {\bf Preimage resistance}
 \begin{center}
@@ -108,31 +110,30 @@ complex, then the hash function is said to be collision resistant.
 Basically, the above properties make sure that hash function has one to one mapping from input to
 output, and is one way. That is if a two different input strings with even minute differences should
 map to two different hash values. And it should be practically infeasible, to find a input given a
-hash value. \\
+hash value.
 
 \section{Security Model}
 
-On the basis of above properties described for a hash function. A generic model of security fulfillment, 
-for any hash function to be considered secure can be set. Two such ideas, that a hash function should
-comply as far as possible to be considered as a hash function are described below.
+A generic model of security fulfillment, for any hash function can be set based on previously mentioned
+properties for it to be considered as secure. Two such ideas, are described as follows 
 
   \subsection{ Random Oracle }
   Hash functions being built on mathematical operations, cannot be truly random, but are efficient
   approximations of fixed random output mapping to an input. An ideal hash function can be abstracted 
-  as a random oracle, and the proofs can be formalized. To show that algorithm is secure modulo the way
-  it creates random outputs \cite{00018}.
+  as a random oracle, to show that algorithm is secure modulo the way it creates random outputs. Proofs
+  can be formalized on this basis \cite{00018}.
 
   Random oracle model, proposed by Bellare and Rogaway, is a mathematical model of ideal hash function.
-  It can be thought of this way, that the only way to know the hash value for an input $x$ would be to
+  It can be interpreted as, the only way to know the hash value for an input $x$ would be to
   ask the Oracle or rather compute the hash of the input itself. There is no way of formulating or 
   guessing the hash value for input, even if you are provided with substantial number of input and output
   pairs. It is analogous to looking up for corresponding value of the key in a large table. To know the
-  value for an input, you look into the table. A well designed hash function mimics the behaviour as 
-  close as possible to a random oracle. 
+  value for an input, you look into the table. A well designed hash function, mimics the behaviour of
+  random oracle as closely as possible. 
 
   \subsection{ Birthday Paradox }
   If we randomly choose 23 people, then the probability that two people from the group will have identical
-  birthday is around 50\%. This is because, the first person can be paired with rest of 22 people in group,
+  birthday is around 0.507. This is because, the first person can be paired with rest of 22 people in group,
   to form 22 pairs. The next person in group can be paired with remaining 21 people to get 21 pairs. Thus 
   we end up with 22 + 21 + 20 + \ldots + 1 = 253 pairs. Thus the probability is ratio of pairs 253 to the
   sample space 365 days in a year (ignoring the leap year).
@@ -144,13 +145,13 @@ comply as far as possible to be considered as a hash function are described belo
 
   It can be formally proved for any sample size M, to find two values that are identical with probability
   0.5 can be given by the equation $N \approx 1.17 \sqrt{M}$. This can be interpreted as hashing over $\sqrt{M}$
-  values roughly will give us two entries with 50\% probability of a collision.
+  values roughly will give us two entries, with probability of collision being 0.5.
 
-  The above theorem can be applied following way. If we brute force to find collision in a hash function
-  that has a message digest length of $2^{128}$ bits, then at minimum we would need to calculate $2^{64}$
-  instances of hash, to find a collision with a probability of 50\%. Any good hash function in practice 
-  should be resistant to attacks, that require operations less than that predicted by the birthday attack
-  for that hash.
+  The above theorem can be generalised as, that if we were to brute force our way to finding collisions in
+  a hash function that has a message digest length of $2^{128}$ bits. Then at minimum we would need to 
+  calculate $2^{64}$ instances of hash, to find a collision with a probability of 0.5. Any good hash function 
+  in practice should be resistant to attacks, that require operations less than estimated by the birthday 
+  paradox on message digest size.
 
 \section{Applications}
 
@@ -164,21 +165,19 @@ integrity and pseudo random generator functions.
     digital media is taken. A copy of the digital evidence is made under the regulations, and the hash of the
     copied digital media is made, before it can be examined. After the evidence has been examined, then another
     hash value of the copy of the evidence that was used in examination is made. This ensures, that evidence
-    has not been tampered. \cite{00013}
+    has not been tampered \cite{00013}.
 
-    \item Password verification: Passwords are stored as hash value, of password concatenated with some salt
-    string. The choice of salt depends on implementation. When a password is to be verified, it is first 
-    concatenated with the respective salt. A hash value of this new modified password string is taken and compared
-    with the value stored in the database. If the values match, then the password is authenticated.
+    \item Password verification: Hash value of salted passwords are stored in database. When a password is to be
+    verified, a hash value of the given salted password is evaluted. This hash value is compared
+    with the value stored in the database, and password is authenticated, if it matches the one in database.
 
-    \item Integrity of files: Hash values can be used to check, that data files have not been modified over the
-    time in any way. Hash value of the data file taken at a previous time is checked with the hash value of the
-    file taken at present. If the values do not match, it means that file in question has been modified over the
-    time period between, when hash value of the file was taken and present.
+    \item Integrity of files: Hash values can be used to check, that data files have not been modified over
+    time. Hash value of a file or files is taken regularly, and compared to previous stored hash value, when it is
+    again examined. If the values do not match, it means the file or files have been compromised.
   \end{enumerate}
 
-  \subsection{Pseudo random generator function:}
+  \subsection{Pseudo random generator function}
   Cryptographic hash functions can be used as pseudo random bit generators. The hash function is initialised
   with a random seed, and then hash function is queried iteratively to get a sequence of bits, which look random.
   Since, the cryptographic hash algorithm is a mathematical function, so the sequence of two pseudo random bits 
-  would be similar if they come from same hash function with the same key. And they would not be perfectly random.
+  would be similar if they come from same hash function with the same key.

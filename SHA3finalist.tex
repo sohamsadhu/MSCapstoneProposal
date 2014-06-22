@@ -1,17 +1,26 @@
 \chapter{BLAKE, Gr{\o}stl, Keccak and SHA-3}
 
+For our project we chose to study BLAKE, Gr{\o}stl and Keccak, out of the 5 finalists. All the five finalist were found
+to be secure, devoid of any weakness that can be practically exploited. Keccak was chosen, since it was the winner
+of SHA-3 competition, and is the basis for the current SHA-3 in draft, thus required for project to be relevant.
+Keccak has sponge as design basis, BLAKE is based on HAIFA, and Gr{\o}stl is based on Merkle-Damg\.{a}rd design.
+The selection of these three, gives an opportunity to observe the effects of different design for reduced hash 
+functions. Thus I chose to go with BLAKE and Gr{\o}stl for comparison with Keccak in this project. Rebound attacks 
+in JH have been studied by Naveen Kandakumar \cite{00043}, while Darryl Clyde Eychner did a statiscal analysis
+on BLAKE and Skein \cite{00030}, which were the other SHA-3 finalist. 
+
 \section{BLAKE} 
 
 BLAKE \cite{00002} hash function is built on HAIFA (HAsh Iterative FrAmework) structure \cite{00020} which is an improved
-version of Merkle-Damg\.{a}rd function. And provides resistance to long-message second pre-image attack as well as
-provides a salting option, that BLAKE uses \cite{00021}.
+version of Merkle-Damg\.{a}rd design. It provides resistance to long-message, second pre-image attack and provides a 
+salting option, that BLAKE uses \cite{00021}.
 The design is local wide-pipe which avoids internal collisions. The compression function in BLAKE is tweaked version of 
 ChaCha, a stream cipher. 
 
 \begin{table}[h]
   \begin{center}
     \begin{tabular}{ *{6}{c} } \hline
-      Algorithm & Word & Message    & Block & Digest & Salt \\ \hline
+      Algorithm & Word & Message     & Block & Digest & Salt \\ \hline
       BLAKE-224 & 32   & $< 2^{64}$  & 512   & 224    & 128  \\
       BLAKE-256 & 32   & $< 2^{64}$  & 512   & 256    & 128  \\
       BLAKE-384 & 64   & $< 2^{128}$ & 1024  & 384    & 256  \\
@@ -29,12 +38,11 @@ ChaCha, a stream cipher.
   \label{fig:lab}
 \end{figure}
 
-As seen from table 3.3, BLAKE has 4 variations of the algorithm that can give only 4 different digest lengths. The input
-length is also smaller than Gr{\o}stl. Figure 3.6 shows how the individual message blocks are consumed. The construction
-takes in 4 inputs, one message; two a salt, that makes function that parameter specific; and three a counter, which is 
-count of all the bits hashed till then; and lastly a chaining value which is input of the previous operation or initial
-value in case of hash initiation. The compression function is composed of a 4 $\times$ 4 matrix of words. Where one word is 
-equal to 32 bits for BLAKE-256 variant, while 64 bit for variant BLAKE-512.
+BLAKE has 4 variations of the algorithm shown in table 3.1. Figure 3.1 shows how the individual message blocks are consumed. 
+The construction takes in 4 inputs, a message; salt, that makes hash function parameter specific; a
+counter, which is count of all the bits hashed till then; and lastly a chaining value which is input of the previous 
+operation or initial value in case of hash initiation. The compression function is composed of a 4 $\times$ 4 matrix 
+of words, where a word is equal to 32 bits for BLAKE-256 variant, while 64 bit for variant BLAKE-512.
 
 \begin{table}[h]
   \begin{center}
@@ -43,12 +51,14 @@ equal to 32 bits for BLAKE-256 variant, while 64 bit for variant BLAKE-512.
       $\gets$                 & variable assignment \\
       $+$                     & addition modulo $2^{32}$ or (modulo $2^{64}$) \\
       $\ggg k$                & rotate k bits to least significant bits \\
-      %$\ll k$                 & rotate k bits to most significant bits \\
+      $\lll k$                 & rotate k bits to most significant bits \\
       $\langle l \rangle_{k}$ & encoding of integer $l$ over $k$ bits \\ \hline
     \end{tabular}
     \caption{Convention of symbols used in BLAKE algorithm}
   \end{center}
 \end{table}
+
+\newpage
 
 \subsection{ BLAKE-256 }
 
@@ -192,9 +202,9 @@ chain value of 8 words.
 
 \subsection{BLAKE-512}
 
-operates on 64-bit words and returns a 64-byte hash value. The chaining value is 512 bit long, message blocks are
-1024 bits, salt is 256 bits, and counter size is 128 bits. The difference from BLAKE-256 are in constants(tables 3.8 
-and 3.9), compression function and the way message is padded.
+BLAKE-512 operates on 64-bit words and returns a 64-byte hash value. The chaining value is 512 bit long, message blocks are
+1024 bits, salt is 256 bits, and counter size is 128 bits. The difference from BLAKE-256 are in initial values and constants(tables 3.6 
+and 3.7)used. Compression function and padding is also tweaked to better suit 64 bit word.
 
   \begin{table}
     \begin{align*}
@@ -217,10 +227,8 @@ and 3.9), compression function and the way message is padded.
     \caption{16 constants used for BLAKE-512 \cite{00002}}
   \end{table}
   
-  Compression function in BLAKE-512 gets 16 iterations instead of 14 as in BLAKE-256, as well the rotations
-  are updated and word size increased from 32 bits to 64 bits. The $G_{i}(a, b, c, d)$ 
-  is given as 
-
+  Compression function in BLAKE-512 gets 16 iterations instead of 14 as in BLAKE-256, the rotations are updated and 
+  word size increased from 32 bits to 64 bits. $G_{i}(a, b, c, d)$ is given as \\
   $
   a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)}) \\
   d \gets (d \oplus a) \ggg 32 \\
@@ -232,9 +240,9 @@ and 3.9), compression function and the way message is padded.
   b \gets (b \oplus c) \ggg 11
   $
   
-  Once more than 9 rounds are done, the permutation table rules kick in, for example if round r \textgreater 9 then
-  permutation used is $\sigma_{r \thickspace mod \thickspace 10}$, say r = 15 then permutation would be 
-  $\sigma_{15 \thickspace mod \thickspace 10} = \sigma_{5}$.
+  Once more than 9 rounds are done, then permutations to be applied from table are selected by modulo 10 of round. 
+  For example if round r \textgreater 9 then permutation used is $\sigma_{r \thickspace mod \thickspace 10}$, say 
+  r = 15 then permutation would be $\sigma_{15 \thickspace mod \thickspace 10} = \sigma_{5}$.
 
   For the padding, the message is first padded with bit 1 and then as many zeros required to make the bit length
   equivalent to 895 modulo 1024. After that another bit of value 1 is appended followed by 128-bits unsigned big-endian
@@ -260,7 +268,7 @@ and 3.9), compression function and the way message is padded.
   \subsubsection{BLAKE-384}
   In BLAKE-384 the output of BLAKE-512 is truncated to 384 bits. The padding differs from BLAKE-512, in way that bit
   preceding the length encoding is 0 and not 1. It can be shown as $m \gets m \parallel 100 \dots 000 \langle l \rangle_{128}$. The
-  initial chaining values are given in table 3.11.
+  initial chaining values are given in table 3.9.
   \begin{table}[h]
     \begin{align*}
       {\tt IV_{0}} &= {\tt CBBB9D5DC1059ED8} & {\tt IV_{1}} &= {\tt 629A292A367CD507} & {\tt IV_{2}} &= {\tt 9159015A3070DD17} \\
@@ -280,13 +288,13 @@ Gr{\o}stl that returns a message digest of size n, is called Gr{\o}stl-n.
 Gr{\o}stl is an iterated hash function, with two two compression functions named P and Q, based on wide trail design
 and having distinct permutations. Gr{\o}stl has a byte oriented SP network, and its diffusion layers and S-box 
 are identical to AES. The design is a wide-pipe construction, where the internal state size is larger than output 
-size. Thus preventing most of the generic attacks. None of the permutations are indexed by a key, to prevent attacks
+size, thus preventing most of the generic attacks. None of the permutations are indexed by a key, to prevent attacks
 from a weak key schedule \cite{00019}.
 
   \subsection{The hash function construction}
 
   The input is padded and then split into l-bit message blocks $m_{1}$,$\ldots$, $m_{t}$, and each message block is
-  processed sequentially. The initial l-bit chaining value $h_{0}$ = iv is defined, and the blocks $m_{i}$ are
+  processed sequentially. The initial $l$-bit chaining value $h_{0}$ = iv is defined, and the blocks $m_{i}$ are
   processed as 
 
   \begin{center}$ h_{i}\gets f(h_{i-1}, m_{i})\thickspace for \thickspace i = 1,\ldots, t.$\end{center}
@@ -305,12 +313,11 @@ from a weak key schedule \cite{00019}.
   After the last message block is processed, the last chaining value output is sent through a $\Omega$ function, to get
   the hash output H(M).
   \begin{center}$H(M) = \Omega(h_{t}),$\end{center}
-  The entire process is shown in the above figure 3.1.
-
-  The f function shown above, is composed of two l-bit permutations called P and Q, which is defined as follows.
+  Figure 3.3 displays the process. The permutation function $f$, is composed of two $l$-bit permutations called P 
+  and Q.
   \begin{center}$f(h, m) = P(h \oplus m) \oplus Q(m) \oplus h.$\end{center}
   
-  \begin{figure}[h]
+  \begin{figure}
     \begin{center}
       \includegraphics[width=2.5in]{groestlPQfunction.jpg}
     \end{center}
@@ -318,11 +325,10 @@ from a weak key schedule \cite{00019}.
     \label{fig:lab}
   \end{figure}
 
-  The $\Omega$ function consists of a $trunc_{n}(x)$ that outputs only the trailing n bits of input x. The $\Omega$ function
-  can now be defined as 
+  The $\Omega$ function consists of a $trunc_{n}(x)$ that outputs only the trailing n bits of input x.
   \begin{center}$\Omega(x) = trunc_{n}( P(x) \oplus x ).$\end{center}
 
-  \begin{figure}[h]
+  \begin{figure}
     \begin{center}
       \includegraphics[width=4.5in]{groestlomegafunction.jpg}
     \end{center}
@@ -330,23 +336,22 @@ from a weak key schedule \cite{00019}.
     \label{fig:lab}
   \end{figure}
 
-  In order to fit the varying input length message to the block sizes of $ l $ padding is defined. First bit '1' is
-  appended, then $ w = -N - 65 \thickspace mod \thickspace l $ 0 bits are appended; where N is the length of the
-  original message. Finally a 64 bit representation of $(N + w + 65) / l $. Given the need for message length, the
-  maximum size of message digest in bits for Gr{\o}stl-512 version is $2^{73}-577$ bits, and that for 1024 version
-  is $2^{74}-1089$bits.
+  In order to fit the varying input length message to the block sizes of $ l $, the message is padded to make it a
+  multiple of block size $l$. First bit '1' is
+  appended, then\\ $ w = -N - 65 \thickspace mod \thickspace l $, 0 bits are appended; where N is the length of the
+  original message. Finally a 64 bit representation of $(N + w + 65) / l $ is padded. Given the need for message length
+  to be present in the padding, the maximum size of message digest in bits for Gr{\o}stl-512 version is 
+  $2^{73}-577$ bits, and that for 1024 version is $2^{74}-1089$bits.
 
   \subsection{Design of P and Q permutations}
 
-  There are two variations for P and Q permutations, one each for the digest size lower and higher than 256 bits. There
-  are four round transformations, that compose a round R. The permutation consists of a number of rounds R. R can be
-  represented as 
+  There are two variations for P and Q permutations, one each for the digest size lower and higher than 256 bits. P
+  and Q, make a round R, that has 4 transformations
   \begin{center}$ R = MixBytes \cdot ShiftBytes \cdot SubBytes \cdot AddRoundConstant $ \end{center}
-  The transformations SubBytes and MixBytes are same for all transformation while, ShiftBytes and AddRoundConstant differ
-  for each of the transformations. The transformations operate on matrix of bytes, with the permutation of lower size
-  digest having matrix of 8 rows and 8 columns, while that for larger variant is of 16 columns and 8 rows. The mapping of
-  the input to the state and the transformations are explained below. The number of rounds for each R is given as 
-  recommendation in table 3.1 and the initial values are given in table 3.2
+  The transformations $SubBytes$ and $MixBytes$ are same for all transformation while, $ShiftBytes$ and $AddRoundConstant$
+  differ for each of the transformations. The transformations operate on matrix of bytes, with the permutation of lower size
+  digest having matrix of 8 rows and 8 columns, while that for larger variant is of 16 columns and 8 rows. The number of 
+  rounds for each R is given as recommendation in table 3.10 and the initial values are given in table 3.11
   
   \begin{table}
     \begin{center}
@@ -376,8 +381,8 @@ from a weak key schedule \cite{00019}.
   \begin{itemize}
     \item {\bf Mapping:} of a 64-byte sequence of 00 01 02 $\ldots$ 3f to a 8 $\times$ 8 matrix is shown in the following matrix.
     For a 8 $\times$ 16 matrix, the mapping is extended the same way. Mapping the intermediate state values to byte sequence
-    would be reverse of this.
-  $   \mathsf{Input\thickspace Mapping} = \renewcommand\arraystretch{0.75}
+    is reverse of this process.
+     $\mathsf{Input\thickspace Mapping} = \renewcommand\arraystretch{0.75}
       \begin{bmatrix}
         \mathsf{00} & \mathsf{08} & \mathsf{10} & \mathsf{18} & \mathsf{20} & \mathsf{28} & \mathsf{30} & \mathsf{38} \\
         \mathsf{01} & \mathsf{09} & \mathsf{11} & \mathsf{19} & \mathsf{21} & \mathsf{29} & \mathsf{31} & \mathsf{39} \\
@@ -388,9 +393,9 @@ from a weak key schedule \cite{00019}.
         \mathsf{06} & \mathsf{0e} & \mathsf{16} & \mathsf{1e} & \mathsf{26} & \mathsf{2e} & \mathsf{36} & \mathsf{3e} \\
         \mathsf{07} & \mathsf{0f} & \mathsf{17} & \mathsf{1f} & \mathsf{27} & \mathsf{2f} & \mathsf{37} & \mathsf{3f}
       \end{bmatrix}$
-    \item {\bf AddRoundConstant:} transformation round XOR a round dependant constant to the state matrix say A. It is
-    represented as $A \gets A \oplus C[i]$, where C[i] is the round constant in round i. The constants for both P and Q for both
-    variations are given below.
+    \item {\bf AddRoundConstant:} XORs a round dependant constant to the state matrix say A. It is represented as 
+    $A \gets A \oplus C[i]$, where $C[i]$ is the round constant in round $i$. The constants for both P and Q for both
+    variations are shown below. \\
 
     $ P_{512}: C[i] = \renewcommand\arraystretch{0.75}
     \begin{bmatrix}
@@ -402,7 +407,7 @@ from a weak key schedule \cite{00019}.
       \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} \\
       \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} \\
       \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} & \mathsf{00} \\
-    \end{bmatrix}$
+    \end{bmatrix}$ \\
 
     and 
 
@@ -416,8 +421,8 @@ from a weak key schedule \cite{00019}.
       \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} \\
       \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} \\
       \mathsf{ff} \oplus i & \mathsf{ef} \oplus i & \mathsf{df} \oplus i & \mathsf{cf} \oplus i & \mathsf{bf} \oplus i & \mathsf{af} \oplus i & \mathsf{9f} \oplus i & \mathsf{8f} \oplus i 
-    \end{bmatrix}$
-
+    \end{bmatrix}$ \\
+    
     Similarly, the P and Q for the wider variants are written.
 
     $ P_{1024}: C[i] = \renewcommand\arraystretch{0.75}
@@ -444,9 +449,9 @@ from a weak key schedule \cite{00019}.
       \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} \dots \mathsf{ff} \\
       \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} & \mathsf{ff} \dots \mathsf{ff} \\
       \mathsf{ff} \oplus i & \mathsf{ef} \oplus i & \mathsf{df} \oplus i & \mathsf{cf} \oplus i & \mathsf{bf} \oplus i & \mathsf{af} \oplus i & \mathsf{9f} \oplus i & \mathsf{8f} \oplus i \dots \mathsf{0f} \oplus i
-    \end{bmatrix}$
+    \end{bmatrix}$ \\
 
-    where i is the round number represented as 8 bits value, and all other numbers are represented as
+    where $i$ is the round number represented as 8 bits value, and all other numbers are represented as
     hexadecimals.
     
 \begin{table}
@@ -478,7 +483,7 @@ from a weak key schedule \cite{00019}.
 \end{center}
 \end{table}
 
-  \item {\bf SubBytes:} substitutes each byte in state by value from S-box shown in table 3.3.
+  \item {\bf SubBytes:} substitutes each byte in state by value from S-box shown in table 3.12.
   Say $a_{i,j}$ a element in row i and column j of the state matrix, then the transformation done is 
   $a_{i,j} \gets S( a_{i,j}),  0 \leq i < 8, 0 \leq j < v.$ 
   
@@ -490,11 +495,11 @@ from a weak key schedule \cite{00019}.
     \label{fig:lab}
   \end{figure}
 
-  \item {\bf ShiftBytes:} transformation cyclically shifts the bytes in a row to left by that number. Let list 
+  \item {\bf ShiftBytes:} cyclically shifts the bytes in a row to left by that number. Let list 
   vector of a number denote the shift, with the index of the element indicating the row. The vector representation
   for $P_{512}$ = [0, 1, 2, 3, 4, 5, 6, 7] and $Q_{512}$ = [1, 3, 5, 7, 0, 2, 4, 6]. The shift is shown in figure
   3.4. Those for the larger permutation are $P_{1024}$ = [0, 1, 2, 3, 4, 5, 6, 11]and $Q_{1024}$ = 
-  [1, 3, 5, 11, 0, 2, 4, 6]. This shifting is shown in figure 3.5.
+  [1, 3, 5, 11, 0, 2, 4, 6]. This shifting is illustrated in figure 3.6 and figure 3.7.
     
   \begin{figure}
     \begin{center}
@@ -518,10 +523,10 @@ from a weak key schedule \cite{00019}.
   \end{bmatrix}$
   \end{center}
   
-  \item {\bf MixBytes:} transformation, multiplies each column of the state matrix A, by a constant 8 $\times$ 8 matrix B.
-  The transformation, can be shown as $ A \gets B \times A$. The matrix B, can be seen as a finite field over $\mathbb{F}_{256}$.
-  This finite field is defined over $\mathbb{F}_{2}$ by the irreducible polynomial $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$.
-  The mix bytes matrix B is shown above.
+  \item {\bf MixBytes:} multiplies each column of the state matrix A, by a constant 8 $\times$ 8 matrix B.
+  The transformation, can be shown as $ A \gets B \times A$. The matrix B, can be seen as a finite field over 
+  $\mathbb{F}_{256}$, which is shown above. The finite field is defined over 
+  $\mathbb{F}_{2}$ by the irreducible polynomial $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$.
   % The composition of matrix B is shown, in appendix A, in item 2.
   %The bytes of the state matrix are in $\mathbb{F}_{256}$ in polynomials of degree at most 7, and coefficients in 0 and 1.
   %The matrix B, is circular shifting of the same row. Each row of the matrix below the current row, is rotated left by
@@ -529,11 +534,12 @@ from a weak key schedule \cite{00019}.
 
   \end{itemize}
 
+\newpage
 \section{Keccak}
 Keccak hash function, is built on sponge construction, which can input and output arbitrary length strings. The sponge
 construction has two phases. First is absorb, where the input message is ingested in blocks of defined bit rate interleaved
-with the permutations. And the second phase is squeeze phase, where the blocks of output are squeezed out as per the 
-bit rate blocks. The Keccak, state is different in the sense that, the permutations work on a 3 dimensional block, cube
+with the permutations. The second phase is squeeze phase, where the blocks of output are squeezed out as per bit rate. 
+The Keccak, state is different in the sense that, the permutations work on a 3 dimensional block, cube
 structure rather than linear strings, or 2 dimensional arrays.
 
   \subsection{Keccak state, sponge functions and padding} 
@@ -587,13 +593,13 @@ structure rather than linear strings, or 2 dimensional arrays.
     \end{algorithmic}
   \end{algorithm}
 
-  Algorithm 3.2 shows how the sponge construction applied to $KECCAK-f[r + c]$, with multi-rate padding. In algorithm 3.2
-  length of a string $M$ is denoted by $\mid M \mid $. The string $M$ can also be considered as having blocks of size say x,
-  and those number of blocks are shown as $\mid M \mid_{x}$. The $\lfloor M \rfloor_{l}$ denotes the string $M$ truncated to its first $l$ bits.
+  Algorithm 3.2 shows how the sponge construction applied to $KECCAK-f[r + c]$, with multi-rate padding, length of a 
+  string $M$ is denoted by $\mid M \mid $. The string $M$ can also be considered as having blocks of size say x,
+  and those number of blocks are shown as $\mid M \mid_{x}$. The $\lfloor M \rfloor_{l}$ denotes the string
+  $M$ truncated to its first $l$ bits.
   
-  The multi-rate padding in Keccak is denoted as $pad \thickspace 1 0^{*}1$ , where a bit '1' is appended to message, followed 
-  by minimum number of zeros. And lastly a single bit 1, so that resultant block is multiple of block length $b$. Thus 
-  Keccak in terms of sponge function can be defined as 
+  The multi-rate padding in Keccak is denoted as $pad \thickspace 1 0^{*}1$ , where a bit '1' is appended to message, 
+  followed by minimum number of zeros, and a single bit 1, so that resultant block is multiple of block length $b$.
   \begin{center}$KECCAK[r, c] \doteq SPONGE[KECCAK-f[r + c], pad1 0^{*}1, r]$ \end{center}
   Where $ r > 0$ and $r + c$ is the width. The default value of $r$ is $1600 - c$, and the default value of $c$ is 576.
   \begin{center}$KECCAK[c] \doteq KECCAK[r = 1600 - c, c],$\end{center}
@@ -729,8 +735,9 @@ structure rather than linear strings, or 2 dimensional arrays.
 
 \section{SHA-3}
 
-SHA-3 contains 4 cryptographic hash function variations of Keccak for digest sizes 224, 256, 384 and 512; along with two 
-extendable output functions(XOF) \cite{00042}. XOF are hash functions, whose output can be extended to desired length. 
+As per the latest proposed draft, SHA-3 contains 4 cryptographic hash function variations of Keccak for digest sizes
+224, 256, 384 and 512; along with two extendable output functions(XOF) \cite{00042}. XOF are hash functions, whose 
+output can be extended to desired length.
 
 \begin{table}
   \begin{center}
@@ -751,6 +758,29 @@ extendable output functions(XOF) \cite{00042}. XOF are hash functions, whose out
     SHAKE128    & $d$ & min($d$/2, 128) & $\geq$ min($d$, 128) & min($d$, 128) \\ \hline
     SHAKE256    & $d$ & min($d$/2, 256) & $\geq$ min($d$, 256) & min($d$, 256) \\ \hline
     \end{tabular}
-    \caption{Security strength of SHA-1, SHA-2, SHA-3 funcitons \cite{00042}}
+    \caption{Security strength of SHA-1, SHA-2, SHA-3 functions \cite{00042}}
   \end{center}
 \end{table}
+
+The Keccak variants are denoted by KECCAK[c] where c is the capacity of the sponge construction used for Keccak
+function. The message that is to be hashed is concatenated with two bits, and the output digest length is mentioned
+as parameters to the Keccak function for SHA-3.
+\begin{center}
+SHA3-224(M) = KECCAK[448](M $\vert \vert$ 01, 224) \\
+SHA3-256(M) = KECCAK[512](M $\vert \vert$ 01, 256) \\
+SHA3-384(M) = KECCAK[768](M $\vert \vert$ 01, 384) \\
+SHA3-512(M) = KECCAK[1024](M $\vert \vert$ 01, 512)
+\end{center}
+The capacity of each of the hash function is twice that of the digest length. The input string is concatenated with two
+bits 01, to support domain separation. The XOF are called SHAKE128 and SHAKE256, where the suffix 128 and 256, denote
+security strength of the functions. SHAKE nomenclature comes from the combination of words, SHA and Keccak. The XOF
+can be defined as 
+\begin{center}
+SHAKE128(M, d) = KECCAK[256](M $\vert \vert$ 1111, d) \\
+SHAKE256(M, d) = KECCAK[512](M $\vert \vert$ 1111, d)
+\end{center}
+Here the d denotes digest size, since the output size can be varied as per parameter d. There are two capacities available
+for SHAKE, that of being 256 and 512, that give the security margin of 128 and 256 respectively. The message before
+being provided as input to SHAKE is concatenated  with 4 bits of 1. The first two bits of 1 are for domain separation,
+while the rest 2 bits of 1 are for compatibility with Sakura coding, that enables tree hashing, in which parallel
+processing can be applied.

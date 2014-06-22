@@ -48,10 +48,10 @@ Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per de
 $P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$ \cite{00022}
 \end{lem}
 
-A 4 round rotational was built, and found that some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
+A 4 round rotational was built, that found some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
 random samples of rotational pairs are ran on 4 round KECCAK-f[1600]. The mean from that sample is 5682 which is beyond
 range from mean of $\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5. Thus demonstrating a distinguisher for 4 rounds.
-After 4 rounds all $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended. But instead probability
+After 4 rounds $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended. But instead probability
 that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ and 
 $(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution $\mathcal{B}(10000, 0.5)$.
 Values for $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
@@ -60,7 +60,7 @@ probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot
 probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_{(2, 0, 16)}, A^{\leftarrow}_{(2, 0, 17)})$.
 The bias is observed by generating sufficient number of samples 'm' based on Chernoff bound based on inequality 
 \[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
-where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following steps are implemented \cite{00022}
+where $\in$ is error set to 0.05, thus value of m turns out to be 403,000,000. Based on this value algorithm 4.1 is implemented.
   \begin{algorithm}
   \begin{algorithmic}[1]
     \State Generate 403,000,000 rotational pairs.
@@ -77,9 +77,9 @@ where $\in$ is error set to 0.05. m turns out to be 403,000,000. The following s
   \end{algorithm}
 
 The mean for $\mathcal{B}(403000000, 0.5)$ with the standard deviation has range of 201,500,000$\pm$2.10037, but 
-experimentally from above procedure it comes to around 201,450,503, thus concluding this as a distinguisher.
+experimentally from implementing algorithm 4.1, it comes to around 201,450,503, thus concluding this as a distinguisher.
 
-For the preimage attack an unknown message with cyclical pattern like that of 4 0's followed by 4 1's alternatively of
+For the preimage attack an unknown message with cyclical pattern like that of 4 0's followed by 4 1's alternatively, of
 512 bits is chosen. There are 256 possible messages of the cyclic pattern. For the preimage attack, a rotational
 counterpart of the preimage is searched for, that would reduce the complexity from random search. Algorithm 4.2 describes
 the steps.
@@ -317,9 +317,8 @@ states. Tabu search has been applied to mostly combinatorial optimization proble
       attack algorithms hill climbing, simulated annealing, tabu search and random selection.
       \item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
       climbing and random selection.
+      \item State size has no effect on efficiency of Keccak permutation rounds, for reduced number of rounds.
       \end{itemize}
-      %Reduced round Keccak, will have better resistance to near collisions found by tabu search and simulated
-      %annnealing, compared to reduced round BLAKE and Gr{\o}stl.
     }
   }
 \end{center}
