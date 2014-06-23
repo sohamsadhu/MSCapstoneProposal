@@ -151,11 +151,11 @@ $2^{506}$ calls to Keccak-512.
 
 \section{Finding near collisions with Hill Climbing}
 
-A generic algorithm applied to find collisions, in reduced rounds of some SHA-3 competitors was Hill Climbing
-\cite{00029}. Near collisions in which more than 75\% of the bits were same for two different messages, were found 
+Hill climbing algorithm, was used to find near collisions in reduced rounds of some SHA-3 competitors \cite{00029}.
+Near collisions in which more than 75\% of the bits were same for two different messages, were found 
 for reduced rounds of BLAKE-32, Hamsi-256 and JH. Near collision results are important for knowing the security
-margins. In some cases, output of hash functions may be truncated for compatibility or efficiency purposes. In 
-such cases near collisions could be improved to obtain collisions.
+margins. Hash values are sometimes truncated for compatibility or efficiency purposes. The findings from near collision
+can be improved to obtain full collisions.
 
 A $\epsilon / n $ bit near collision for hash function h and two messages $M_{1}$ and $M_{2}$, where $M_{1} \neq M_{2}$ can be 
 defined as
@@ -187,14 +187,14 @@ chaining values differing in small weight $\delta$ can obtain near collisions, w
 
 Here, the aim of hill climbing algorithm will be to minimize the function 
 \begin{center}$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$\end{center}
-where $x \in \{0, 1\}^{n}$, where $M_{1}$ and $M_{2}$ are message blocks. CV is chosen as any random chaining value. Then the 
-set of k-bit neighbours for the CV, will be 
+where $x \in \{0, 1\}^{n}$, where $M_{1}$ and $M_{2}$ are message blocks. CV can be chosen at random. The 
+set of k-bit neighbours for the CV, can be defined as 
 \begin{center}$S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$\end{center}
 where 
 \begin{center}$ size \thickspace of \thickspace S^{k}_{CV} = \displaystyle \sum \limits_{i = 0}^{k} \begin{pmatrix} n \\ i \end{pmatrix}$.\end{center}
 The k-opt condition can be defined as 
 \begin{center}$f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$\end{center}
-We can now describe algorithm 4.3, that is used in hill climbing algorithm to find the nearest match. 
+The hill climbing algorithm to find the nearest match is described in algorithm 4.4. 
 
 \begin{algorithm}
   \caption{ Hill Climbing algorithm ($M_{1}, M_{2}, k$) \cite{00029}}
@@ -210,7 +210,7 @@ We can now describe algorithm 4.3, that is used in hill climbing algorithm to fi
 \end{algorithm}
 
 Given two message $M_{1} \thickspace and \thickspace M_{2}$, and a randomly chosen chaining value CV, the $f_{M_{1}, M_{2}}(CV)$
-is obtained. The set $S^{k}_{CV}$ is searched for a better fit CV, and if found is updated. And the search is repeated again
+is obtained. The set $S^{k}_{CV}$ is searched for a better fit CV, and if found is updated. The search is repeated again
 in the k-bit neighbourhood of new CV.
 
 There are two ways of choosing the next best CV, one by choosing the first chaining value that has a lower $f$ value, the
@@ -328,12 +328,12 @@ one of the reasons for choosing Keccak, was that it had a large security margin.
 were found to be secure and have good security margins. However there has not been much study, on the comparative security
 margins for the candidate's reduced versions. Hill climbing has been shown as good generic greedy algorithm to find 
 near collisions for reduced versions of some SHA-3 candidates. A generic algorithm does not exploit the inner permutations
-or construction, of a hash function. Rather takes a good guess approach, to what the solution can be depending on the fitness
+or construction, of a hash function. Rather it takes a good guess approach, to what the solution can be depending on the fitness
 of the candidate solution. Thus making it an ideal tool to test on any hash function, irrespective of its design. In addition
-to hill climbing, it would also be interesting to observe the success other variations of generic algorithms like Tabu search,
-or Simulated Annealing will be able to get, and compare those results against a random search. In theory for an ideal hashing
+to hill climbing, it would also be interesting to observe the success other variations of generic algorithms like tabu search,
+simulated annealing against random search, for reduced versions of hash function. In theory for an ideal hashing
 function the performance of the generic algorithm will be equivalent to the random search algorithm on an average.
 
 Comparative studies on SHA-3 candidates have been using the statistical test suites provided by NIST to check any 
-deficiencies \cite{00030} \cite{00032}. Other than particular attacks like zero-sum property has been tested on 
+deficiencies \cite{00030, 00032}. Other than particular attacks like zero-sum property has been tested on 
 Keccak and Blue Midnight Wish \cite{00031}.
