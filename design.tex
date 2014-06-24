@@ -328,12 +328,12 @@ one of the reasons for choosing Keccak, was that it had a large security margin.
 were found to be secure and have good security margins. However there has not been much study, on the comparative security
 margins for the candidate's reduced versions. Hill climbing has been shown as good generic greedy algorithm to find 
 near collisions for reduced versions of some SHA-3 candidates. A generic algorithm does not exploit the inner permutations
-or construction, of a hash function. Rather it takes a good guess approach, to what the solution can be depending on the fitness
-of the candidate solution. Thus making it an ideal tool to test on any hash function, irrespective of its design. In addition
-to hill climbing, it would also be interesting to observe the success other variations of generic algorithms like tabu search,
-simulated annealing against random search, for reduced versions of hash function. In theory for an ideal hashing
-function the performance of the generic algorithm will be equivalent to the random search algorithm on an average.
+or construction, of a hash function, rather it takes a good guess approach, to what the solution can be depending on the fitness
+of the candidate solution. In addition to hill climbing, it would also be interesting to observe the success other 
+variations of generic algorithms like tabu search, simulated annealing against random search, for reduced versions of 
+hash function. In theory for an ideal hashing function the performance of the generic algorithm will be equivalent to 
+the random search algorithm on an average.
 
 Comparative studies on SHA-3 candidates have been using the statistical test suites provided by NIST to check any 
-deficiencies \cite{00030, 00032}. Other than particular attacks like zero-sum property has been tested on 
-Keccak and Blue Midnight Wish \cite{00031}.
+deficiencies \cite{00030, 00032}. Studies have also been done on attacks particular to hash function, like zero-sum
+property for Keccak \cite{00031}, and rebound attack on JH \cite{00043}.

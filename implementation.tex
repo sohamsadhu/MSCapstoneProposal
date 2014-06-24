@@ -3,13 +3,14 @@
 \section{Experiment Structure}
 
 The experiment is designed to find the number of attempts it takes to find near collision amongst the three
-candidate hashing algorithm BLAKE, Keccak and Gr{\o}stl when subjected to attacks from following algorithms
-hill climbing, simulated annealing, tabu search and random selection. The idea is to take a seed message and
-update it, so we get two different input message with tiny difference. Then try to minimize our cost function,
-which is minimizing the hamming weight of the string obtained by bitwise XOR of the two message digests, 
-obtained by feeding the two input message that are padded by the same chaining value. The minimization of the
-of the cost function is obtained by the collision finding the algorithm, which they acheive by selecting
-the suitable chaining value.
+candidate hashing algorithm BLAKE, Keccak and Gr{\o}stl when subjected to attacks from following algorithms:
+hill climbing, simulated annealing, tabu search and random selection. 
+
+The idea is to take a seed message and update it, so we get two different input message with tiny difference. 
+Then try to minimize our cost function, which is minimizing the hamming weight of the string obtained by bitwise
+XOR of the two message digests, obtained by feeding the two input message that are padded by the same chaining 
+value. The minimization of the of the cost function is obtained by the collision finding the algorithm, which 
+it does by selecting the suitable chaining value.
 
 The experiment is conducted for a number of trials, where the digest lengths are varied at the standard bit
 lengths of 224, 256, 384 and 512 as standardized by SHA-3. The full version of SHA-3 finalist hashing algorithms
@@ -20,33 +21,42 @@ The factors that are kept common for comparison are the digest lengths, message 
 For each trial and each hashing algorithm, the chaining value is randomly chosen and then worked upon by
 the collision finding algorithm.
 
+We also compare various versions of Keccak, that have their internal state reduced by varying number of bits. 
+The versions of Keccak are subjected to hill climbing algorithm, to find collision in the reduced number of
+rounds. The goal is to find, by how much does the reduction in state size, does make Keccak unsecure.
+
 \subsection{Input}
 
 The string "The quick brown fox jumps over the lazy dog", was chosen as the root seed message. This seed string
 contains all letters from English alphabet, and is neither too small or large. Pairs were made from this seed
 string, by toggling a bit, from the ASCII/UTF-8 bit representation of this string. The toggling of the bits are
 divided into 3 parts - starting, middle, and end. In starting part the most significant bits of the string are
-toggled, while in the end part the least significant bits are toggled. In the middle part, the bits toggled 
-equally from the most significant and least significant side of the bit that is in middle of the string. For
-example let bit representation of a string be $01100010 00011000$, then in starting section there will be strings
-generated of kind ${\bf 1}1100010 00011000$, $0{\bf 0}100010 00011000$, $01{\bf 0}00010 00011000$ and so on. 
-Only 1 bit from the seed string is toggled, starting from the first bit, then the second bit. This process is
-repeated till the number of bits asked to be toggled. In this case of experiment we updated 20 bits from the
-seed string, thus generating 20 strings from seed string each having a bit difference from the seed.
+toggled, while in the end part the least significant bits are toggled. In the middle part, equal number of bits 
+are toggled from the most significant and least significant side of the bit that is in middle of the string. For
+example let bit representation of a string be $01100010\thickspace00011000$, then in starting section there 
+will be strings generated of kind ${\bf 1}1100010\thickspace00011000$, $0{\bf 0}100010\thickspace00011000$,
+$01{\bf 0}00010\thickspace00011000$ and so on. Only 1 bit from the seed string is toggled, starting from the
+first bit, then the second bit, and this process is repeated till the number of bits that need to be toggled. 
+In this case of experiment we updated 20 bits from the seed string, thus generating 20 strings from seed string 
+each having a bit difference from the seed.
 
 The generated strings are paired up with the seed string and are written to a file. Each file has a pair of
 strings written to it, separated by newline. The text files holding these pairs are named the number, derived
 from the order in which the bit was updated for the generated string. For example the input file 1.txt will
-have the entry of seed string and the generated string that has the first bit toggled. Following are the
-contents of the file 1.txt in our case.
+have the entry of seed string and the generated string that has the first bit toggled. File 1.txt will have 
+only two lines containing hexadecimal representation of string "The quick brown fox jumps over the lazy dog",
+and another line containing the same hexadecimal representation of seed string, but with the first bit toggled.
+The contents of file 1.txt are as follows 
 
-\begin{center}54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f67
-d4686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f67\end{center}
+\newpage
+\begin{center}{\bf 5}4686520717569636b2062726f776e20666f78206a7 \\
+56d7073206f76657220746865206c617a7920646f67 \\ 
+\vspace{2mm}
+{\bf d}4686520717569636b2062726f776e20666f78206a7 \\
+56d7073206f76657220746865206c617a7920646f67\end{center}
 
-Notice that the first line is the hexadecimal representation of the seed string "The quick brown fox jumps over
-the lazy dog", and the second line has the first bit toggled, from the seed string and again represented in
-hexadecimal format. In similar way rest of the 20 files are created and named for the bits updated from the most 
-significant bit onwards. These files are then stored in the folder "Start", which in turn is stored in the folder 
+In similar way rest of the 20 files are created and named for the bits updated from the most significant 
+bit onwards. These files are then stored in the folder "Start", which in turn is stored in the folder 
 called "Input" that holds all the input strings.
 
 Similarly in the "Input" folder two more folders "Middle" and "End" are created, and each filled with 20 text
@@ -54,29 +64,27 @@ files named or numbered 1 to 20. In the "Middle" folder are files that have two 
 bit difference in the middle section of the string. The bits updated are equally distributed around most and least
 significant between the middle bit in the seed string. For example in case of two bits being toggled, for the 
 "Middle" section for seed string in bit form $01100010 00011000$ you will get two strings like $0110001{\bf 1}
-00011000$, and $01100010 {\bf 1}0011000$. The bit toggling starts from the most significant bit selected from 
-the middle bit to least significant bit, that is from left to right. So in the example provided if the seed string
-is $01100010 00011000$, then file Input/Middle/1.txt will contain 
+\thickspace00011000$, and $01100010\thickspace{\bf 1}0011000$. The bit toggling starts from the most significant
+bit selected from the middle bit to least significant bit, that is from left to right. So in the example provided
+if the seed string is $01100010\thickspace00011000$, then file Input/Middle/1.txt will contain 
 
-\begin{center}$01100010 00011000$
-
-$0110001{\bf 1} 00011000$\end{center}
+\begin{center}$01100010\thickspace00011000$\\
+$0110001{\bf 1}\thickspace00011000$\end{center}
 
 an file Input/Middle/2.txt will contain.
 
-\begin{center}$01100010 00011000$
-
-$01100010 {\bf 1}0011000$\end{center}
+\begin{center}$01100010\thickspace00011000$\\
+$01100010\thickspace{\bf 1}0011000$\end{center}
 
 Please note that the above mentioned fragments are examples, and not actual contents. The actual contents are going
 to be hexadecimal representation of bit value, of the seed string "The quick brown fox jumps over the lazy dog", and 
 the hexadecimal representation of bits of the updated string, as shown for the file 1.txt in "Start" folder category.
 
 In the similar manner, files are created for the "End" category. Least significant bits are toggled, one by one
-proceeding towards the significant bits. Say the seed string is $01100010 00011000$ then in file 1.txt the seed will
-be paired with string $01100010 0001100{\bf 1}$, and in file 2.txt it will be paired with $01100010 000110{\bf 1}0$
-and so on. The files for input can be found along with the source code implementation
-\href{"https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Input"}{git repository}.
+proceeding towards the significant bits. Say the seed string is $01100010\thickspace00011000$ then in file 1.txt 
+the seed will be paired with string $01100010\thickspace0001100{\bf 1}$, and in file 2.txt it will be paired with 
+$01100010\thickspace000110{\bf 1}0$ and so on. The files for input can be found along with the source code 
+implementation \href{"https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Input"}{git repository}.
 
 \subsection{Output}
 
@@ -105,7 +113,7 @@ takes for the collision finding algorithm, to find near collisions. The output f
 implementation in \href{"https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Output"}
 {git repository}.
 
-\subsection{Rational for the experiment structure, parameters and collected data}
+\subsection{Rational for experiment structure, parameters and collected data}
 
 \subsubsection{Choosing iterations over execution time and noting collisions}
 After creation of the output files, the average iterations for each case of input that is start, end or middle
@@ -123,7 +131,7 @@ is important in our experiment in hill climbing, where we run the algorithm till
 The near collision in this case is defined as having 65\% bits as same. So if a collision algorithm gets 65\% bits
 of two hash digests to be similar then it is noted as a success. This is a small margin, and randomly 50\% of the
 bits can be guessed correctly. However, getting more than 50\% of the bits to be similar, by non random methods with
-finite attempts can be marked as a success. 
+finite attempts can be marked as a success. We then experiment with higher values, for 75\% and 85\% bits collision.
 
 \subsubsection{Why have two message pairs in the way they are?}
 Having two different inputs, with slight differences gives us the opportunity to determine the diffusion properties
@@ -157,8 +165,9 @@ find if weakness in diffusion in hashing algorithms is in any related to positio
 
 The experiment is more on lines of black box testing, where we just evaluate the output rather than examining
 how the input is processed. Thus we need a plethora of test cases to cover most possibilities before concluding
-any weakness in one hash function compared to others. The hash functions are compared across the digest lengths
-of 224, 256, 384 and 512 bits, which have been standardized by NIST.
+any weakness in one hash function compared to others. 
+%The hash functions are compared across the digest lengths
+%of 224, 256, 384 and 512 bits, which have been standardized by NIST.
 
 \subsubsection{Achieving reduced versions of algorithms}
 For our experiments, we achieve the reduction in the hashing algorithm by reducing the number of permutation
@@ -166,7 +175,8 @@ rounds in a function. There are other ways to achieve reduction in a hash functi
 state size, or reducing the number of output digest bits. NIST has specifically increased the digest sizes from
 SHA-1 standard of 128 bits to new 4 different bit sizes of 224, 256, 384 and 512; considering future security
 considerations from increasing computational power. Thus we chose not to reduce the number of output bits.
-Internal state size reduction was another way, but different algorithms have different state sizes. The
+Internal state size reduction was another way, but different algorithms have different state sizes, thus making
+it difficult to reduce the state size amongst algorithms in proportional manner for comparison. The
 distribution of input and other constant parameters is also different, in each of the hashing algorithm. Thus
 for reducing the state size, a need in reducing the word size or reducing other constants would be required,
 which may diminish the confusion and diffusion properties for hashing algorithms in ways unfair for experimental
@@ -180,13 +190,17 @@ of permutation rounds is easy to achieve, and gives a uniform parameter amongst 
 That is, are the permutation functions involved in the hashing good enough properties of confusion and
 diffusion in minimal application.
 
+We do however, reduce the internal state size for Keccak, and compare various versions of Keccak with state size
+from 200, 400, 800 and 1600 bits, for reduced number of permutations. In this case we have only looked at how
+the reduction in state size affects the security margin of Keccak.
+
 \section{Implementation}
 
 \subsection{Input Creation}
 
 To create the input, a GUI was created in which the seed text could be inserted and then choose the input case,
 like if you want to toggle the bits at the start, middle or end of the string; and number of bits you want
-to toggle. On click of the create input file button, files with the bits flipped to the number provided paired
+to toggle. On click of the create input file button, files with the bits flipped to the number provided, paired
 with seed string will be created in respective folder.
 
 \begin{figure}
