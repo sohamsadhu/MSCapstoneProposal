@@ -276,9 +276,9 @@ the collision finding algorithms with the input message pairs, and instantiating
 \end{figure}
 
 The Experiment class is the one that calls FindCollision algorithm, which is the parent class, that generates
-the random chaining value as per the bit length provided. Evaluates the cost function, and generating neighbourhood
-solution chaining values for the collision finding purpose. The relationship between the classes is shown in the
-UML class diagram shown in figure 5.6.
+the random chaining value as per the bit length provided. FindCollision evaluates the cost function, and generating
+neighbourhood solution chaining values for the collision finding purpose. The relationship between the classes 
+is shown in the UML class diagram shown in figure 5.6.
 
 \begin{figure}
   \begin{center}
@@ -290,9 +290,9 @@ UML class diagram shown in figure 5.6.
 
 \subsection{Testing the implemented code}
 
-Code implementing hashing involves permuting and substituting large number of bits, resulting in subtle bugs to
-magnify and distort the output results. As a consequence we have written, unit test cases to make sure, that our
-code works in individual and parts, so that the correctness of the results can be guaranteed with absence of bugs
+Code implementing hashing involves permuting and substituting large number of bits, resulting in subtle bugs that
+can distort hash values. We have written, unit test cases to make sure, that our code works in individual case 
+and as whole, so that the correctness of the results can be guaranteed with absence of bugs
 or bias in the code. InputTest class is created to make sure, that the toggling of the bits is done as expected.
 ExperimentTest class makes sure, that the correct parameters are called and passed like the correct hashing
 algorithm, with the expected digest size and rounds etc. The SHA3Test class makes sure that the implementation of 
