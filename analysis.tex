@@ -146,6 +146,66 @@ The increase in number of iterations is more than three and half times, than wha
   \end{center}
 \end{table}
 
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                      \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds}      \\ \cline{2-5}
+                                  & 3         & 4         & 5         & 6         \\ \hline
+     224                          & 888.7041  & 886.5791  & 887.45624 & 886.90234 \\ \hline
+     256                          & 890.9251  & 887.38654 & 892.7425  & 886.8806 \\ \hline
+     384                          & 901.43475 & 899.38184 & 897.4841  & 898.53204 \\ \hline
+     512                          & 904.9191  & 903.99664 & 899.77905 & 903.5086 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak state reduced to 200
+    bits for chaining value of bit length 32}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                      \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds}      \\ \cline{2-5}
+                                  & 3         & 4         & 5         & 6         \\ \hline
+     224                          & 886.5635  & 888.7487  & 887.6253  & 889.58105 \\ \hline
+     256                          & 892.4196  & 886.4025  & 891.1634  & 893.09955 \\ \hline
+     384                          & 893.4515  & 899.21075 & 898.08624 & 899.47095 \\ \hline
+     512                          & 906.7043  & 902.24585 & 905.25226 & 904.25146 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak state reduced to 400
+    bits for chaining value of bit length 32}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                      \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds}      \\ \cline{2-5}
+                                  & 3         & 4         & 5         & 6         \\ \hline
+     224                          & 883.2331  & 886.8011  & 888.35693 & 882.604  \\ \hline
+     256                          & 891.8457  & 890.4056  & 891.42303 & 887.5101 \\ \hline
+     384                          & 896.4909  & 901.9487  & 898.8139  & 899.3991 \\ \hline
+     512                          & 901.11426 & 905.84766 & 901.05646 & 905.69293 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak state reduced to 800
+    bits for chaining value of bit length 32}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                      \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds}      \\ \cline{2-5}
+                                  & 3         & 4         & 5         & 6         \\ \hline
+     224                          & 883.2331  & 886.8011  & 888.35693 & 882.604  \\ \hline
+     256                          & 891.8457  & 890.4056  & 891.42303 & 887.5101 \\ \hline
+     384                          & 896.4909  & 901.9487  & 898.8139  & 899.3991 \\ \hline
+     512                          & 901.11426 & 905.84766 & 901.05646 & 905.69293 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak bits for chaining value 
+    of bit length 32}
+  \end{center}
+\end{table}
+
 \section{Near collisions}
 
 If the collision algorithm was able to find a chaining value by iteratively going through its neighbourhood, that got
@@ -411,3 +471,5 @@ like hill climbing and simulated annealing for digests obtained from rounds abov
     chaining value.}
   \end{center}
 \end{table}
+
+\subsection{}
