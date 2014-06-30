@@ -1,4 +1,4 @@
-\chapter{Related work and hypothesis based on Hill Climbing to find near collisions}
+\chapter{Related work and hypothesis}
 
 \section{Rotational cryptanalysis of round-reduced KECCAK}
 
@@ -217,7 +217,7 @@ There are two ways of choosing the next best CV, one by choosing the first chain
 greedy way. And another by choosing the best chaining value amongst $S^{k}_{CV}$, which is steepest ascent. The algorithm
 terminates once we get k-opt chaining value.
 
-\section{Tabu Search, Simulated Annealing and Random search}
+\section{Search techniques}
 
 \subsection{Simulated Annealing}
 
@@ -287,7 +287,9 @@ keeping the state, is to restrict the search, to states that have not been visit
 tweaked, to accept moves in tabu list through aspiration criteria, or inferior moves just to explore new possible
 states. Tabu search has been applied to mostly combinatorial optimization problems \cite{00034, 00035}.
 
-\begin{algorithm}[h]
+\subsection{Random selection}
+
+\begin{algorithm}[H]
   \caption{ Random selection from k-bit neighbourhood of $CV$ }
   \begin{algorithmic}[1]
     \Function {Random-Selection}{$ M_{1}, M_{2}, CV,$ number\_of\_trials}
@@ -295,7 +297,7 @@ states. Tabu search has been applied to mostly combinatorial optimization proble
       \State trial $\gets$ 0
       \While { trial $<$ number\_of\_trials }
         \State next $\gets$ randomly selected candidate from $S^{k}_{current}$
-        \If { $f_{M_{1}, M_{2}}(next) - f_{M_{1}, M_{2}}(current) $ }
+        \If { $f_{M_{1}, M_{2}}(current) > f_{M_{1}, M_{2}}(next) $ }
           \State current $\gets$ next
         \EndIf
       \EndWhile 
@@ -304,6 +306,13 @@ states. Tabu search has been applied to mostly combinatorial optimization proble
   \end{algorithmic}
 \end{algorithm}
 
+Random selection is the most naive way of finding collisions, without application of any heuristic and depending on
+chance to get a better solution. The algorithm keep randomly selecting chaining values from the neighbourhood, and
+comparing against the current value. If a better chaining value that minimizes the evaluation function is met, then
+it is selected as the current chaining value, and used for creation of new neighbourhood to be searched. The number
+of trials is fixed before the start of the algorithm.
+
+\newpage
 \section{Hypothesis}
 
 \begin{center}
