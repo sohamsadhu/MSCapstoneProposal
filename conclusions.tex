@@ -2,12 +2,13 @@
 
 \section{Validity of the hypothesis}
 
-In section 4.4 two hypothesis were suggested, both have been sort of some what disproved. When the reduced version
+In section 4.4 three hypothesis were suggested, two have been disproved and one confirmed. When the reduced version
 of an algorithm is only done by reducing the number of rounds, then for just rounds 1 and 2, Keccak performs worse
 than BLAKE and Gr{\o}stl. Also from the numbers and taking into account the number of success in getting collisions,
 hill climbing performs better than simulated annealing and tabu search. Random selection also performs, some what 
 comparable to simulated annealing, but not much. Suggesting that for reduced rounds, that random selection could
-also be used to find near collisions.
+also be used to find near collisions. The collision resistance of Keccak remains does not change, when the internal
+state size of Keccak is reduced.
 
 \subsection{Collision resistance of SHA-3 finalist in reduced rounds}
 
@@ -50,6 +51,23 @@ than hill climbing. While hill climbing was able to find collision in instances 
 pairs for each of the SHA-3 algorithm for message digest of 224 and 256, for permutation rounds of 3 and 4. But 
 simulated annealing is only able to find collision in 1 instance out of 60 for 1 trial.
 
+\subsection{Affects of state size for Keccak}
+
+When Keccak is reduced to only 1 or 2 permutation rounds, then Keccak with lower state size, seems to possess better
+collision resistance properties to hill climbing. As seen from table 6.11 and 6.26, for lower rounds the standard Keccak
+version has comparatively weaker resistance, and requires least effort to find near collisions, for rounds 1 and 2.
+In reduced state versions of Keccak, the message gets broken down into smaller blocks, and thus more bits are subjected
+to more Keccak permutations as opposed to larger state size. Larger Keccak state size allows larger bit rates, thus
+allowing less number of absorption and squeezing phases for message as opposed to smaller versions of Keccak. This
+leads to message undergoing permutation rounds in reduced state size Keccak more times than that in full versions.
+
+The collision resistance however plateaus for all versions of Keccak, after rounds are increased 3 and above. For Keccak
+with digest sizes 224 and 256 bits, near collisions are still visible as seen from tables 6.27 to 6.30. However, when 
+larger digest size of 384 and 512 are selected, then collisions are less visible. We can conclude from this, that
+Keccak permutation rounds are good at diffusion, and is independent of state size it is acting upon.
+
+\newpage
+
 \section{Effect of digest size}
 
 It seems as the digest size is increased, the near collision resistance increases, only if the rounds are above 2. The
@@ -90,6 +108,8 @@ Thus the minimum security recommendation for collision avoidance would be go for
     \caption{Number of permutation rounds, in the respective SHA-3 finalist algorithm}
   \end{center}
 \end{table}
+
+\newpage
 
 \section{Effects of the number of rounds}
 

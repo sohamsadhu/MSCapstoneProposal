@@ -112,6 +112,35 @@ output, and is one way. That is if a two different input strings with even minut
 map to two different hash values. And it should be practically infeasible, to find a input given a
 hash value.
 
+\subsection{Collisions}
+
+As per \href{"http://en.wikipedia.org/wiki/Pigeonhole_principle"}{pigeon hole principle}, if we map N inputs 
+to a finite set of M outputs where N \textgreater M, then there would be more than one input that would 
+map to the same value in output set. Hash values are of finite in size and comparitively, much smaller than
+input on average. Thus a much larger set of inputs maps to comparitively small set of hash values, giving
+rise to two different messages hashing to same value as per pigeon hole principle. This mapping of two different
+inputs to same output, is called as collision in hashing.
+
+There are different ways of acheiving collisions are \cite{00045}-
+\begin{itemize}
+\item Collision: attack is where we try to find collisions, for two different message; but using the same initial
+value that is used in hashing.
+\item Full collision: where we try to achieve collision, for all the bits in the hash output or message digest, for
+two different message.
+\item Near collision: is when the hash values of two different messages, with same initial value agree on most but
+not all bits. Near collisions could be improved upon and made basis for full collision, since the near collisions
+imperfections in hashing functions.
+
+In this work, we try to obtain the near collisions with two different message that differ in just one bit, and then
+modify a part of message fed iteratively improving upon the bit matching, till the hash values agree on predefined
+number of bits.
+\item Semi free start collision: changes the initial value that is used for hashing, and then tries to achieve 
+collision for different messages. If the initial value for hashing function is chosen randomly, then it 
+considered less threatening given that probability of getting the right initial value is negligible.
+\item Pseudo collision attack: uses two different initial values alongwith two different messages to achieve 
+collision.
+\end{itemize}
+
 \section{Security Model}
 
 A generic model of security fulfillment, for any hash function can be set based on previously mentioned

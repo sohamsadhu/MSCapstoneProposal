@@ -3,28 +3,31 @@
 The experiment first subjected all the 3 SHA-3 finalist algorithm to hill climbing, simulated annealing, and
 random selection; for permutation rounds of 1, 2, 3. The chaining value length was kept at 32 bits; and all
 the possible four message digest sizes were evaluated. Tabu search algorithm was applied only to Gr{\o}stl
-for rounds 1 and 2, for digest size of 224 bits. At first time, each collision finding algorithm was given
-128 trials of experiment, for each hashing algorithm for a particular digest size and permutation round and
-input class. The experiment, was again conducted as mentioned; but with chaining value of length 64 bits. Since
-tabu search had previously proved to be expensive, with absence of encouraging results; it was discontinued.
-The experiment on random selection was not done, since hill climbing and simulated annealing took much longer
-time, than it took for the chaining value of 64 bits, and even that was discontinued. Since the results from
-the 64 bit length chaining value weren't that encouraging, hence we stuck to chaining value of bit length 32.
-We this time repeated our experiment, but with 256 trials instead of 128 trials, and experimented with rounds
-of 3 and 4. Lastly we compared the different implementations of Keccak, with internal state reduced to 200,
-400, 800 bits; against the standard that was selected as winner of SHA-3 competition. The reduced and full
-version of Keccak were subjected to hill climbing attack, for permutation rounds 3, 4, 5 and 6. The number of
-trials remained same at 256, and chaining value was of length 32 bits. 
-All the following observations and numbers can be found on the 
+for rounds 1 and 2, for digest size of 224 bits. 
+
+At first, each collision finding algorithm was given 128 trials of experiment, for each hashing algorithm for
+a particular digest size and permutation round and input class. The experiment, was again conducted as mentioned;
+but with chaining value of length 64 bits. Since tabu search had previously proved to be expensive, with absence 
+of encouraging results; it was discontinued. The experiment on random selection was not done for 64 bit chaining
+value, since results from hill climbing and simulated annealing suggested it will take roughly three and half times
+more to complete the experiment. 
+
+Since the results from the 64 bit length chaining value weren't that encouraging, hence we stuck to chaining 
+value of bit length 32. We this time repeated our experiment, but with 256 trials instead of 128 trials, and 
+experimented with rounds of 3 and 4. Lastly we compared the different implementations of Keccak, with internal
+state reduced to 200, 400, 800 bits; against the standard that was selected as winner of SHA-3 competition. 
+The reduced and full version of Keccak were subjected to hill climbing attack, for permutation rounds 3, 4, 5 and 
+6. The number of trials remained same at 256, and chaining value was of length 32 bits. All the following 
+observations and numbers can be found on the 
 \href{https://github.com/sxs9174/MSProjectCode/tree/master/MSProjectCode/Output}{git repository} for the source
 code implementation of the experiment.
 
 \section{Observations on programming implementations}
 
 Java is not the best choice in implementing algorithms related to hashing. This experiment required GUI, and has
-platform independence which made Java natural choice. The SHA-3 finalist algorithms have word size
-or state size parameters of 32 or 64 bits, which exploit the computer architecture of having these word sizes
-built in or used, and using them as single data entities. In languages like C, there are primitive data types
+platform independence which made Java natural choice. The SHA-3 finalist algorithms have word size or state size 
+parameters in multiples of 32 or 64 bits, which exploit the computer architecture of having these word sizes
+built in, and using them as single data entities. In languages like C, there are primitive data types
 of size 4 bytes or 8 bytes, which can be easily integrated into the hashing algorithm. Java also has similar
 word size, but by default the data type is always signed. This creates problems while bit shifting or implementing
 some of the modulus operations. The leading bit is zero and during bit shifts if the bit is toggled to 1, then 
@@ -39,13 +42,8 @@ that have been upcasted implicitly.
 
 \section{Average iterations}
 
-Table 6.1 to 6.3 show the average iterations for the hill climbing algorithm applied to the 3 SHA-3 finalist algorithm,
-for a chaining value of length 32 bits. For most of the algorithms except for the BLAKE for 1 permutation round
-the number of iterations increase as the digest size is increased. Also the number of iterations also seem to
-increase when number of rounds are increased, but at round 3 and 4 they are almost similar. For 32 bit chaining value
-the number of iterations for hill climbing algorithm applied to all SHA-3 finalist algorithm, remains around 900.
-For Keccak in hill climbing, when the permutation round was set at 1, the average iterations it took was around 532,
-lower than other SHA-3 finalist for same number of rounds. The number of iterations for random selection, simulated
+Here we look at the number of iterations only for hill climbing algorithm, since the iterations for the rest of
+the algorithms were fixed after observations from hill climbing. The number of iterations for random selection, simulated
 annealing for 32 bit chaining value were fixed at 1024 iterations. For the 64 bit length chaining value, for the
 simulated annealing experiment the number of iterations were set to 11 times the number of the digest size in bit
 length. So for digest length 224, 256, 384 and 512 we set iterations at 2464, 2816, 4224, 5632 respectively. 
@@ -54,8 +52,16 @@ The average iterations for tabu search for Gr{\o}stl message for digest length 2
 was 335254.443. Also there were no collisions found with this method. Being so computationally expensive and with
 no positive results, the experiment with tabu search was discontinued.
 
-As the number of bits in chaining value is increased from 32 to 64, the number of iterations increases to around 3500.
-The increase in number of iterations is more than three and half times, than what is observed in 32 bit chaining value.
+\subsection{Iterations for 32 bit chaining value}
+
+Table 6.1 to 6.3 show the average iterations for the hill climbing algorithm applied to the 3 SHA-3 finalist algorithm,
+for a chaining value of length 32 bits. For most of the algorithms except for the BLAKE for 1 permutation round
+the number of iterations increase as the digest size is increased. Also the number of iterations also seem to
+increase when number of rounds are increased, but at round 3 and 4 they are almost similar. For 32 bit chaining value
+the number of iterations for hill climbing algorithm applied to all SHA-3 finalist algorithm, remains around 900.
+For Keccak in hill climbing, when the permutation round was set at 1, the average iterations it took was around 532,
+lower than other SHA-3 finalist for same number of rounds.
+
 %\begin{table}
   %\begin{center}
     %\begin{tabular}{ | c | c | c | c | c | }                                 \hline
@@ -142,6 +148,17 @@ The increase in number of iterations is more than three and half times, than wha
     of bit length 32}
   \end{center}
 \end{table}
+
+\subsection{Iterations for 64 bit chaining value}
+
+The iterations for this part are shown from table 6.4 to table 6.6.
+As the number of bits in chaining value is increased from 32 to 64, the number of iterations increases to around 3500.
+The increase in number of iterations is more than three and half times, than what is observed in 32 bit chaining value.
+It is not possible to comment concretely on the relationship of chaining value to number of iterations, except for the
+fact that they are directly proportional. As the number of bits in chaining value is increased, the number of iterations
+also increase. Also from limited amount of observations, it seems that relationship between chaining value bits and
+iterations is not linear. For double the increase in number of bits for chaining value, the number of iterations roughly
+rose more than three and half times.
 
 %\begin{table}
   %\begin{center}
@@ -230,6 +247,16 @@ The increase in number of iterations is more than three and half times, than wha
   \end{center}
 \end{table}
 
+\subsection{Iterations for Keccak reduced state}
+
+Tables 6.6 to 6.10 show the number of iterations for Keccak reduced state, and Keccak full version. The number
+of trials were 256, with the chaining value kept at length of 32 bits. Near collision for this experiment 
+was kept at 65\% of bit matching, and the experiment was carried from permutation rounds from 3 to 6.
+
+It seems that the number of iterations to find success or failure through the various reduced versions of Keccak
+seem to remain similar, at around 900 iterations for most of them. This indicates that almost equal effort is 
+required by hill climbing across various reduced versions of Keccak, to find a collision. The iterations also
+remain more or less constant or plateau irrespective of the number of rounds, again at around 900.
 %\begin{table}
   %\begin{center}
     %\begin{tabular}{ | c | c | c | c | c | }                      \hline
@@ -327,7 +354,7 @@ The increase in number of iterations is more than three and half times, than wha
      %384                          & 896.4909  & 901.9487  & 898.8139  & 899.3991 \\ \hline
      %512                          & 901.11426 & 905.84766 & 901.05646 & 905.69293 \\ \hline
     %\end{tabular}
-    %\caption{Average iterations over all input cases for Hill Climbing for Keccak bits for chaining value 
+    %\caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value 
     %of bit length 32}
   %\end{center}
 %\end{table}
@@ -341,8 +368,38 @@ The increase in number of iterations is more than three and half times, than wha
      384                          & 896 & 901 & 898 & 899 \\ \hline
      512                          & 901 & 905 & 901 & 905 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for Keccak bits for chaining value 
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak, for chaining value 
     of bit length 32}
+  \end{center}
+\end{table}
+
+\subsection{Iterations for 75\% bits matching collision}
+
+We later increased the number of bits to be identical parameter, to 75\% of bits matching to be classified as near
+collision. Increasing the number of bits matching at or above 75\%, beyond permutation rounds 2, did not yield any
+positive result. This run, was to see if achieving near collisions more precisely required any more effort.
+
+The results for this experiment are shown in table 6.11. The effort for finding collisions in permutation
+rounds greater than 2, remains same for all versions of Keccak; but is different for rounds less than 2.
+The number of iterations for reduced state Keccak are more than that of full version, for rounds less than 2. Given
+the state size is larger, one would expect the effort to be reduced, or remain same for the reduced versions.
+For the smallest reduced version of Keccak, in 1 reduced round of permutation, the iterations are twice that of
+the full version.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c !{\vrule width 1.1pt} c | c | c | c !{\vrule width 1.1pt} c | c | c | c |} \hline
+     Rounds      & \multicolumn{4}{ c|}{1}   & \multicolumn{4}{ | c |}{2} \\ \hline
+     Digest size & 224 & 256 & 384  & 512    & 224 & 256 & 384 & 512   \\ \Xhline{2\arrayrulewidth}
+     BLAKE       & 803 & 814 & 1137 & 1121   & 887 & 889 & 898 & 908   \\ \hline
+     Gr{\o}stl   & 874 & 885 & 877  & 897    & 887 & 890 & 902 & 905   \\ \hline
+     Keccak      & 532 & 532 & 533  & 533    & 882 & 885 & 897 & 902   \\ \hline
+     Keccak-200  & 994 & 977 & 959  & 957    & 899 & 902 & 903 & 897   \\ \hline
+     Keccak-400  & 836 & 899 & 972  & 955    & 886 & 903 & 903 & 906   \\ \hline
+     Keccak-800  & 568 & 574 & 574  & 908    & 894 & 920 & 947 & 918   \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for variations of Keccak and other hashing
+    algorithms. Chaining value is bit length 32, and the near collision is 75\% bit match.}
   \end{center}
 \end{table}
 
@@ -350,11 +407,11 @@ The increase in number of iterations is more than three and half times, than wha
 
 If the collision algorithm was able to find a chaining value by iteratively going through its neighbourhood, that got
 the two message digests to agree on more than 65\% of the bits, then it was noted as a collision. In the tables
-starting from 6.7 to 6.20 we have shown the number of input pairs in a input case of start, middle or end that
+starting from 6.11 to 6.25 we have shown the number of input pairs in a input case of start, middle or end that
 showed collision, and the maximum number of trials in a pair that collision was obtained. In the tables below, the
 letters S, M, E stand for start, middle and end input case. The number of cases of collision, followed by maximum number
 of trials in a case where a collision was obtained, and separated by slash are entered into the tables. For tabu search
-there were no collisions found in two rounds of Gr{\o}stl that it was implemented on.
+there were no collisions found in two rounds of Gr{\o}stl that it was ran on.
 
 \subsection{Hill Climbing}
 
@@ -368,11 +425,11 @@ that show collision and for trials reduced to less than 20, for digest lengths o
 384, 512 in higher number of rounds, collisions are not obtained. The aforementioned observations hold true for
 chaining values of lengths 32 and 64 both.
 
-\begin{table}
-  \begin{center}
+\begin{table} \small
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | } \hline
-      \multirow{3}{*}{Digest size} & \multicolumn{12}{|c|}{Rounds}      \\ \cline{2-13}
-        & \multicolumn{3}{|c|}{1}   & \multicolumn{3}{ c|}{2} & \multicolumn{3}{c|}{3} & \multicolumn{3}{ c|}{4} \\ \cline{2-13}
+      \multirow{3}{*}{Digest size} & \multicolumn{12}{ c|}{Rounds}      \\ \cline{2-13}
+        & \multicolumn{3}{ c|}{1}   & \multicolumn{3}{ c|}{2} & \multicolumn{3}{c|}{3} & \multicolumn{3}{ c|}{4} \\ \cline{2-13}
          & S    & M      & E        & S   & M   & E           & S    & M    & E         & S    & M   & E         \\ \hline
      224 & 2/50 & 19/128   & 20/128 & 2/2 & 8/1 & 3/2         & 8/3  & 12/2 & 14/3      & 12/2 & 7/2 & 6/1       \\ \hline
      256 & 0/0  & 19/128   & 20/128 & 1/1 & 1/1 & 2/1         & 5/2  & 2/1  & 3/1       & 1/1  & 0/0 & 2/1       \\ \hline
@@ -381,7 +438,7 @@ chaining values of lengths 32 and 64 both.
     \end{tabular}
     \caption{Collisions and maximum trials a input pair had collision for BLAKE with Hill Climbing algorithm for 32 bit 
     chaining value.}
-  \end{center}
+  %\end{center}
 \end{table}
 
 \begin{table}
@@ -405,7 +462,7 @@ collision prone, but experimental factors like choosing a chaining value could b
 size increases with the number of rounds, the collision decreases. Rounds 3 and 4 have no collision for BLAKE at digest
 sizes greater than 256.
  
-\begin{table}
+\begin{table}\small
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | }                      \hline
       \multirow{3}{*}{Digest size} & \multicolumn{12}{ c|}{Rounds}      \\ \cline{2-13}
@@ -441,16 +498,16 @@ Keccak from the numbers seems to be least effective if only single or double per
 be found in Keccak even for 3 rounds, at digest size 384. Keccak only seems secure after getting more than 2 rounds for 
 digest size 512 or rounds more than 3 for digest size 384.
 
-\begin{table}
+\begin{table}\footnotesize
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | }                      \hline
       \multirow{3}{*}{Size} & \multicolumn{12}{ c|}{Rounds}      \\ \cline{2-13}
          & \multicolumn{3}{ c|}{1}  & \multicolumn{3}{ c|}{2} & \multicolumn{3}{ c|}{3} & \multicolumn{3}{ c|}{4} \\ \cline{2-13}
          & S      & M      & E      & S      & M      & E      & S    & M    & E         & S    & M    & E        \\ \hline
-     224 & all    & all    & all    & all    & all    & all    & 11/3 & 12/3 & 17/5      & 12/3 & 11/3 & 10/2     \\ \hline
-     256 & all    & all    & all    & all    & all    & all    & 2/1  & 4/1  & 5/2       & 4/1  & 1/1  & 3/1      \\ \hline
-     384 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 1/1       & 0/0  & 0/0  & 0/0      \\ \hline
-     512 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0 & 0/0        & 0/0  & 0/0  & 0/0      \\ \hline
+     224 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 11/3 & 12/3 & 17/5      & 12/3 & 11/3 & 10/2     \\ \hline
+     256 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 2/1  & 4/1  & 5/2       & 4/1  & 1/1  & 3/1      \\ \hline
+     384 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 1/1       & 0/0  & 0/0  & 0/0      \\ \hline
+     512 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0 & 0/0        & 0/0  & 0/0  & 0/0      \\ \hline
     \end{tabular}
     \caption{Collisions and maximum trials a input pair had collision for Keccak with Hill Climbing algorithm for 32 bit 
     chaining value. The word "all" stands for number 20/128.}
@@ -480,7 +537,7 @@ in simulated annealing as compared to those in hill climbing, are reduced. With 
 rounds higher than 2, simulated annealing similarly failed to find any success. However for hash algorithms with rounds
 3 and 4 with digests sizes 224 and 256; random search seems to perform better than simulated annealing.
 
-\begin{table}
+\begin{table}\small
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | }                      \hline
       \multirow{3}{*}{Digest size} & \multicolumn{12}{ c|}{Rounds}      \\ \cline{2-13}
@@ -528,19 +585,19 @@ rounds higher than 2, simulated annealing similarly failed to find any success. 
   \end{center}
 \end{table}
 
-\begin{table}
+\begin{table}\footnotesize
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | }                      \hline
       \multirow{3}{*}{Size} & \multicolumn{12}{ c|}{Rounds}      \\ \cline{2-13}
          & \multicolumn{3}{ c|}{1}  & \multicolumn{3}{ c|}{2}  & \multicolumn{3}{ c|}{3} & \multicolumn{3}{ c|}{4} \\ \cline{2-13}
          & S      & M      & E      & S      & M      & E      & S    & M    & E         & S    & M    & E        \\ \hline
-     224 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
-     256 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 1/1  & 0/0      \\ \hline
-     384 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
-     512 & all    & all    & all    & all    & all    & all    & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     224 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     256 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       & 0/0  & 1/1  & 0/0      \\ \hline
+     384 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
+     512 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 20/128 & 0/0  & 0/0  & 0/0       & 0/0  & 0/0  & 0/0      \\ \hline
     \end{tabular}
     \caption{Collisions and maximum trials a input pair had collision for Keccak with Simulated Annealing algorithm for 32 bit 
-    chaining value. "all" stands for 20/128.}
+    chaining value.}
   \end{center}
 \end{table}
 
@@ -596,7 +653,7 @@ like hill climbing and simulated annealing for digests obtained from rounds abov
   \end{center}
 \end{table}
 
-\begin{table}
+\begin{table}\small
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | }                      \hline
       \multirow{3}{*}{Size} & \multicolumn{12}{ c|}{Rounds}      \\ \cline{2-13}
@@ -612,4 +669,104 @@ like hill climbing and simulated annealing for digests obtained from rounds abov
   \end{center}
 \end{table}
 
-\subsection{}
+\subsection{Keccak reduced versions and hill climbing}
+
+By increasing the number of bit matching accuracy to be 75\% we first tested the reduced rounds, of all the hashing functions
+at hand for only at most 2 rounds of permutation. Then we lowered the accuracy to only 65\% bit matching, and tested
+various Keccak implementations for rounds from 3 to 6. These tests were done with 32 bit chaining value, and only carried
+out by hill climbing.
+
+\subsubsection{All Keccak versions, BLAKE and Gr{\o}stl for at most 2 rounds}
+
+The results of applying hill climbing for at most 2 rounds for BLAKE, Gr{\o}stl and Keccak with state size reduced
+to 200, 400, 800 bits and standard version, can be seen in table 6.26. The entries in the cell, with first number
+denoting the number of instances or test case message pairs that showed collision out of 60, and the second number
+showing the maximum number of trials that is out of 768 that the collisions were seen.
+ 
+Gr{\o}stl seems to be the most resistant, while full version of Keccak seems to be least resistant to collisions for
+permutation rounds 1 and 2. The full version of Keccak performs worse than that of Keccak whose state size has been
+reduced to 200 bits. It seems that the resistance to collision for Keccak at lower rounds decreases as the state size
+is increased.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c !{\vrule width 1.1pt} c | c | c | c !{\vrule width 1.1pt} c | c | c | c |} \hline
+     Rounds      & \multicolumn{4}{ c|}{1}           & \multicolumn{4}{ | c |}{2}        \\ \hline
+     Digest size & 224    & 256    & 384    & 512    & 224    & 256    & 384    & 512    \\ \Xhline{2\arrayrulewidth}
+     BLAKE       & 26/512 & 23/512 & 22/400 & 21/266 & 0/0    & 0/0    & 0/0    & 0/0    \\ \hline
+     Gr{\o}stl   & 0/0    & 0/0    & 7/256  & 8/256  & 0/0    & 0/0    & 0/0    & 0/0    \\ \hline
+     Keccak      & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 \\ \hline
+     Keccak-200  & 20/256 & 20/256 & 1/1    & 0/0    & 1/1    & 0/0    & 0/0    & 0/0    \\ \hline
+     Keccak-400  & 20/256 & 20/256 & 20/256 & 4/2    & 9/123  & 7/99   & 0/0    & 0/0    \\ \hline
+     Keccak-800  & 60/768 & 60/768 & 60/768 & 20/256 & 60/733 & 60/740 & 60/538 & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for 75\% bit matching, for 32 bit chaining value. Application of hill climbing search. Collision
+    instances for start, middle and end are grouped together.}
+  \end{center}
+\end{table}
+
+\subsubsection{Applying hill climbing on higher rounds for reduced Keccak versions}
+
+Tables 6.27 to 6.30 display the results of hill climbing, with 32 bit chaining and 65\% bit matching, applied to 
+various versions of Keccak, for rounds ranging from 3 to 6. The collision is summed up for all instances being in
+the first value of the cell, and the number of trials in the second value after forward slash.
+
+It seems that state size reduction of Keccak, has no effect on collision resistance on higher rounds of Keccak. The
+near collision numbers for all the versions of Keccak including the standard one are similar. At digest size 384 and
+512, the collision in Keccak are non existent, through hill climbing for all the versions.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3    & 4    & 5    & 6    \\ \hline
+     224 & 33/8 & 30/6 & 30/8 & 31/9 \\ \hline
+     256 & 12/4 & 5/3  & 8/3  & 11/4 \\ \hline
+     384 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+     512 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak state reduced to 200 bits, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3    & 4    & 5    & 6    \\ \hline
+     224 & 19/7 & 33/9 & 27/8 & 30/8 \\ \hline
+     256 & 6/3  & 7/3  & 3/3  & 6/3  \\ \hline
+     384 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+     512 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak state reduced to 400 bits, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3    & 4    & 5    & 6    \\ \hline
+     224 & 38/9 & 27/9 & 32/9 & 32/7 \\ \hline
+     256 & 7/4  & 9/5  & 5/2  & 8/4  \\ \hline
+     384 & 2/2  & 0/0  & 0/0  & 0/0  \\ \hline
+     512 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak state reduced to 800 bits, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3     & 4    & 5     & 6    \\ \hline
+     224 & 34/12 & 27/9 & 31/11 & 27/6 \\ \hline
+     256 & 10/4  & 6/5  & 9/4   & 11/3 \\ \hline
+     384 & 2/2   & 0/0  & 0/0   & 0/0  \\ \hline
+     512 & 0/0   & 0/0  & 0/0   & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
