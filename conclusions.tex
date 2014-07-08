@@ -51,7 +51,7 @@ than hill climbing. While hill climbing was able to find collision in instances 
 pairs for each of the SHA-3 algorithm for message digest of 224 and 256, for permutation rounds of 3 and 4. But 
 simulated annealing is only able to find collision in 1 instance out of 60 for 1 trial.
 
-\subsection{Affects of state size for Keccak}
+\subsection{State size reduction for Keccak}
 
 When Keccak is reduced to only 1 or 2 permutation rounds, then Keccak with lower state size, seems to possess better
 collision resistance properties to hill climbing. As seen from table 6.11 and 6.26, for lower rounds the standard Keccak
@@ -113,7 +113,7 @@ Thus the minimum security recommendation for collision avoidance would be go for
 
 \section{Effects of the number of rounds}
 
-From the observation of tables 6.7 to 6.20, we can conclude that higher the number of permutation rounds, the
+From the observation of tables 6.12 to 6.30, we can conclude that higher the number of permutation rounds, the
 more is the collision resistance. Rounds 1 and 2, can be considered as not secure. It should be noted that
 for permutation rounds 1 and 2; Keccak seems to perform poorly against BLAKE and Gr{\o}stl. But as rounds
 are increased to 3 and 4, the performance of Keccak with respect to other algorithms is comparable. 
@@ -145,11 +145,10 @@ can be ignored. Based on this fact, it seems that diffusion in the given algorit
 
 \begin{enumerate}
 \item This experiment can be repeated with the two other finalist algorithm Skein and JH, alongwith Keccak.
-\item Instead of reducing the number of rounds, the reduced version of the finalist algorithm could be obtained
-by reducing the state size, and repeating this experiment.
+\item Experiment can be repeated by reducing state size of Gr{\o}stl and BLAKE.
 \item Experiments can also be done with other combinations of factors of hashing algorithms, like reducing the
 digest size, but increasing the number of rounds.
 \item In this experiment, the near collision was benchmarked at 65\% of the output bits match. Instead further work
-can be done to find the effort required to find perfect collisions for message pairs for reduced rounds for
+can be done to find the effort required to find full collisions for message pairs for reduced rounds for
 certain hashing algorithms.
 \end{enumerate}
