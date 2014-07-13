@@ -26,7 +26,7 @@ defined below \cite{00005}
 \end{center}
 \vspace{4mm}
 
-In the above definition, $\mathcal{X}$ could be finite or infinite set, but $\mathcal{Y}$ is always
+In the above definition, $\mathcal{X}$ may be finite or infinite set, but $\mathcal{Y}$ is always
 a finite set, since the length of bit string or hash function output, that defines $\mathcal{Y}$ is
 finite. A pair (x, y) $\in \mathcal{X} \times \mathcal{Y}$ is a \emph{valid pair} under key K, if 
 $h_{k}(x) = y$.
@@ -39,8 +39,8 @@ $\mid\mathcal{F}^{\mathcal{XY}}\mid$ = $M^{N}$.
 An \emph{unkeyed hash function} is a function $h_{k}: \mathcal{X} \to \mathcal{Y}$, where $\mathcal{X}$ and
 $\mathcal{Y}$ are as defined previously, and where $\mid\mathcal{K}\mid$ = 1. 
 %Thus a single fixed function h(x) = y, or an unkeyed hash function as hash family with only one key. 
-In our work we have worked only with unkeyed hash family of fixed hash function only. Although the algorithms
-we deal with can have their keys varied, but we keep them as constant.
+Here we work with unkeyed hash family of fixed hash function only. Although the algorithms
+we deal with may have their keys varied, but we keep them as constant.
 %For the purpose of this document, we will be concentrating on unkeyed hash family or fixed hash functions only, 
 %and will be referring to them as hash functions, unless mentioned otherwise.
 
@@ -65,7 +65,7 @@ three properties primarily, for a hash function to be considered \emph{secure} \
 \end{center}
 \vspace{4mm}
 
-The problem preimage suggests that can we find an input $x \in \mathcal{X}$, given we have the hash 
+The problem preimage suggests that we can find an input $x \in \mathcal{X}$, given we have the hash 
 output $y$, such that $h(x) = y$. If the preimage problem for a hash function cannot be efficiently
 solved, then it is preimage resistant. That is the hash function is one way, or rather it is difficult
 to find the input, given the output alone.
@@ -85,8 +85,8 @@ to find the input, given the output alone.
 \vspace{4mm}
 
 Second preimage problem suggests that given an input $x$, can another input $x'$ be found, such that
-$ x \neq x'$ and hash output of both the inputs are same, that is $h(x) = h(x')$. A hash function for
-which a different input given another input, that compute to same hash cannot be found easily, is 
+$ x \neq x'$ and hash output of both the inputs are same, that is $h(x) = h(x')$. A hash function, for
+which an input different from the given, that compute to same hash cannot be found easily, is 
 called as having second preimage resistance.
 
 3. {\bf Collision resistance}
@@ -107,85 +107,84 @@ Collision problem states that, can two different input strings be found, such th
 same value given the same hash function. If the collision problem for the hash function, is computationally
 complex, then the hash function is said to be collision resistant.
 
-Basically, the above properties make sure that hash function has one to one mapping from input to
-output, and is one way. That is if a two different input strings with even minute differences should
-map to two different hash values. And it should be practically infeasible, to find a input given a
-hash value.
+The above properties make sure that hash function has one to one mapping from input to output, and is 
+one way. That is two input strings with minute difference should map to, two different hash values. Also
+it should be practically infeasible, to find a input given a hash value.
 
 \subsection{Collisions}
 
 As per \href{"http://en.wikipedia.org/wiki/Pigeonhole_principle"}{pigeon hole principle}, if we map N inputs 
-to a finite set of M outputs where N \textgreater M, then there would be more than one input that would 
-map to the same value in output set. Hash values are of finite in size and comparitively, much smaller than
-input on average. Thus a much larger set of inputs maps to comparitively small set of hash values, giving
+to a finite set of M outputs where N \textgreater M, then there would be multiple inputs mapping to the same
+value of the output set. Hash values are of finite in size and comparatively, much smaller than
+input on average. Thus a much larger set of inputs maps to comparatively small set of hash values, giving
 rise to two different messages hashing to same value as per pigeon hole principle. This mapping of two different
 inputs to same output, is called as collision in hashing.
 
 There are different ways of acheiving collisions are \cite{00045}-
 \begin{itemize}
-\item Collision: attack is where we try to find collisions, for two different message; but using the same initial
+\item Collision: attack is where we try to find collisions, for two different messages; but using the same initial
 value that is used in hashing.
 \item Full collision: where we try to achieve collision, for all the bits in the hash output or message digest, for
-two different message.
-\item Near collision: is when the hash values of two different messages, with same initial value agree on most but
-not all bits. Near collisions could be improved upon and made basis for full collision, since the near collisions
+two different messages.
+\item Near collision: is when the hash values of two different messages, with same initial value agree with most but
+not all bits. Near collisions could be improved upon and made basis for the full collision, since the near collisions
 imperfections in hashing functions.
 
-In this work, we try to obtain the near collisions with two different message that differ in just one bit, and then
-modify a part of message fed iteratively improving upon the bit matching, till the hash values agree on predefined
+In this work, we try to obtain the near collisions with two different messages that differ in just one bit, and then
+modify a part of message fed iteratively improving upon the bit matching, till the hash values agree on a predefined
 number of bits.
 \item Semi free start collision: changes the initial value that is used for hashing, and then tries to achieve 
-collision for different messages. If the initial value for hashing function is chosen randomly, then it 
-considered less threatening given that probability of getting the right initial value is negligible.
-\item Pseudo collision attack: uses two different initial values alongwith two different messages to achieve 
+collision for different messages. If the initial value for hashing function is chosen randomly, then it's 
+considered less threatening given that the probability of getting the right initial value is negligible.
+\item Pseudo collision attack: uses two different initial values along with two different messages to achieve 
 collision.
 \end{itemize}
 
 \section{Security Model}
 
-A generic model of security fulfillment, for any hash function can be set based on previously mentioned
+A generic model of security fulfilment, for any hash function can be set based on previously mentioned
 properties for it to be considered as secure. Two such ideas, are described as follows 
 
   \subsection{ Random Oracle }
   Hash functions being built on mathematical operations, cannot be truly random, but are efficient
   approximations of fixed random output mapping to an input. An ideal hash function can be abstracted 
-  as a random oracle, to show that algorithm is secure modulo the way it creates random outputs. Proofs
-  can be formalized on this basis \cite{00018}.
+  as a random oracle, to show that the algorithm is secure modulo the way it creates random outputs. 
+  Proofs can be formalized on this basis \cite{00018}.
 
   Random oracle model, proposed by Bellare and Rogaway, is a mathematical model of ideal hash function.
   It can be interpreted as, the only way to know the hash value for an input $x$ would be to
   ask the Oracle or rather compute the hash of the input itself. There is no way of formulating or 
   guessing the hash value for input, even if you are provided with substantial number of input and output
   pairs. It is analogous to looking up for corresponding value of the key in a large table. To know the
-  value for an input, you look into the table. A well designed hash function, mimics the behaviour of
+  value for the input, you look into the table. A well designed hash function, mimics the behaviour of
   random oracle as closely as possible. 
 
   \subsection{ Birthday Paradox }
   If we randomly choose 23 people, then the probability that two people from the group will have identical
-  birthday is around 0.507. This is because, the first person can be paired with rest of 22 people in group,
-  to form 22 pairs. The next person in group can be paired with remaining 21 people to get 21 pairs. Thus 
-  we end up with 22 + 21 + 20 + \ldots + 1 = 253 pairs. Thus the probability is ratio of pairs 253 to the
-  sample space 365 days in a year (ignoring the leap year).
+  birthday is about 0.507. This is because the first person can be paired with rest of 22 people in a group,
+  to form 22 pairs. The next person in the group can be paired with remaining 21 people to get 21 pairs. Thus 
+  we end up with 22 + 21 + 20 + \ldots + 1 = 253 pairs. Thus the probability is the ratio of number of pairs 253,
+  to the sample space 365 days in a year (ignoring the leap year).
 
-  Two people with same birthday can be seen analogous to two inputs hashing to the same value, that is 
+  Two people with the same birthday can be seen analogous to two inputs hashing to the same value, that is 
   collision. Say the sample space of hash as M, and denote the number of samples to be taken as N. Then 
-  by birthday problem described above, the minimum number of people required (N) to have the same birthday 
-  within a year (M = 365) with probability 0.5, would be N = 23.
+  by birthday problem described above, the minimum number of people required (N) so that the probability for
+  two people in group to have the same birthday is 0.5 in a year (M = 365), would be 23(N).
 
   It can be formally proved for any sample size M, to find two values that are identical with probability
   0.5 can be given by the equation $N \approx 1.17 \sqrt{M}$. This can be interpreted as hashing over $\sqrt{M}$
-  values roughly will give us two entries, with probability of collision being 0.5.
+  values will give two entries, with probability of collision being 0.5.
 
-  The above theorem can be generalised as, that if we were to brute force our way to finding collisions in
-  a hash function that has a message digest length of $2^{128}$ bits. Then at minimum we would need to 
+  The above theorem can be generalised as, that if we were to brute force our way to find collisions in
+  a hash function that has a message digest length of $2^{128}$ bits. Then at minimum one would need to 
   calculate $2^{64}$ instances of hash, to find a collision with a probability of 0.5. Any good hash function 
   in practice should be resistant to attacks, that require operations less than estimated by the birthday 
   paradox on message digest size.
 
 \section{Applications}
 
-Applications of cryptographic hash functions, can be broadly classified in areas of verification, data
-integrity and pseudo random generator functions.
+Applications of cryptographic hash functions can be broadly classified in areas of verification, data
+integrity and pseudo-random generator functions.
 
   \subsection{Verification and data integrity}
   \begin{enumerate}
@@ -193,20 +192,20 @@ integrity and pseudo random generator functions.
     \item Digital Forensics: When digital data is seized and to be used as evidence, a hash of the original
     digital media is taken. A copy of the digital evidence is made under the regulations, and the hash of the
     copied digital media is made, before it can be examined. After the evidence has been examined, then another
-    hash value of the copy of the evidence that was used in examination is made. This ensures, that evidence
+    hash value of the copy of the evidence that was used in the examination is made. This ensures that the evidence
     has not been tampered \cite{00013}.
 
     \item Password verification: Hash value of salted passwords are stored in database. When a password is to be
     verified, a hash value of the given salted password is evaluted. This hash value is compared
-    with the value stored in the database, and password is authenticated, if it matches the one in database.
+    with the value stored in the database, and password is authenticated if it matches the one in database.
 
-    \item Integrity of files: Hash values can be used to check, that data files have not been modified over
+    \item Integrity of files: Hash values can be used to check that data files have not been modified over
     time. Hash value of a file or files is taken regularly, and compared to previous stored hash value, when it is
     again examined. If the values do not match, it means the file or files have been compromised.
   \end{enumerate}
 
   \subsection{Pseudo random generator function}
-  Cryptographic hash functions can be used as pseudo random bit generators. The hash function is initialised
+  Cryptographic hash functions can be used as pseudorandom bit generators. The hash function is initialised
   with a random seed, and then hash function is queried iteratively to get a sequence of bits, which look random.
-  Since, the cryptographic hash algorithm is a mathematical function, so the sequence of two pseudo random bits 
+  Since, the cryptographic hash algorithm is a mathematical function, so the sequence of two pseudo-random bits 
   would be similar if they come from same hash function with the same key.

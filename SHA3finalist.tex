@@ -2,12 +2,12 @@
 
 For our project we chose to study BLAKE, Gr{\o}stl and Keccak, out of the 5 finalists, in the SHA-3 competition. 
 All the five finalist were found to be secure, devoid of any weakness that can be practically exploited. Keccak
-was chosen, since it was the winner of SHA-3 competition, and is the basis for the current SHA-3 in draft, thus
-required for project to be relevant. Keccak has sponge as design basis, BLAKE is based on HAIFA, and Gr{\o}stl
+was chosen, since it was the winner of SHA-3 competition, and is the basis for the current SHA-3 in draft.
+Keccak has sponge as design basis, BLAKE is based on HAIFA, and Gr{\o}stl
 is based on Merkle-Damg\r{a}rd design. The selection of these three, gives an opportunity to observe the effects 
 of different design for reduced hash functions. Thus I chose to go with BLAKE and Gr{\o}stl for comparison with
-Keccak in this project. Rebound attacks in JH have been studied by Naveen Kandakumar \cite{00043}, while Darryl
-Clyde Eychner did a statiscal analysis on BLAKE and Skein \cite{00030}, which were the other SHA-3 finalist. The
+Keccak in this project. Naveen Kandakumar has studied the rebound attacks in JH \cite{00043}, while Darryl
+Clyde Eychner did a statiscal analysis on BLAKE and Skein \cite{00030}, which were the other SHA-3 finalists. The
 latest Federal information processing standard(FIPS) publication 202, as of May 2014, has standardised SHA-3 to
 be a variant of Keccak, where the input message is concatenated with bits related to domain, before processed 
 for hashing.

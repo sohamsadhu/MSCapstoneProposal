@@ -7,19 +7,19 @@ by \href{"http://www.nist.gov/index.html"}{National Institute of Standards and T
 
 Due to advances in cryptanalysis of SHA-2, NIST announced a competition in November, 2007 to choose SHA-3. 
 All the 64 submissions to NIST were open to public for cryptanalysis. 
-In October, 2012 \href{"http://keccak.noekeon.org/"}{Keccak} was announced as the winner for SHA-3 competition. 
+In October, 2012 \href{"http://keccak.noekeon.org/"}{Keccak} was announced as the winner of SHA-3 competition. 
 \href{"http://csrc.nist.gov/groups/ST/hash/sha-3/sha-3\_selection\_announcement.pdf"}{Keccak was chosen}
 for its robustness and high security margin.
 
-Of the 64 submissions to SHA-3 competition, 56 were selected for the first round, and 5 made it final round.
+Of the 64 submissions for SHA-3 competition, 56 were selected for the first round, and 5 made it final round.
 In this project I have compared the resistance to near collisions, on reduced versions of Keccak and two other
 finalist \href{"https://131002.net/blake/"}{BLAKE}, and \href{"http://www.groestl.info/"}{Gr{\o}stl}. 
 A $\epsilon / n $ bit near collision for hash function h and two messages $M_{1}$ and $M_{2}$, where
 $M_{1} \neq M_{2}$ is defined as
 \begin{center}$HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $\end{center}
 where HW is the Hamming weight, h is the hash function, and CV is the chaining value, and n is the hash size 
-in bits. I have also compared the near collision resistance amongst different versions of Keccak based on 
-reduced internal state size.
+in bits. I have also compared the near collision resistance amongst the different versions of Keccak by 
+reducing its internal state size.
 
 Hill climbing, simulated annealing, tabu search and random selection are applied to find a neighbourhood of chaining
 value that is appended to 2 messages that are dissimilar by a bit, to find near collisions in the reduced versions of

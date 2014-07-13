@@ -3,29 +3,28 @@
 \section{Cryptographic Hash Functions}
 
 A cryptographic hash function, is a function that accepts an arbitrarily long input string, and outputs
-a fixed length string that is uniquely related to the input string. The output string is either called message
-digest, or hash value of the given input string. Hash functions should be one way, that is given the message
+a fixed length string that is unique to the given input string. The output string is either called a message
+digest, or hash value of the given input string. Hash functions are one way, that is given the message
 digest, it should not be possible to find the input string. Two input strings even differing in a single
 bit should output two different hash values, that are not close or display any co-relation to each other.
 
 \section{The need for cryptographic hash function} 
 
 Digital signatures are method of authenticating electronic documents, and hash functions are used to ease the
-process of digitally signing a document. Digital signatures based on asymmetric algorithm like RSA, have a input 
-size limitation of around 128 to 324 bytes \cite{00017}. However most documents in practice are longer
-than 324 bytes.
+process of digitally signing a document. Digital signatures based on asymmetric algorithm such as RSA, have a 
+input size limitation of around 128 to 324 bytes, but most documents in practice are longer than 384 bytes
+\cite{00017}.
 
 One approach would be to divide the message into blocks of size acceptable by that of the signing 
-algorithm, and sign each block separately. However, there are disadvantages to this are -
+algorithm, and sign each block separately. The disadvantages to this approach are -
 
 \begin{enumerate}
   \item \emph{Computationally intensive:} Modular exponentiation of large integers used in asymmetric
   algorithms are resource intensive. For signing, multiple blocks of message, the resource utilization
-  is pronounced. Additionally, not only the sender but the receiver will also have to do the same resource
-  intensive operations.
+  is pronounced. Additionally, the receiver will also have to do the same resource intensive operations.
   \item \emph{Overheads:} The signature is of the same length as the message. This increases the overheads
   in storage and transmission.
-  \item \emph{Security concerns:} An attacker could remove, or reorder, or reconstruct new message and 
+  \item \emph{Security concerns:} An attacker may remove, or reorder, or reconstruct new message and 
   signatures from the previous message and signature pairs. Though attacker, cannot manipulate the individual
   blocks, but safety of the entire message is compromised.
 \end{enumerate}
@@ -38,19 +37,19 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   \subsection{Secure Hashing Algorithm SHA-0 and SHA-1}
 
   In 1993 National Security Agency(NSA) proposed SHA-0 as standard hashing algorithm, which was later
-  standardised by NIST. However by 1995, Florent Chabaud and Antoine Joux, found collisions in SHA-0 
+  standardised by NIST. By 1995, Florent Chabaud and Antoine Joux, found collisions in SHA-0 
   with complexity of $2^{61}$. In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 
-  out of 160 bits to be equal. Full  collisions were also found, when the number of rounds for the 
-  algorithm were reduced from 80 to 62.
+  out of 160 bits to be equal. Full  collisions were also found, when the permutations rounds were reduced 
+  to 62 from 80.
 
   In 1995 SHA-0 was replaced by SHA-1 designed by NSA \cite{00006, 00007}. It has block size of 512 bits
-  and output of 160 bits, which is similar to that of SHA-0. SHA-1 has an additional circular shift operation, 
+  and output of 160 bits, that is similar to SHA-0. SHA-1 has an additional circular shift operation, 
   that rectifies the weakness in SHA-0.
 
   In 2005 a team from Shandong University in China consisting of Xiaoyun Wang, Yiqun Lisa Yin, 
   and Hongbo Yu, found a way to find collisions on full version of SHA-1 requiring $2^{69}$ operations. 
-  This is less than the number of operations required by brute force search for finding colliisions, which
-  is $2^{80}$ \cite{00010}. An ideal hash function requires the number of operations to find a collision 
+  This is fewer than the number of operations required by brute force search for finding colliisions, that
+  is $2^{80}$ \cite{00010}. An ideal hash function requires the number of operations to find a collision, 
   to be equal to a brute force search, to be considered secure. 
 
   In October 2012, Jesse Walker from Skein team estimated the computational cost for finding collisions 
@@ -97,20 +96,20 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   \subsection{NIST competition and SHA-3}
 
   In November 2, 2007 NIST through a Federal Register Notice announced a public competition for selection of
-  new SHA-3 algorithm. This was done in response to advances madei in cryptanalysis of SHA-2.
-  Submission requirements stated to provide a cover sheet, algorithm specifications and supporting
+  new SHA-3 algorithm. This was done in response to advances made in cryptanalysis of SHA-2.
+  Submission requirements were to provide a cover sheet, algorithm specifications and supporting
   documentation, optimized implementations as per specifications of NIST, and intellectual property statements.
 
   Submissions for the competition were accepted till October 31, 2008, and 51 candidates from 64 submissions
   for first round of competition were announced on December 9, 2008. On October 2, 2012 NIST announced the 
-  winner of the competition to be Keccak, amongst the other four finalist, which were BLAKE, Gr{\o}stl, JH
+  winner of the competition to be Keccak, amongst the other four finalist, that were BLAKE, Gr{\o}stl, JH
   and Skein. Keccak was chosen for its' large security margin, efficient hardware implementation, and 
   flexibility.
   
 \section{Our work}
 
 In this project we compare the reduced versions of three hashing algorithms, that made it to final round in SHA-3.
-They are BLAKE, Gr{\o}stl, and Keccak. The three algorithms are first compared on the basis of reduced number of
+They are BLAKE, Gr{\o}stl, and Keccak. The three algorithms are first compared by reducing the number of
 permutation rounds, that are kept equal for all three of them. After that we compare variants of Keccak hashing
 algorithm, that have their internal state reduced by different amounts. For this part also we reduce the number
 of permutation rounds.
@@ -121,7 +120,7 @@ $M_{1} \neq M_{2}$ is defined as
 \begin{center}$ HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $\end{center}
 where HW is the Hamming weight, and CV is the chaining value, and n is the hash size in bits. 60 different message
 pairs are made from a seed string "A quick brown fox jumps over the lazy dog", and 60 other strings that differ
-from seed string in one bit. The output of the message pairs is compared for a near collision, and improvements
+from seed string by a bit. The output of the message pairs is compared for a near collision, and improvements
 on it are made by iterating it over search algorithms that are: hill climbing, simulated annealing, tabu search 
 and random selection.
 
