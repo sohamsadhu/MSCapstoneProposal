@@ -14,9 +14,9 @@ for hashing.
 
 \section{SHA-3}
 
-As per the latest proposed draft, SHA-3 contains 4 cryptographic hash function variations of Keccak for digest sizes
-224, 256, 384 and 512; along with two extendable output functions(XOF) \cite{00042}. XOF are hash functions, whose 
-output can be extended to desired length.
+According the latest proposed draft, SHA-3 contains four cryptographic hash function variations of Keccak for digest 
+sizes 224, 256, 384 and 512; along with two extendable output functions(XOF) \cite{00042}. XOF are hash functions,
+whose output can be extended to desired length.
 
 \begin{table}
   \begin{center}
@@ -43,7 +43,7 @@ output can be extended to desired length.
 
 The Keccak variants are denoted by KECCAK[c] where c is the capacity of the sponge construction used for Keccak
 function. The message that is to be hashed is concatenated with two bits, and the output digest length is mentioned
-as parameters to the Keccak function for SHA-3.
+as parameter to the Keccak function for SHA-3.
 \begin{center}
 SHA3-224(M) = KECCAK[448](M $\vert \vert$ 01, 224) \\
 SHA3-256(M) = KECCAK[512](M $\vert \vert$ 01, 256) \\
@@ -58,18 +58,18 @@ can be defined as
 SHAKE128(M, d) = KECCAK[256](M $\vert \vert$ 1111, d) \\
 SHAKE256(M, d) = KECCAK[512](M $\vert \vert$ 1111, d)
 \end{center}
-Here the d denotes digest size, since the output size can be varied as per parameter d. There are two capacities available
-for SHAKE, that of being 256 and 512, that give the security margin of 128 and 256 respectively. The message before
-being provided as input to SHAKE is concatenated  with 4 bits of 1. The first two bits of 1 are for domain separation,
-while the rest 2 bits of 1 are for compatibility with Sakura coding, that enables tree hashing, in which parallel
+Here d denotes digest size since the output size can be varied according to parameter d. There are two capacities available
+for SHAKE, that of being 256 and 512 that give the security margin of 128 and 256 respectively. The message before
+being provided as input to SHAKE is concatenated  with four bits of 1. The first two bits of 1 are for domain separation,
+while the rest 2 bits of 1, are for compatibility with Sakura coding that enables tree hashing, in which parallel
 processing can be applied.
 
 \section{Keccak}
 Keccak hash function, is built on sponge construction, which can input and output arbitrary length strings. The sponge
 construction has two phases. First is absorb, where the input message is ingested in blocks of defined bit rate interleaved
 with the permutations. The second phase is squeeze phase, where the blocks of output are squeezed out as per bit rate. 
-The Keccak, state is different in the sense that, the permutations work on a 3 dimensional block, cube
-structure rather than linear strings, or 2 dimensional arrays.
+The Keccak, state is different in the sense that, the permutations work on a three dimensional block, cube
+structure rather than linear strings, or two dimensional arrays.
 
   \subsection{Keccak state, sponge functions and padding} 
   \begin{figure}[h]
@@ -137,8 +137,8 @@ structure rather than linear strings, or 2 dimensional arrays.
   \subsection{Permutations}
 
   The $KECCAK-f[b]$ permutations are operated on state represented as a[5][5][w], with w = $2^{l}$, where l can be any value
-  from 0 to 6. The position in this 3 dimensional state is given by $a[x][y][z]$ where $x, y \in \mathbb{Z}_{5}$ and $z \in 
-  \mathbb{Z}_{w}$. The mapping of the bits from the input message 's' to state 'a' is like this $s[w (5y + x) + z] = a[x][y][z]$.
+  from 0 to 6. The position in this three dimensional state is given by $a[x][y][z]$ where $x, y \in \mathbb{Z}_{5}$ and $z \in 
+  \mathbb{Z}_{w}$. The mapping of the bits from the input message 's' to state 'a' is $s[w (5y + x) + z] = a[x][y][z]$.
   The $x, y$ coordinates are taken modulo 5, while the $z$ coordinate is taken as modulo $w$ \cite{00015}.
 
   There are five steps, for a permutation round R. 
@@ -449,7 +449,7 @@ chain value of 8 words.
   \end{algorithmic}
   \end{algorithm}
 
-  As shown in algorithm 3.1, the BLAKE compression function ingests the padded message block by block, in a loop 
+  As shown in algorithm 3.6, the BLAKE compression function ingests the padded message block by block, in a loop 
   starting from the initial value, and then sends the last chained value obtained from the finalization to the 
   $\Omega$ truncation function, to obtain the hash value.
 
@@ -493,7 +493,7 @@ BLAKE-512 operates on 64-bit words and returns a 64-byte hash value. The chainin
   b \gets (b \oplus c) \ggg 11
   $
   
-  Once more than 9 rounds are done, then permutations to be applied from table are selected by modulo 10 of round. 
+  Once, more than 9 rounds are done then permutations to be applied from table are selected by modulo 10 of round. 
   For example if round r \textgreater 9 then permutation used is $\sigma_{r \thickspace mod \thickspace 10}$, say 
   r = 15 then permutation would be $\sigma_{15 \thickspace mod \thickspace 10} = \sigma_{5}$.
 
