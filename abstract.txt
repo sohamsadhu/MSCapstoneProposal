@@ -1,0 +1,14 @@
+Digital signatures are created and verified using cryptographic hash functions. Due to importance and wide
+applications NIST has standardised the hash functions that have been named with nomenclature Secure
+Hash Algorithm (SHA). NIST has released the draft for Federal Information Processing Standards (FIPS),
+publication 202, that will be used as basis for SHA-3 and uses Keccak function from SHA-3 competition 
+as the basis.
+
+Near collision for a hash function, is the agreement of most of the bits of the output of hash function
+for two different messages. In this project we compare the security of reduced versions of some SHA-3 competition
+finalist hash functions; on the basis of near collisions. For obtaining near collision we apply hill climbing, simulated
+annealing, tabu search and random selection algorithms.
+
+All the three hashing functions were found to be equally resistant to near collisions with the above generic
+methods used in finding them. Also reduction in state size for Keccak had nominal effect in reducing its
+security against generic attacks. We hope, that our experiments provide security margins for reduced hash functions.

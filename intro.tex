@@ -6,14 +6,14 @@ A cryptographic hash function, is a function that accepts an arbitrarily long in
 a fixed length string that is unique to the given input string. The output string is either called a message
 digest, or hash value of the given input string. Hash functions are one way, that is given the message
 digest, it should not be possible to find the input string. Two input strings even differing in a single
-bit should output two different hash values, that are not close or display any co-relation to each other.
+bit should output two different hash values, that are not similar or display any co-relation to each other.
 
 \section{The need for cryptographic hash function} 
 
-Digital signatures are method of authenticating electronic documents, and hash functions are used to ease the
+Digital signatures are used to authenticate electronic documents, and hash functions are used to ease the
 process of digitally signing a document. Digital signatures based on asymmetric algorithm such as RSA, have a 
-input size limitation of around 128 to 324 bytes, but most documents in practice are longer than 384 bytes
-\cite{00017}.
+input size limitation of around 128 to 324 bytes \cite{00017}, but most documents in practice are longer 
+than 384 bytes.
 
 One approach would be to divide the message into blocks of size acceptable by that of the signing 
 algorithm, and sign each block separately. The disadvantages to this approach are -
@@ -30,25 +30,26 @@ algorithm, and sign each block separately. The disadvantages to this approach ar
 \end{enumerate}
 
 Thus to eliminate the overheads, and security limitations; a method is required to uniquely generate fixed
-size finger print of arbitrarily large message blocks. Hash functions, fill this void of signing large messages.
+size finger print of arbitrarily large message blocks, that can be digitally signed. Hash functions are used
+to generate this unique fixed length fingerprint of the message, that is signed.
 
 \section{Standards and NIST Competition} 
 
   \subsection{Secure Hashing Algorithm SHA-0 and SHA-1}
 
-  In 1993 National Security Agency(NSA) proposed SHA-0 as standard hashing algorithm, which was later
+  In 1993 National Security Agency (NSA) proposed SHA-0 as standard hashing algorithm, which was later
   standardised by NIST. By 1995, Florent Chabaud and Antoine Joux, found collisions in SHA-0 
-  with complexity of $2^{61}$. In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 
+  with complexity of $2^{61}$ operations. In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 
   out of 160 bits to be equal. Full  collisions were also found, when the permutations rounds were reduced 
   to 62 from 80.
 
-  In 1995 SHA-0 was replaced by SHA-1 designed by NSA \cite{00006, 00007}. It has block size of 512 bits
-  and output of 160 bits, that is similar to SHA-0. SHA-1 has an additional circular shift operation, 
+  In 1995 SHA-0 was replaced by SHA-1, which was designed by NSA \cite{00006, 00007}. It has block size of 
+  512 bits and output of 160 bits, that is similar to SHA-0. SHA-1 has an additional circular shift operation, 
   that rectifies the weakness in SHA-0.
 
   In 2005 a team from Shandong University in China consisting of Xiaoyun Wang, Yiqun Lisa Yin, 
-  and Hongbo Yu, found a way to find collisions on full version of SHA-1 requiring $2^{69}$ operations. 
-  This is fewer than the number of operations required by brute force search for finding colliisions, that
+  and Hongbo Yu, found collisions on full version of SHA-1 requiring $2^{69}$ operations. 
+  This is fewer than the number of operations required by brute force search for finding colliisions, which
   is $2^{80}$ \cite{00010}. An ideal hash function requires the number of operations to find a collision, 
   to be equal to a brute force search, to be considered secure. 
 
@@ -81,7 +82,7 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
   to SHA-2.
 
   Collisions were found on SHA-256 and SHA-512, that were reduced to 22 permutation rounds. Computational
-  operations to find collisions in 23 and 24 reduced rounds of SHA-256 were $2^{11.5}$ and $2^{28.5}$ 
+  operations to find collisions in 23 and 24 reduced rounds of SHA-256 required $2^{11.5}$ and $2^{28.5}$ 
   corresponding calls to their respectively reduced functions. For SHA-512 reduced versions of 23 and 24 rounds, 
   the corresponding values for were $2^{16.5}$ and $2^{32.5}$ calls \cite{00012}.
   Since, SHA-2 family relies on the Merkle-Damg\r{a}rd construction, the whole
@@ -111,18 +112,18 @@ size finger print of arbitrarily large message blocks. Hash functions, fill this
 In this project we compare the reduced versions of three hashing algorithms, that made it to final round in SHA-3.
 They are BLAKE, Gr{\o}stl, and Keccak. The three algorithms are first compared by reducing the number of
 permutation rounds, that are kept equal for all three of them. After that we compare variants of Keccak hashing
-algorithm, that have their internal state reduced by different amounts. For this part also we reduce the number
-of permutation rounds.
+algorithm, that have their internal state reduced by different amounts. We reduce the number of rounds for this
+part too.
 
 The comparison is done on the basis of near collisions found in the reduced version of the algorithms. A
-$\epsilon / n $ bit near collision for hash function h and two messages $M_{1}$ and $M_{2}$, where 
+$\epsilon / n $ bit near collision for hash function $h$ and two messages $M_{1}$ and $M_{2}$, where 
 $M_{1} \neq M_{2}$ is defined as
 \begin{center}$ HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $\end{center}
-where HW is the Hamming weight, and CV is the chaining value, and n is the hash size in bits. 60 different message
-pairs are made from a seed string "A quick brown fox jumps over the lazy dog", and 60 other strings that differ
-from seed string by a bit. The output of the message pairs is compared for a near collision, and improvements
-on it are made by iterating it over search algorithms that are: hill climbing, simulated annealing, tabu search 
-and random selection.
+where $HW$ is the Hamming weight, and $CV$ is the chaining value, and $n$ is the hash size in bits. The seed string
+"A quick brown fox jumps over the lazy dog" is paired with sixty different strings that differ from seed string
+in just one bit. The hash values of the messages in pair, are compared for near collision, and $\epsilon / n$
+ratio is improved by searching for a better chaining value using search algorithms like hill climbing, simulated 
+annealing, tabu search and random selection.
 
 \begin{center}
   \framebox
@@ -141,8 +142,8 @@ and random selection.
   }
 \end{center}
 
-Through our experiments as formulated through our hypothesis, we aim to determine a search algorithm, that
-would be optimum in finding near collisions in reduced versions of hashing algorithm. In our comparison of
-the three SHA-3 finalist algorithm, we try to evaluate the winner Keccak and its competitors efficiency, when
+Through our experiments we aim to determine an optimum search algorithm for finding near collisions
+in reduced versions of few SHA-3 finalist hashing algorithms. In our comparison of
+the three SHA-3 finalist algorithm, we try to evaluate the winner Keccak and its competitors security margin, when
 the number of permuation rounds are reduced. Lastly we investigate if reduced internal state size of Keccak,
-in any way reduces effectiveness of permutation rounds, if the permutation rounds are reduced.
+in any way reduces effectiveness of permutation rounds.
