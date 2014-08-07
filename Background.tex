@@ -1,8 +1,8 @@
 \chapter{Background}
 
 \section{Hashing}
-A cryptographic hash function, is a function that intakes a string of arbitrary, and outputs a string of 
-fixed length, that is unique to the input string given. The 
+A cryptographic hash function, is a function that intakes a string of arbitrary length, and outputs a 
+string of fixed length, that is unique to given input string. The 
 aforementioned is description of a single fixed hash function. But, hash functions can be tweaked
 with an extra key parameter. This gives rise multiple hash functions or \emph{hash family} as 
 defined below \cite{00005}
@@ -27,8 +27,8 @@ defined below \cite{00005}
 \vspace{4mm}
 
 In the above definition, $\mathcal{X}$ may be finite or infinite set, but $\mathcal{Y}$ is always
-a finite set, since the length of bit string or hash function output, that defines $\mathcal{Y}$ is
-finite. A pair (x, y) $\in \mathcal{X} \times \mathcal{Y}$ is a \emph{valid pair} under key K, if 
+a finite set, given that that length of output of hash function is finite. A pair (x, y) $\in 
+\mathcal{X} \times \mathcal{Y}$ is a \emph{valid pair} under key K, if 
 $h_{k}(x) = y$.
 
 A hash family $\mathcal{F} \subseteq \mathcal{F}^{\mathcal{XY}}$ is called as (N, M) - hash family, where
@@ -39,8 +39,8 @@ $\mid\mathcal{F}^{\mathcal{XY}}\mid$ = $M^{N}$.
 An \emph{unkeyed hash function} is a function $h_{k}: \mathcal{X} \to \mathcal{Y}$, where $\mathcal{X}$ and
 $\mathcal{Y}$ are as defined previously, and where $\mid\mathcal{K}\mid$ = 1. 
 %Thus a single fixed function h(x) = y, or an unkeyed hash function as hash family with only one key. 
-Here we work with unkeyed hash family of fixed hash function only. Although the algorithms
-we deal with may have their keys varied, but we keep them as constant.
+In this project we have dealt with unkeyed hash family variation of fixed hash function only. Although the
+algorithms we deal with may have their keys varied, but we keep them as constant.
 %For the purpose of this document, we will be concentrating on unkeyed hash family or fixed hash functions only, 
 %and will be referring to them as hash functions, unless mentioned otherwise.
 
@@ -109,7 +109,7 @@ complex, then the hash function is said to be collision resistant.
 
 The above properties make sure that hash function has one to one mapping from input to output, and is 
 one way. That is two input strings with minute difference should map to, two different hash values. Also
-it should be practically infeasible, to find a input given a hash value.
+it should be practically infeasible, to find an input given a hash value.
 
 \subsection{Collisions}
 
@@ -143,16 +143,16 @@ collision.
 \section{Security Model}
 
 A generic model of security fulfilment, for any hash function can be set based on previously mentioned
-properties for it to be considered as secure. Two such ideas, are described as follows 
+properties. Two such ideas, are described as follows 
 
   \subsection{ Random Oracle }
   Hash functions being built on mathematical operations, cannot be truly random, but are efficient
   approximations of fixed random output mapping to an input. An ideal hash function can be abstracted 
   as a random oracle, to show that the algorithm is secure modulo the way it creates random outputs. 
-  Proofs can be formalized on this basis \cite{00018}.
-
   Random oracle model, proposed by Bellare and Rogaway, is a mathematical model of ideal hash function.
-  It can be interpreted as, the only way to know the hash value for an input $x$ would be to
+  Proofs can be formalized on basis of this model \cite{00018}.
+  
+  Random oracle can be interpreted as, the only way to know the hash value for an input $x$ would be to
   ask the Oracle or rather compute the hash of the input itself. There is no way of formulating or 
   guessing the hash value for input, even if you are provided with substantial number of input and output
   pairs. It is analogous to looking up for corresponding value of the key in a large table. To know the
@@ -181,6 +181,8 @@ properties for it to be considered as secure. Two such ideas, are described as f
   in practice should be resistant to attacks, that require operations less than estimated by the birthday 
   paradox on message digest size.
 
+\newpage
+
 \section{Applications}
 
 Applications of cryptographic hash functions can be broadly classified in areas of verification, data
@@ -189,7 +191,7 @@ integrity and pseudo-random generator functions.
   \subsection{Verification and data integrity}
   \begin{enumerate}
 
-    \item Digital Forensics: When digital data is seized and to be used as evidence, a hash of the original
+    \item Digital forensics: When digital data is seized and to be used as evidence, a hash of the original
     digital media is taken. A copy of the digital evidence is made under the regulations, and the hash of the
     copied digital media is made, before it can be examined. After the evidence has been examined, then another
     hash value of the copy of the evidence that was used in the examination is made. This ensures that the evidence

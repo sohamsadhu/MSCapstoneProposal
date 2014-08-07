@@ -13,17 +13,14 @@ value. The minimization of the of the cost function is obtained by the collision
 it does by selecting the suitable chaining value.
 
 The experiment is conducted for a number of trials, where the digest lengths are varied at the standard bit
-lengths of 224, 256, 384 and 512 as standardized by SHA-3. The full version of SHA-3 finalist hashing algorithms
-have been found to be practically secure, so we do the experiments on the reduced versions of these algorithms.
+lengths of 224, 256, 384 and 512 as standardized by SHA-3.
 A hashing algorithm can be reduced in ways like reducing the digest size, the internal state size, or the
 number of permutation rounds. We choose to vary the permutation rounds in the hash functions for our experiment.
 The factors that are kept common for comparison are the digest lengths, message pairs and permutation rounds.
-For each trial and each hashing algorithm, the chaining value is randomly chosen and then worked upon by
-the collision finding algorithm.
+For each trial and each hashing algorithm, the chaining value is randomly chosen.
 
 We also compare various versions of Keccak, that have their internal state reduced by varying number of bits. 
-The versions of Keccak are subjected to hill climbing algorithm, to find collision in the reduced number of
-rounds. The goal is to find, by how much does the reduction in state size, does make Keccak unsecure.
+The goal is to find, what effect does the reduction in state size have on security of Keccak.
 
 \subsection{Input}
 
@@ -47,8 +44,6 @@ have the entry of seed string and the generated string that has the first bit to
 only two lines containing hexadecimal representation of string "The quick brown fox jumps over the lazy dog",
 and another line containing the same hexadecimal representation of seed string, but with the first bit toggled.
 The contents of file 1.txt are as follows 
-
-\newpage
 \begin{center}{\bf 5}4686520717569636b2062726f776e20666f78206a7 \\
 56d7073206f76657220746865206c617a7920646f67 \\ 
 \vspace{2mm}
@@ -59,7 +54,7 @@ In similar way rest of the 20 files are created and named for the bits updated f
 bit onwards. These files are then stored in the folder "Start", which in turn is stored in the folder 
 called "Input" that holds all the input strings.
 
-Similarly in the "Input" folder two more folders "Middle" and "End" are created, and each filled with 20 text
+Similarly in the "Input" folder, two more folders "Middle" and "End" are created, and each filled with 20 text
 files named or numbered 1 to 20. In the "Middle" folder are files that have two lines of string that have one
 bit difference in the middle section of the string. The bits updated are equally distributed around most and least
 significant between the middle bit in the seed string. For example in case of two bits being toggled, for the 
@@ -67,15 +62,11 @@ significant between the middle bit in the seed string. For example in case of tw
 \thickspace00011000$, and $01100010\thickspace{\bf 1}0011000$. The bit toggling starts from the most significant
 bit selected from the middle bit to least significant bit, that is from left to right. So in the example provided
 if the seed string is $01100010\thickspace00011000$, then file Input/Middle/1.txt will contain 
-
 \begin{center}$01100010\thickspace00011000$\\
 $0110001{\bf 1}\thickspace00011000$\end{center}
-
 an file Input/Middle/2.txt will contain.
-
 \begin{center}$01100010\thickspace00011000$\\
 $01100010\thickspace{\bf 1}0011000$\end{center}
-
 Please note that the above mentioned fragments are examples, and not actual contents. The actual contents are going
 to be hexadecimal representation of bit value, of the seed string "The quick brown fox jumps over the lazy dog", and 
 the hexadecimal representation of bits of the updated string, as shown for the file 1.txt in "Start" folder category.
@@ -101,9 +92,9 @@ Output/32/HillClimbing/224/BLAKE/2/Start/1.txt.
 
 Each file has 8 entries in it, which are 
 \begin{enumerate}
-\item The number of times near collisions were found and not found, from the number of trials.
-\item The cumulative total number of iterations that it took for the algorithm to find the near collision.
-\item The cumulative total number of iterations ran, from the trials when it did not find near collision.
+\item Number of near collisions found and not found, from the number of trials.
+\item Cumulative total of iterations that it took for the algorithm to find the near collision.
+\item Cumulative total of iterations ran, from the trials when it did not find near collision.
 \item Average number of iterations for when near collisions were found and not found.
 \item Total cumulative iterations altogether for the experiment for all trials, and average iterations.
 \end{enumerate}
@@ -116,22 +107,21 @@ implementation in \href{"https://github.com/sxs9174/MSProjectCode/tree/master/MS
 \subsection{Rational for experiment structure, parameters and collected data}
 
 \subsubsection{Choosing iterations over execution time and noting collisions}
-After creation of the output files, the average iterations for each case of input that is start, end or middle
-over the pairs starting from 1 to 20 are entered manually into a excel sheet. Thus we get an average of iterations
-for all the hashing algorithms, over all the collision finding algorithms, for all the digest size and number of
-permutation round for input type having strings differing by a bit at a certain point.
+We get an average of iterations for all the hashing algorithms, over all the collision finding algorithms,
+for all the digest size and number of permutation round for input type having strings differing by a bit at 
+a certain point.
 
 The iteration is a whole number starting from zero, unique to a collision finding algorithm instance. Each time in
 the main algorithm loops over to find a collision based on existing chaining value, by choosing one of its
 neighbours; the iteration is incremented. Sometimes the iteration is also incremented for processes inside the
 loop like finding the best neighbour from the neighbourhood in case of tabu search, which is also considered as
-part of algorithm operation. Iterations show how many operations were required before success was obtained. This
-is important in our experiment in hill climbing, where we run the algorithm till we find near collision.
+part of algorithm operation. Iterations show how many operations were required before success was obtained.
 
 The near collision in this case is defined as having 65\% bits as same. So if a collision algorithm gets 65\% bits
 of two hash digests to be similar then it is noted as a success. This is a small margin, and randomly 50\% of the
 bits can be guessed correctly. However, getting more than 50\% of the bits to be similar, by non random methods with
-finite attempts can be marked as a success. We then experiment with higher values, for 75\% and 85\% bits collision.
+finite attempts can be marked as a success. We then experiment with higher values, for 70\%, 75\% and 85\% bits
+collision.
 
 \subsubsection{Why have two message pairs in the way they are?}
 Having two different inputs, with slight differences gives us the opportunity to determine the diffusion properties
@@ -160,8 +150,7 @@ Purpose of dividing the bit difference of the messages into three categories of 
 if the hashing algorithms have any particular vulnerability when messages are updated at select points. Different
 hashing algorithms have different approaches to substitution and permutation, and that could leave gaps in how
 the diffusion of the input message is achieved in digest. Acheiving collision should be equally hard irrespective
-of the point where the message has been changed from the original. This classification of message pair is to
-find if weakness in diffusion in hashing algorithms is in any related to position of bit change in the message.
+of the point where the message has been changed from the original.
 
 The experiment is more on lines of black box testing, where we just evaluate the output rather than examining
 how the input is processed. Thus we need a plethora of test cases to cover most possibilities before concluding

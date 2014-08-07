@@ -2,19 +2,18 @@
 
 For our project we chose to study BLAKE, Gr{\o}stl and Keccak, out of the 5 finalists, in the SHA-3 competition. 
 All the five finalist were found to be secure, devoid of any weakness that can be practically exploited. Keccak
-was chosen, since it was the winner of SHA-3 competition, and is the basis for the current SHA-3 in draft.
+was chosen, since it was the winner of SHA-3 competition, and is the basis for latest FIPS draft for SHA-3.
 Keccak has sponge as design basis, BLAKE is based on HAIFA, and Gr{\o}stl
 is based on Merkle-Damg\r{a}rd design. The selection of these three, gives an opportunity to observe the effects 
-of different design for reduced hash functions. Thus I chose to go with BLAKE and Gr{\o}stl for comparison with
-Keccak in this project. Naveen Kandakumar has studied the rebound attacks in JH \cite{00043}, while Darryl
-Clyde Eychner did a statiscal analysis on BLAKE and Skein \cite{00030}, which were the other SHA-3 finalists. The
-latest Federal information processing standard(FIPS) publication 202, as of May 2014, has standardised SHA-3 to
+of different design for reduced hash functions. Naveen Kandakumar has studied the rebound attacks in JH \cite{00043},
+while Darryl Clyde Eychner did a statiscal analysis on BLAKE and Skein \cite{00030}, which were the other SHA-3 finalists.
+The latest Federal information processing standard(FIPS) publication 202, as of May 2014, has standardised SHA-3 to
 be a variant of Keccak, where the input message is concatenated with bits related to domain, before processed 
 for hashing.
 
 \section{SHA-3}
 
-According the latest proposed draft, SHA-3 contains four cryptographic hash function variations of Keccak for digest 
+According the latest proposed draft, SHA-3 will contain four cryptographic hash function variations of Keccak for digest 
 sizes 224, 256, 384 and 512; along with two extendable output functions(XOF) \cite{00042}. XOF are hash functions,
 whose output can be extended to desired length.
 
@@ -58,15 +57,15 @@ can be defined as
 SHAKE128(M, d) = KECCAK[256](M $\vert \vert$ 1111, d) \\
 SHAKE256(M, d) = KECCAK[512](M $\vert \vert$ 1111, d)
 \end{center}
-Here d denotes digest size since the output size can be varied according to parameter d. There are two capacities available
-for SHAKE, that of being 256 and 512 that give the security margin of 128 and 256 respectively. The message before
+Here d denotes digest size, as the output digest size is varied according to parameter d. There are two capacities available
+for SHAKE, that of being 256 and 512 bits, that give the security margin of 128 and 256 bits respectively. The message before
 being provided as input to SHAKE is concatenated  with four bits of 1. The first two bits of 1 are for domain separation,
-while the rest 2 bits of 1, are for compatibility with Sakura coding that enables tree hashing, in which parallel
+while the rest two bits of 1, are for compatibility with Sakura coding that enables tree hashing, in which parallel
 processing can be applied.
 
 \section{Keccak}
 Keccak hash function, is built on sponge construction, which can input and output arbitrary length strings. The sponge
-construction has two phases. First is absorb, where the input message is ingested in blocks of defined bit rate interleaved
+construction consists of two phases. First is absorb, where the input message is ingested in blocks of defined bit rate interleaved
 with the permutations. The second phase is squeeze phase, where the blocks of output are squeezed out as per bit rate. 
 The Keccak, state is different in the sense that, the permutations work on a three dimensional block, cube
 structure rather than linear strings, or two dimensional arrays.
@@ -94,12 +93,12 @@ structure rather than linear strings, or two dimensional arrays.
     \label{fig:lab}
   \end{figure}
 
-  The state in Keccak can be represented as a cube having bits, as shown in figure 3.9. The initial state to the sponge
+  The state in Keccak can be represented as a cube having bits, as shown in figure 3.2. The initial state to the sponge
   construction has value 'b' number of 0 bits(represented as $0^{b}$), and called the root state. The root state has fixed
   value and should not be considered as initial value to sponge construction. The different number of state produces
   the Keccak family of hash function variations denoted by $KECCAK-f[b]$.
   
-  The varying number of states can be visualized as state having varying number or $l$ number of slices. The width $b$ is
+  The varying number of states can be visualized as state having varying number of slices denoted by $l$. The width $b$ is
   defined as $b = 25 \times 2^{l}$, where $l$ takes values from 0 to 6.
   
   \begin{algorithm}
@@ -109,20 +108,20 @@ structure rather than linear strings, or two dimensional arrays.
       \State {\bf Interface:} Z = sponge($M, l$) with $M \in \mathbb{Z}^{*}_{2}$, integer $ l > 0$ and $Z \in \mathbb{Z}^{l}_{2}$
       \State $P = M \parallel pad[r](\mid M \mid)$
       \State $s = 0^{b}$
-      \State \For {$i = 0 \thickspace to \mid P \mid_{r} - 1$}
+      \For {$i = 0 \thickspace to \mid P \mid_{r} - 1$}
         \State $s = s \oplus ( P_{i} \parallel 0^{b - r})$
         \State $s = f(s)$
-      \State \EndFor
+      \EndFor
       \State $ Z = \lfloor s \rfloor_{r}$
-      \State \While $\mid Z \mid_{r} r < l $
+      \While $\mid Z \mid_{r} r < l $
         \State $s = f(s)$
         \State $Z = Z \parallel \lfloor s \rfloor_{r}$
-      \State \EndWhile
+      \EndWhile
       \State \Return $\lfloor Z \rfloor_{l}$ 
     \end{algorithmic}
   \end{algorithm}
 
-  Algorithm 3.2 shows how the sponge construction applied to $KECCAK-f[r + c]$, with multi-rate padding, length of a 
+  Algorithm 3.1 shows how the sponge construction applied to $KECCAK-f[r + c]$, with multi-rate padding, where length of
   string $M$ is denoted by $\mid M \mid $. The string $M$ can also be considered as having blocks of size say x,
   and those number of blocks are shown as $\mid M \mid_{x}$. The $\lfloor M \rfloor_{l}$ denotes the string
   $M$ truncated to its first $l$ bits.
@@ -136,7 +135,7 @@ structure rather than linear strings, or two dimensional arrays.
     
   \subsection{Permutations}
 
-  The $KECCAK-f[b]$ permutations are operated on state represented as a[5][5][w], with w = $2^{l}$, where l can be any value
+  The $KECCAK-f[b]$ permutations are operated on state represented as a[5][5][w], with w = $2^{l}$, where $l$ can be any value
   from 0 to 6. The position in this three dimensional state is given by $a[x][y][z]$ where $x, y \in \mathbb{Z}_{5}$ and $z \in 
   \mathbb{Z}_{w}$. The mapping of the bits from the input message 's' to state 'a' is $s[w (5y + x) + z] = a[x][y][z]$.
   The $x, y$ coordinates are taken modulo 5, while the $z$ coordinate is taken as modulo $w$ \cite{00015}.
@@ -174,11 +173,11 @@ structure rather than linear strings, or two dimensional arrays.
   \begin{algorithm}
     \caption{ $\chi$ transformation KECCAK \cite{00015}.}
     \begin{algorithmic}[1]
-      \State \For {$y = 0 \thickspace to \thickspace 4$}
-      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      \For {$y = 0 \thickspace to \thickspace 4$}
+      \For {$x = 0 \thickspace to \thickspace 4$}
       $A[x, y] = a[x, y] \oplus ((NOT \thickspace a[x + 1, y]) \thickspace AND \thickspace a[x + 2, y])$
-      \State \EndFor
-      \State \EndFor
+      \EndFor
+      \EndFor
     \end{algorithmic}
   \end{algorithm}
   
@@ -193,30 +192,30 @@ structure rather than linear strings, or two dimensional arrays.
   \begin{algorithm}
     \caption{ $\theta$ transformation KECCAK \cite{00015}.}
     \begin{algorithmic}[1]
-      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      \For {$x = 0 \thickspace to \thickspace 4$}
       \State $C[x] = a[x, 0]$
-      \State \For {$y = 1 \thickspace to \thickspace 4$}
+      \For {$y = 1 \thickspace to \thickspace 4$}
       $C[x] = C[x] \oplus a[x, y]$
-      \State \EndFor
-      \State \EndFor
-      \State \For {$x = 0 \thickspace to \thickspace 4$}
+      \EndFor
+      \EndFor
+      \For {$x = 0 \thickspace to \thickspace 4$}
       \State $D[x] = C[x - 1] \oplus ROT(C[x + 1], 1)$
-      \State \For {$y = 0 \thickspace to \thickspace 4$}
+      \For {$y = 0 \thickspace to \thickspace 4$}
       \State $A[x, y] = a[x, y] \oplus D[x]$
-      \State \EndFor
-      \State \EndFor
+      \EndFor
+      \EndFor
     \end{algorithmic}
   \end{algorithm}
 
   \begin{algorithm}
     \caption{ $\pi$ transformation KECCAK \cite{00015}.}
     \begin{algorithmic}[1]
-      \State \For {$x = 0 \thickspace to \thickspace 4$}
-      \State \For {$y = 1 \thickspace to \thickspace 4$}
+      \For {$x = 0 \thickspace to \thickspace 4$}
+      \For {$y = 1 \thickspace to \thickspace 4$}
       \State $\begin{pmatrix} X \\ Y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix}x \\ y \end{pmatrix}$
       \State $A[X, Y] = a[x, y]$
-      \State \EndFor
-      \State \EndFor
+      \EndFor
+      \EndFor
     \end{algorithmic}
   \end{algorithm}
 
@@ -233,10 +232,10 @@ structure rather than linear strings, or two dimensional arrays.
     \begin{algorithmic}[1]
       \State $A[0, 0] = a[0, 0]$
       \State $\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$
-      \State \For{$t = 0 \thickspace to \thickspace 23$}
+      \For{$t = 0 \thickspace to \thickspace 23$}
       \State $A[x, y] = ROT(a[x, y], (t + 1)(t + 2) / 2)$
       \State $\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix}x \\ y \end{pmatrix}$
-      \State \EndFor
+      \EndFor
     \end{algorithmic}
   \end{algorithm}
 
@@ -262,13 +261,13 @@ structure rather than linear strings, or two dimensional arrays.
     \end{center}
   \end{table}
   
+\newpage
 \section{BLAKE} 
 
 BLAKE \cite{00002} hash function is built on HAIFA (HAsh Iterative FrAmework) structure \cite{00020} which is an improved
-version of Merkle-Damg\r{a}rd design. It provides resistance to long-message, second pre-image attack and provides a 
-salting option, that BLAKE uses \cite{00021}.
-The design is local wide-pipe which avoids internal collisions. The compression function in BLAKE is tweaked version of 
-ChaCha, a stream cipher. 
+version of Merkle-Damg\r{a}rd design. It provides resistance to second pre-image attack and an option for salting the message
+\cite{00021}. The design is local wide-pipe which avoids internal collisions. The compression function in BLAKE is tweaked
+version of ChaCha, a stream cipher. 
 
 \begin{table}[h]
   \begin{center}
@@ -307,7 +306,7 @@ of words, where a word is equal to 32 bits for BLAKE-256 variant, while 64 bit f
       $\lll k$                 & rotate k bits to most significant bits \\
       $\langle l \rangle_{k}$ & encoding of integer $l$ over $k$ bits \\ \hline
     \end{tabular}
-    \caption{Convention of symbols used in BLAKE algorithm}
+    \caption{Convention of symbols used in BLAKE algorithm \cite{00002}}
   \end{center}
 \end{table}
 
@@ -546,12 +545,10 @@ from a weak key schedule \cite{00019}.
 
   \subsection{The hash function construction}
 
-  The input is padded and then split into l-bit message blocks $m_{1}$,$\ldots$, $m_{t}$, and each message block is
+  The input is padded and then split into $l$-bit message blocks $m_{1}$,$\ldots$, $m_{t}$, and each message block is
   processed sequentially. The initial $l$-bit chaining value $h_{0}$ = iv is defined, and the blocks $m_{i}$ are
   processed as 
-
   \begin{center}$ h_{i}\gets f(h_{i-1}, m_{i})\thickspace for \thickspace i = 1,\ldots, t.$\end{center}
-
   Thus $f$ consumes two $l-bits$ input, and maps to output of $l-bits$. For variants up to 256 bits output, size of $l$ is
   512 bits. And for digest sizes larger than 256 bits, $l$ is 1024 bits.
 
@@ -593,7 +590,7 @@ from a weak key schedule \cite{00019}.
   appended, then\\ $ w = -N - 65 \thickspace mod \thickspace l $, 0 bits are appended; where N is the length of the
   original message. Finally a 64 bit representation of $(N + w + 65) / l $ is padded. Given the need for message length
   to be present in the padding, the maximum size of message digest in bits for Gr{\o}stl-512 version is 
-  $2^{73}-577$ bits, and that for 1024 version is $2^{74}-1089$bits.
+  $2^{73}-577$ bits, and that for 1024 version is $2^{74}-1089$ bits.
 
   \subsection{Design of P and Q permutations}
 
@@ -632,7 +629,7 @@ from a weak key schedule \cite{00019}.
 \newpage
     \subsubsection{Mapping:} of a 64-byte input sequence of 0x00 0x01 0x02 $\ldots$ 3f to a 8 $\times$ 8 matrix is shown 
     in the following matrix. For a 8 $\times$ 16 matrix, the mapping is extended the same way. Mapping the intermediate 
-    state values to byte sequence is reverse of this process. \\
+    state values to byte sequence is reverse of this process.
      \begin{center}$\mathsf{Input\thickspace Mapping} = \renewcommand\arraystretch{0.75}
       \begin{bmatrix}
         \mathsf{00} & \mathsf{08} & \mathsf{10} & \mathsf{18} & \mathsf{20} & \mathsf{28} & \mathsf{30} & \mathsf{38} \\
@@ -645,7 +642,7 @@ from a weak key schedule \cite{00019}.
         \mathsf{07} & \mathsf{0f} & \mathsf{17} & \mathsf{1f} & \mathsf{27} & \mathsf{2f} & \mathsf{37} & \mathsf{3f}
       \end{bmatrix}$\end{center}
       
-    \subsubsection{AddRoundConstant:} XORs a round dependant constant to the state matrix say A. It is represented as 
+    \subsubsection{AddRoundConstant:} XORs a round dependant constant to the state matrix say A. It is represented as \\
     $A \gets A \oplus C[i]$, where $C[i]$ is the round constant in round $i$. The constants for both P and Q for both
     variations are shown below. $i$ is the round number represented as 8 bits value, and all other numbers in matrix
     are represented as hexadecimals.\\
@@ -748,8 +745,8 @@ from a weak key schedule \cite{00019}.
   \subsubsection{ShiftBytes:} cyclically shifts the bytes in a row to left by that number. Let list 
   vector of a number denote the shift, with the index of the element indicating the row. The vector representation
   for $P_{512}$ = [0, 1, 2, 3, 4, 5, 6, 7] and $Q_{512}$ = [1, 3, 5, 7, 0, 2, 4, 6]. The shift is shown in figure
-  3.4. Those for the larger permutation are $P_{1024}$ = [0, 1, 2, 3, 4, 5, 6, 11]and $Q_{1024}$ = 
-  [1, 3, 5, 11, 0, 2, 4, 6]. This shifting is illustrated in figure 3.12 and figure 3.13.
+  3.12. Those for the larger permutation are $P_{1024}$ = [0, 1, 2, 3, 4, 5, 6, 11]and $Q_{1024}$ = 
+  [1, 3, 5, 11, 0, 2, 4, 6]. This shifting for 512 and 1024 bits is illustrated in figures 3.12 and 3.13 respectively.
     
   \begin{figure}
     \begin{center}

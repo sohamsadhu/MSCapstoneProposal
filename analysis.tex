@@ -12,8 +12,8 @@ of encouraging results; it was discontinued. The experiment on random selection 
 value, since results from hill climbing and simulated annealing suggested it will take roughly three and half times
 more to complete the experiment. 
 
-Since the results from the 64 bit length chaining value weren't that encouraging, hence we stuck to chaining 
-value of bit length 32. We this time repeated our experiment, but with 256 trials instead of 128 trials, and 
+We stuck to chaining value of bit length 32, since results from the 64 bit length chaining value were not encouraging.
+This time we repeated our experiment, but with 256 trials instead of 128 trials, and 
 experimented with rounds of 3 and 4. Lastly we compared the different implementations of Keccak, with internal
 state reduced to 200, 400, 800 bits; against the standard that was selected as winner of SHA-3 competition. 
 The reduced and full version of Keccak were subjected to hill climbing attack, for permutation rounds 3, 4, 5 and 
@@ -24,7 +24,7 @@ code implementation of the experiment.
 
 \section{Observations on programming implementations}
 
-Java is not the best choice in implementing algorithms related to hashing. This experiment required GUI, and has
+Java is not the best choice in implementing algorithms related to hashing. This experiment required GUI, and
 platform independence which made Java natural choice. The SHA-3 finalist algorithms have word size or state size 
 parameters in multiples of 32 or 64 bits, which exploit the computer architecture of having these word sizes
 built in, and using them as single data entities. In languages like C, there are primitive data types
@@ -155,10 +155,9 @@ The iterations for this part are shown from table 6.4 to table 6.6.
 As the number of bits in chaining value is increased from 32 to 64, the number of iterations increases to around 3500.
 The increase in number of iterations is more than three and half times, than what is observed in 32 bit chaining value.
 It is not possible to comment concretely on the relationship of chaining value to number of iterations, except for the
-fact that they are directly proportional. As the number of bits in chaining value is increased, the number of iterations
-also increase. Also from limited amount of observations, it seems that relationship between chaining value bits and
-iterations is not linear. For double the increase in number of bits for chaining value, the number of iterations roughly
-rose more than three and half times.
+fact that they are directly proportional. Also from limited amount of observations, it seems that relationship between 
+chaining value bits and iterations is not linear. For double the increase in number of bits for chaining value, the 
+number of iterations roughly rose more than three and half times.
 
 %\begin{table}
   %\begin{center}
@@ -255,8 +254,7 @@ was kept at 65\% of bit matching, and the experiment was carried from permutatio
 
 It seems that the number of iterations to find success or failure through the various reduced versions of Keccak
 seem to remain similar, at around 900 iterations for most of them. This indicates that almost equal effort is 
-required by hill climbing across various reduced versions of Keccak, to find a collision. The iterations also
-remain more or less constant or plateau irrespective of the number of rounds, again at around 900.
+required by hill climbing across various reduced versions of Keccak, to find a collision.
 %\begin{table}
   %\begin{center}
     %\begin{tabular}{ | c | c | c | c | c | }                      \hline
@@ -415,9 +413,8 @@ there were no collisions found in two rounds of Gr{\o}stl that it was ran on.
 
 \subsection{Hill Climbing}
 
-In the collision tables for 32 bit chaining value trials for round 1 and 2 were 128, while for round 3 and 4 were 256.
-So the numbers for round 3 and 4 should reflect more accuracy. Although there would be very little inconsistency
-when comparing numbers from round 1 and 2; and round 3 and 4. Since, round 1 and 2 show more near collision figures
+In the collision tables for 32 bit chaining value trials for rounds 1 and 2 were 128, while for rounds 3 and 4 were 256.
+So the numbers for round 3 and 4 should reflect more accuracy. Rounds 1 and 2 show more near collision figures
 as compared to rounds 3 and 4. For the 64 bit chaining value, the number of trials was set at 128.
 
 For BLAKE in round 1, collisions can be found in each instance and trial. However for rounds 2, 3, 4 the message pairs
@@ -617,8 +614,8 @@ rounds higher than 2, simulated annealing similarly failed to find any success. 
 
 \subsection{Random Selection}
 
-Random selection was not applied with chaining value of 64 bit length, after not so optimum results obtained from its'
-use in hill climbing algorithm; and simulated annealing applied on Gr{\o}stl. Random selection also had similar success
+Random selection was not applied with chaining value of 64 bit length, after discouraging results obtained by its
+application on Gr{\o}stl. Random selection also had similar success
 like hill climbing and simulated annealing for digests obtained from rounds above 2, and digests lengths above 256.
 
 \begin{table}

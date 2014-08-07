@@ -2,7 +2,7 @@
 
 \section{Rotational cryptanalysis of round-reduced KECCAK}
 
-Rotational cryptanalysis\cite{00041} is used to to follow relation between states $(A, A^{\leftarrow})$ of 
+Rotational cryptanalysis \cite{00041} is used to to follow relation between states $(A, A^{\leftarrow})$ of 
 KECCAK-f[1600] in course of their transformation, and thus derive a distinguisher.
 
 \begin{defn}
@@ -29,14 +29,14 @@ A permutation is called random if it is chosen according to uniform distribution
 \end{defn}
 
 It is assumed that random permutation $p^n_{(x, y, z)}$ follows binomial distribution $\mathcal{B}(t, s)$ where $t$ is
-trials and $s$ is success probability that is equal to 0.5. Experimental results for a chosen $p_{(x, y, z)}$ are 
-compared to follow distribution $\mathcal{B}(t, s)$. The experimental values are supposed to fall within range of 
+trials and $s$ is success probability that is equal to 0.5. Experimental results for a chosen $p_{(x, y, z)}$ were
+compared to follow distribution $\mathcal{B}(t, s)$. The experimental values were supposed to fall within range of 
 $0.5t\pm2\sigma$ with 95\% confidence interval.
 
-The probability change through steps of Keccak, can be derived from analysis of bitwise operation. It is assumed
+The probability change through steps of Keccak, was derived from analysis of bitwise operation. It was assumed
 that corresponding bits from $(A, A^{\leftarrow})$ are equal, both combinations ('00' or '11') or opposite combinations
 have same probability to be actual values. Operations like NOT, or rotation in Keccak do not affect the probabilities,
-so only probabilities for AND and XOR are considered.
+so only probabilities for AND and XOR were considered.
 
 \begin{lem}
 Given input bits a, b and output bit out; with $p_a$ and $p_b$ defined as per definition 4.1.3, then for AND operation
@@ -49,13 +49,13 @@ $P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$ \cite{00022}
 \end{lem}
 
 A 4 round rotational was built, that found some values deviate from the 0.5 like $p^{54}_{(4, 4, 14)} = 0.5625$. 10,000
-random samples of rotational pairs are ran on 4 round KECCAK-f[1600]. The mean from that sample is 5682 which is beyond
+random samples of rotational pairs were ran on 4 round KECCAK-f[1600]. The mean from that sample was 5682 which was beyond
 range from mean of $\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5. Thus demonstrating a distinguisher for 4 rounds.
-After 4 rounds $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended. But instead probability
+After 4 rounds $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher was not directly extended. Instead probability
 that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ and 
-$(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution $\mathcal{B}(10000, 0.5)$.
-Values for $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round. The
-probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
+$(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ was observed, that should have followed distribution $\mathcal{B}(10000, 0.5)$.
+Values for $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ had the highest deviation from 0.5 at end of fourth round. The
+probability that they were in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
 (1 - p^n_{(x, y, z)})$ which comes to 0.499024. The $\rho$ and $\pi$ steps in Keccak only change the position of the
 probability to bit pairs $(A_{(1, 2, 43)}, A^{\leftarrow}_{(1, 2, 44)})$ and $(A_{(2, 0, 16)}, A^{\leftarrow}_{(2, 0, 17)})$.
 The bias is observed by generating sufficient number of samples 'm' based on Chernoff bound based on inequality 
@@ -111,7 +111,7 @@ the steps.
 
 For a given state there are 64 possible rotational pairs, derived from length of lane. We are searching for preimage
 of 512 bits, thus the probability of guessing the rotational counterpart $A^{\leftarrow}$ is $2^{-512} \cdot 64 = 2^{-506}$,
-or rather $2^{506}$ guesses. There are $2^{256}$ messages possible of the cyclic pattern that we consider here. There
+or rather $2^{506}$ guesses. There are $2^{256}$ messages possible of the cyclic pattern that are considered. There
 are 10 sets of $(x, y, z)$ cordinates for each of the rotational number. The probability of the candidate having 
 $p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. So $2^{512} / 2^{10} = 2^{502}$ number of checks are required
 at most to find the candidate. Thus the total work is equivalent to $2^{506}$ calls to KECCAK-512 for 3 rounds to find
@@ -149,6 +149,7 @@ which does not implement $\iota$ function. Algorithm 4.3 is for finding preimage
 Just like the 3 round preimage finding method, the above method for finding the preimage for 4 rounds has complexity of
 $2^{506}$ calls to Keccak-512.
 
+\newpage
 \section{Finding near collisions with Hill Climbing}
 
 Hill climbing algorithm, was used to find near collisions in reduced rounds of some SHA-3 competitors \cite{00029}.
@@ -166,23 +167,23 @@ where HW is the Hamming weight, and CV is the chaining value, and n is the hash 
   \begin{center}
     \begin{tabular}{ | c | c | } \hline
       $\epsilon / n $                         & Complexity $( \approx )$ \\ \hline
-      128 / 256, 256 / 512, 512 / 1024 & $2^{4}$ \\ \hline
-      151 / 256, 287 / 512, 553 / 1024 & $2^{10}$ \\ \hline
-      166 / 256, 308 / 512, 585 / 1024 & $2^{20}$ \\ \hline
-      176 / 256, 323 / 512, 606 / 1024 & $2^{30}$ \\ \hline
-      184 / 256, 335 / 512, 623 / 1024 & $2^{40}$ \\ \hline
-      191 / 256, 345 / 512, 638 / 1024 & $2^{50}$ \\ \hline
-      197 / 256, 354 / 512, 651 / 1024 & $2^{60}$ \\ \hline
+      128/256, 256/512, 512/1024 & $2^{4}$ \\ \hline
+      151/256, 287/512, 553/1024 & $2^{10}$ \\ \hline
+      166/256, 308/512, 585/1024 & $2^{20}$ \\ \hline
+      176/256, 323/512, 606/1024 & $2^{30}$ \\ \hline
+      184/256, 335/512, 623/1024 & $2^{40}$ \\ \hline
+      191/256, 345/512, 638/1024 & $2^{50}$ \\ \hline
+      197/256, 354/512, 651/1024 & $2^{60}$ \\ \hline
     \end{tabular}
     \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search \cite{00029}}
   \end{center}
 \end{table}
 
 Hill Climbing starts with a random candidate, and then choosing a random successor that has a better fit to the
-solution. In practice for message M and chaining value CV 
+solution. For message M and chaining value CV 
 \begin{center}$HW( h(M, CV) \oplus h(M, CV + \delta) ) = n / 2 $,\end{center}
-can be considered secure, where $\delta$ is n-bit vector with small Hamming weight. However, if the diffusion for the 
-hash function h is not proper, then we obtain a lower Hamming weight. In such situation a correlation between two 
+$\delta$ is n-bit vector with small Hamming weight. If the diffusion for the hash function h is not proper, then we
+obtain a significant Hamming weight. In such situation a correlation between two 
 chaining values differing in small weight $\delta$ can obtain near collisions, with hill climbing algorithm.
 
 Here, the aim of hill climbing algorithm will be to minimize the function 
@@ -201,10 +202,10 @@ The hill climbing algorithm to find the nearest match is described in algorithm 
   \begin{algorithmic}[1]
     \State Randomly select CV
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
-    \State \While {(CV is not k-opt)}
+    \While {(CV is not k-opt)}
     \State CV = x such that $x \in S^{k}_{CV}$ with $f(x) < f(best)$
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
-    \State \EndWhile
+    \EndWhile
     \State \Return (CV, $f_{best}$)
   \end{algorithmic}
 \end{algorithm}
@@ -222,7 +223,7 @@ terminates once we get k-opt chaining value.
 \subsection{Simulated Annealing}
 
 \begin{algorithm}
-  \caption{ Simulated Annealing Algorithm for obtaining near collisions }
+  \caption{ Simulated Annealing Algorithm for obtaining near collisions \cite{00033}}
   \begin{algorithmic}[1]
     \Function {Simulated-annealing}{$M_{1}, M_{2}, CV,$ schedule}
       \State current $\gets \thickspace CV$
@@ -251,6 +252,7 @@ value, then it is accepted with a probability less than 1. The probability has a
 to the decreased value of the move, and the temperature. Thus at higher temperature or at the initial stages, a
 downhill successor is more likely to be accepted, than in the later stages \cite{00033}.
 
+\newpage
 \subsection{Tabu Search}
 
 \begin{algorithm}[h]
@@ -307,12 +309,11 @@ states. Tabu search has been applied to mostly combinatorial optimization proble
 \end{algorithm}
 
 Random selection is the most naive way of finding collisions, without application of any heuristic and depending on
-chance to get a better solution. The algorithm keep randomly selecting chaining values from the neighbourhood, and
-comparing against the current value. If a better chaining value that minimizes the evaluation function is met, then
+chance to get a better solution. The algorithm randomly selects a chaining value from the neighbourhood, and
+compares against the current value. If a better chaining value that minimizes the evaluation function is met, then
 it is selected as the current chaining value, and used for creation of new neighbourhood to be searched. The number
 of trials is fixed before the start of the algorithm.
 
-\newpage
 \section{Hypothesis}
 
 \begin{center}
@@ -322,8 +323,8 @@ of trials is fixed before the start of the algorithm.
     {
       \centering \textsc{Hypothesis} \\
       \begin{itemize}
-      \item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl. For the
-      attack algorithms hill climbing, simulated annealing, tabu search and random selection.
+      \item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl, for
+      search algorithms hill climbing, simulated annealing, tabu search and random selection.
       \item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
       climbing and random selection.
       \item State size has no effect on efficiency of Keccak permutation rounds.
