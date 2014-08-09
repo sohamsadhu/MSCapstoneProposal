@@ -6,10 +6,13 @@
 \usepackage{float}
 \usepackage{algpseudocode}
 \usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{makecell}
 
 \begin{document}
-\title{Evaluation of hill climbing, simulated annealing, tabu search and random selection: search algorithms
-       on cryptographic hash functions BLAKE, Gr{\o}stl and Keccak}  
+\title{Study of near collisions in reduced versions of BLAKE, Gr{\o}stl and Keccak}  
 \author{Soham Sadhu}
 \date{\today} 
 
@@ -20,9 +23,13 @@
 \begin{frame}
 \frametitle{Abstract}
 \begin{itemize}
+\item Cryptographic hash functions are used to create and verify digital signatures.
+\item U.S government standardizes the hash function to be used in all non military government 
+agency through Federal Information and Processing Standards (FIPS) publications for
+Secure Hashing Algorithm (SHA).
 \item In October 2012, Keccak was chosen as the winner of SHA-3 competition amongst 64 candidates, including 
 the finalists BLAKE and Gr{\o}stl.
-\item I have attempted to find near collisions in reduced versions of BLAKE, Gr{\o}stl and Keccak; using hill
+\item We study near collisions in reduced versions of BLAKE, Gr{\o}stl and Keccak; using hill
 climbing, random selection, simulated annealing and tabu search.
 \end{itemize}
 \end{frame}
@@ -68,18 +75,18 @@ climbing, random selection, simulated annealing and tabu search.
   Hash Functions. Chapman \& Hall/CRC, Boca Raton, FL 33487-2742, USA, third edition, 2006.}
 \end{frame}
 
-\subsection{Security model}
-\begin{frame}
-\frametitle{Security model}
-\begin{itemize}
-\item {\bf Random Oracle} model, proposed by Bellare and Rogaway. Algorithm is secure, modulo the way it creates
-the random outputs.\footnotemark
-\item {\bf Birthday paradox:} In a sample size of $M$, minimum $N$ number of attempts to find, two elements with
-same value is given by equation $N \approx 1.17 \sqrt{M}$. 
-\end{itemize}
-\footnotetext[3]{Gerrit Bleumer. Random oracle model. In HenkC.A. van Tilborg and Sushil Jajodia,
-editors, Encyclopedia of Cryptography and Security, pages 1027–1028. Springer US, 2011.}
-\end{frame}
+%\subsection{Security model}
+%\begin{frame}
+%\frametitle{Security model}
+%\begin{itemize}
+%\item {\bf Random Oracle} model, proposed by Bellare and Rogaway. Algorithm is secure, modulo the way it creates
+%the random outputs.\footnotemark
+%\item {\bf Birthday paradox:} In a sample size of $M$, minimum $N$ number of attempts to find, two elements with
+%same value is given by equation $N \approx 1.17 \sqrt{M}$. 
+%\end{itemize}
+%\footnotetext[3]{Gerrit Bleumer. Random oracle model. In HenkC.A. van Tilborg and Sushil Jajodia,
+%editors, Encyclopedia of Cryptography and Security, pages 1027–1028. Springer US, 2011.}
+%\end{frame}
 
 \subsection{Application}
 \begin{frame}
@@ -92,7 +99,7 @@ editors, Encyclopedia of Cryptography and Security, pages 1027–1028. Springer 
 been tampered.
 \item {\bf Pseudo random:} generator, based on a seed value.
 \end{enumerate}
-\footnotetext[4]{Richard P. Salgado. Fourth Amendment Search And The Power Of The Hash, volume
+\footnotetext[3]{Richard P. Salgado. Fourth Amendment Search And The Power Of The Hash, volume
 119 of 6, pages 38 – 46. Harvard Law Review Forum, 2006.}
 \end{frame}
 
@@ -116,8 +123,8 @@ been tampered.
 \item In 2005, team from Shandong University found collisions on full version of SHA-1 requiring $2^{69}$ 
 operations\footnotemark.
 \end{itemize}
-\footnotetext[5]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
-\footnotetext[6]{Bruce Schneier. Sha-1 broken.
+\footnotetext[4]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
+\footnotetext[5]{Bruce Schneier. Sha-1 broken.
 http://www.schneier.com/blog/archives/2005/02/sha1\_broken.html, February 2005.}
 \end{frame}
 
@@ -131,7 +138,7 @@ $2^{11.5}$, and for 24 step was $2^{28.5}$ respectively.
 \item Computational operations for finding collisions in SHA-512 for 23-step was found to be around 
 $2^{16.5}$, and for 24 step was $2^{32.5}$ respectively\footnotemark.
 \end{itemize}
-\footnotetext[7]{Somitra Kumar Sanadhya and Palash Sarkar. New collision attacks against up to 24-
+\footnotetext[6]{Somitra Kumar Sanadhya and Palash Sarkar. New collision attacks against up to 24-
 step sha-2. In Dipanwita Roy Chowdhury, Vincent Rijmen, and Abhijit Das, editors, INDOCRYPT, volume 5365 
 of Lecture Notes in Computer Science, pages 91–103. Springer, 2008.}
 \end{frame}
@@ -147,7 +154,136 @@ included BLAKE and Gr{\o}stl.
 \end{itemize}
 \end{frame}
 
-\section{SHA-3 finalists}
+\section{SHA-3}
+
+\subsection{FIPS PUB 202}
+
+\begin{frame}
+\frametitle{FIPS PUB 202\footnotemark}
+SHA3-224(M) = KECCAK[448](M $\vert \vert$ 01, 224) \\
+SHA3-256(M) = KECCAK[512](M $\vert \vert$ 01, 256) \\
+SHA3-384(M) = KECCAK[768](M $\vert \vert$ 01, 384) \\
+SHA3-512(M) = KECCAK[1024](M $\vert \vert$ 01, 512) \\
+SHAKE128(M, d) = KECCAK[256](M $\vert \vert$ 1111, d) \\
+SHAKE256(M, d) = KECCAK[512](M $\vert \vert$ 1111, d)
+\footnotetext[7]{Information Technology Laboratory, National Institute of Standards and Technology.
+DRAFT FIPS PUB 202, SHA-3 Standard: Permutation Based Hash and Extendable-Output Functions. May 2014.}
+\end{frame}
+
+\subsection{Keccak}
+
+\begin{frame}
+\frametitle{Keccak sponge construction}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.5]{keccakspongeconstruction.jpg}
+  \end{center}
+  \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[8]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. Cryptographic
+sponge functions. http://sponge.noekeon.org/CSF-0.1.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Keccak state}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.25]{keccakstateterminology.jpg}
+  \end{center}
+  \caption{Keccak state terminology $Z = Sponge[f, pad, r](M, l)$\footnotemark}
+  \label{fig:lab}
+\end{figure}
+\footnotetext[22]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Padding and permutations}
+\begin{itemize}
+\item The message is padded with $1 0^{*}1$ to make it multiple of the block length.
+\item $R = \iota \circ \chi \circ \pi \circ \rho \circ \theta$
+\item The permutation round R is repeated for 12 + 2l times, where l is the lane length. The default
+capacity size is 576.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Contents of Keccak permutation round}
+\begin{align*}
+  \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
+  \rho &: a[x][y][z] & \gets & \thickspace a[x][y][z - (t + 1)(t + 2) / 2], \\
+  & & & \thickspace t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
+  \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
+  in \thickspace GF(5)^{2 \times 2}, \\
+  & & & \thickspace or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
+  \pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
+  \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
+  \chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
+  \iota &: a & \gets & \thickspace a + RC[i_{r}].
+\end{align*}
+\end{frame}
+
+%\begin{frame}
+%\frametitle{$\theta$ step}
+%\begin{figure}[h]
+  %\begin{center}
+    %\includegraphics[scale=0.5]{keccaktheta.jpg}
+  %\end{center}
+  %\caption{$\theta$ applied to a single row\footnotemark}
+  %\label{fig:lab}
+%\end{figure}
+%\footnotetext[23]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+%reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{$\rho$ step}
+%\begin{figure}[h]
+  %\begin{center}
+    %\includegraphics[scale=0.5]{keccakrho.jpg}
+  %\end{center}
+  %\caption{$\rho$ transformation applied to lanes\footnotemark}
+  %\label{fig:lab}
+%\end{figure}
+%\footnotetext[24]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+%reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{$\pi$ step}
+%\begin{figure}[h]
+  %\begin{center}
+    %\includegraphics[scale=0.35]{keccakpi.jpg}
+  %\end{center}
+  %\caption{$\pi$ applied to a single slice\footnotemark}
+  %\label{fig:lab}
+%\end{figure}
+%\footnotetext[25]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+%reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{$\chi$ step}
+%\begin{figure}[h]
+  %\begin{center}
+    %\includegraphics[scale=0.35]{keccakchi.jpg}
+  %\end{center}
+  %\caption{$\chi$ applied to a single row.\footnotemark}
+  %\label{fig:lab}
+%\end{figure}
+%\footnotetext[26]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+%reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
+%\end{frame}
+
+\begin{frame}
+\frametitle{$\iota$ step}
+\begin{itemize}
+\item The round constants are given by
+\begin{center}$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$,\end{center}
+\item $rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$]
+\end{itemize}
+\end{frame}
 
 \subsection{BLAKE}
 
@@ -166,7 +302,7 @@ included BLAKE and Gr{\o}stl.
     size in bits. \footnotemark}
   \end{center}
 \end{table}
-\footnotetext[9]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+\footnotetext[11]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
 \end{frame}
 
@@ -181,9 +317,9 @@ Merkle-Damg\.{a}rd function.
   \caption{Local wide construction of BLAKE's compression function\footnotemark}
   \label{fig:seq}
 \end{figure}
-\footnotetext[10]{Eli Biham and Orr Dunkelman. A framework for iterative hash functions - haifa.
+\footnotetext[12]{Eli Biham and Orr Dunkelman. A framework for iterative hash functions - haifa.
 Cryptology ePrint Archive, Report 2007/278, 2007.}
-\footnotetext[11]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+\footnotetext[13]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
 \end{frame}
 
@@ -212,7 +348,7 @@ block length in bits.
   \caption[BLAKE Compression]{BLAKE Compression procedure\footnotemark}
   \label{alg:seq}
   \end{algorithm}
-  \footnotetext[12]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+  \footnotetext[14]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
 \end{frame}
 
@@ -274,7 +410,7 @@ i is from $G_{i}$
       $\sigma_{9}$ & 10 & 2  & 8  & 4  & 7  & 6  & 1  & 5  & 15 & 11 & 9  & 14 & 3  & 12 & 13 & 0  \\ \hline
     \end{tabular}
   }
-  \footnotetext[13]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+  \footnotetext[15]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
 \end{frame}
 
@@ -344,7 +480,7 @@ bits, and that for variants above 256 is $2^{74}-1089$bits.
   \caption{Initial values for Gr{\o}stl-n function.}
   \end{center}
 \end{table}
-\footnotetext[14]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[16]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
 candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
 \end{frame}
@@ -360,7 +496,7 @@ After padding, the message is broken to blocks, and processed sequentially. An i
   \caption{Gr{\o}stl hash function \footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[15]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[17]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
 candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
 \end{frame}
@@ -391,7 +527,7 @@ $\begin{bmatrix}
   \caption{Compression functions, where P and Q are $l-bit$ permutations \footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[16]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[18]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
 candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
 \end{frame}
@@ -407,7 +543,7 @@ The $\Omega$ function consists of a $trunc_{n}(x)$ that outputs only the trailin
   \caption{Omega truncation function \footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[17]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[19]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
 candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
 \end{frame}
@@ -471,7 +607,7 @@ $a_{i,j} \gets S( a_{i,j}),  0 \leq i < 8, 0 \leq j < v.$
   \caption{ShiftBytes transformation of permutation $P_{1024}$(top) and $Q_{1024}$(bottom)\footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[18]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[20]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
 candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
 \end{frame}
@@ -494,261 +630,170 @@ $B = \begin{bmatrix}
 \end{bmatrix}$
 \end{frame}
 
-\subsection{Keccak}
-
-\begin{frame}
-\frametitle{Keccak sponge construction}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[scale=0.5]{keccakspongeconstruction.jpg}
-  \end{center}
-  \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$\footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[21]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. Cryptographic
-sponge functions. http://sponge.noekeon.org/CSF-0.1.pdf, January 2011.}
-\end{frame}
-
-\begin{frame}
-\frametitle{Keccak state}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[scale=0.25]{keccakstateterminology.jpg}
-  \end{center}
-  \caption{Keccak state terminology $Z = Sponge[f, pad, r](M, l)$\footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[22]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
-reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
-\end{frame}
-
-\begin{frame}
-\frametitle{Padding and permutations}
-\begin{itemize}
-\item The message is padded with $1 0^{*}1$ to make it multiple of the block length.
-\item $R = \iota \circ \chi \circ \pi \circ \rho \circ \theta$
-\item The permutation round R is repeated for 12 + 2l times, where l is the lane length. The default
-capacity size is 576.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Contents of Keccak permutation round}
-\begin{align*}
-  \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
-  \rho &: a[x][y][z] & \gets & \thickspace a[x][y][z - (t + 1)(t + 2) / 2], \\
-  & & & \thickspace t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
-  \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
-  in \thickspace GF(5)^{2 \times 2}, \\
-  & & & \thickspace or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
-  \pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
-  \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
-  \chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
-  \iota &: a & \gets & \thickspace a + RC[i_{r}].
-\end{align*}
-\end{frame}
-
-\begin{frame}
-\frametitle{$\theta$ step}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[scale=0.5]{keccaktheta.jpg}
-  \end{center}
-  \caption{$\theta$ applied to a single row\footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[23]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
-reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
-\end{frame}
-
-\begin{frame}
-\frametitle{$\rho$ step}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[scale=0.5]{keccakrho.jpg}
-  \end{center}
-  \caption{$\rho$ transformation applied to lanes\footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[24]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
-reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
-\end{frame}
-
-\begin{frame}
-\frametitle{$\pi$ step}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[scale=0.35]{keccakpi.jpg}
-  \end{center}
-  \caption{$\pi$ applied to a single slice\footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[25]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
-reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
-\end{frame}
-
-\begin{frame}
-\frametitle{$\chi$ step}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[scale=0.35]{keccakchi.jpg}
-  \end{center}
-  \caption{$\chi$ applied to a single row.\footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[26]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
-reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
-\end{frame}
-
-\begin{frame}
-\frametitle{$\iota$ step}
-\begin{itemize}
-\item The round constants are given by
-\begin{center}$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$,\end{center}
-\item $rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$]
-\end{itemize}
-\end{frame}
-
 \section{Related work, hypothesis based on hill climbing}
 
-\subsection{Rotational cryptanalysis of reduced round Keccak}
+%\subsection{Rotational cryptanalysis of reduced round Keccak}
 
-\begin{frame}
-\frametitle{Rotational cryptanalysis in ARX}
-\begin{itemize}
-\item Rotational cryptanalysis that studies propogation of rotational pair throug a primitive, is used on 
-reduced version of Threefish, a core of Skein\footnotemark.
-\item Pair of two 1600-bit states $(A, A^{\leftarrow})$ are called rotational pair when each lane in 
-state $A^{\leftarrow}$ is created by bitwise rotation of operation of corresponding lane in state $A$
-\footnotemark.
-\end{itemize}
-\footnotetext[27]{Dmitry Khovratovich and Ivica Nikoli. Rotational cryptanalysis of arx. In Seokhie
-Hong and Tetsu Iwata, editors, Fast Software Encryption, volume 6147 of Lecture
-Notes in Computer Science, pages 333–346. Springer Berlin Heidelberg, 2010.}
-\footnotetext[28]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
-round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Rotational cryptanalysis in ARX}
+%\begin{itemize}
+%\item Rotational cryptanalysis that studies propogation of rotational pair throug a primitive, is used on 
+%reduced version of Threefish, a core of Skein\footnotemark.
+%\item Pair of two 1600-bit states $(A, A^{\leftarrow})$ are called rotational pair when each lane in 
+%state $A^{\leftarrow}$ is created by bitwise rotation of operation of corresponding lane in state $A$
+%\footnotemark.
+%\end{itemize}
+%\footnotetext[27]{Dmitry Khovratovich and Ivica Nikoli. Rotational cryptanalysis of arx. In Seokhie
+%Hong and Tetsu Iwata, editors, Fast Software Encryption, volume 6147 of Lecture
+%Notes in Computer Science, pages 333–346. Springer Berlin Heidelberg, 2010.}
+%\footnotetext[28]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+%round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Definitions}
-\begin{enumerate}
-\item Set $S_n$ is a set of $2^{1600}$ pairs of states which are created by an operation of KECCAK-f[1600] 
-applied to all possible rotational pairs.
-\item Probability $p^{n}_{(x, y, z)}$ is the probability for pair of states $(A, A^{\leftarrow})$ randomly 
-selected from the set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$.
-\item Given probability distribution $\mathcal{D}_n$ that assigns probability $\frac{1}{n!}$ for each 
-$p \in \mathcal{P}_n$. A permutation is random, if chosen from $\mathcal{D}_n$.
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{Definitions}
+%\begin{enumerate}
+%\item Set $S_n$ is a set of $2^{1600}$ pairs of states which are created by an operation of KECCAK-f[1600] 
+%applied to all possible rotational pairs.
+%\item Probability $p^{n}_{(x, y, z)}$ is the probability for pair of states $(A, A^{\leftarrow})$ randomly 
+%selected from the set $S_n$ we have $A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z + n)}$.
+%\item Given probability distribution $\mathcal{D}_n$ that assigns probability $\frac{1}{n!}$ for each 
+%$p \in \mathcal{P}_n$. A permutation is random, if chosen from $\mathcal{D}_n$.
+%\end{enumerate}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Probability distribution and distinguisher}
-\begin{itemize}
-\item Random permutation $p^n_{(x, y, z)}$ should follow binomial distribution $\mathcal{B}(t, s)$ that is equal
-to 0.5. Experimental values are supposed to fall within range of $0.5t\pm2\sigma$ with 95\% confidence interval.
-\item A 4 round rotational for Keccak was built, and 10,000 samples selected from it. $p^{54}_{(4, 4, 14)} = 0.5625$
-had highest deviation, and the mean was 5682. Mean should not have exceeded from range of 
-$\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5.
-\item After four rounds however, $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Probability distribution and distinguisher}
+%\begin{itemize}
+%\item Random permutation $p^n_{(x, y, z)}$ should follow binomial distribution $\mathcal{B}(t, s)$ that is equal
+%to 0.5. Experimental values are supposed to fall within range of $0.5t\pm2\sigma$ with 95\% confidence interval.
+%\item A 4 round rotational for Keccak was built, and 10,000 samples selected from it. $p^{54}_{(4, 4, 14)} = 0.5625$
+%had highest deviation, and the mean was 5682. Mean should not have exceeded from range of 
+%$\mathcal{B}(10000, 0.5)$ which is 5000$\pm$2.5.
+%\item After four rounds however, $p^n_{(x, y, z)} = 0.5$, and hence the distinguisher cannot be directly extended.
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Extend probabilities beyond 4 round Keccak}
-\begin{enumerate}
-\item Find probability that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ 
-and $(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution 
-$\mathcal{B}(10000, 0.5)$.
-\item Bit wise operations like NOT, or rotation in Keccak do not affect the probabilities, but AND and XOR do.
-\item AND operation $P_{out} = \frac{1}{2}(p_{a} + p_{b} - p_{a} p_{b})$ \footnotemark
-\item XOR operation $P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$
-\end{enumerate}
-\footnotetext[29]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
-round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Extend probabilities beyond 4 round Keccak}
+%\begin{enumerate}
+%\item Find probability that relation between two pairs of states $(A_{(x, y, z)}, A^{\leftarrow}_{(x, y, z+n)})$ 
+%and $(A_{(x, y', z)}, A^{\leftarrow}_{(x, y'', z+n)})$ are observed, that should follow distribution 
+%$\mathcal{B}(10000, 0.5)$.
+%\item Bit wise operations like NOT, or rotation in Keccak do not affect the probabilities, but AND and XOR do.
+%\item AND operation $P_{out} = \frac{1}{2}(p_{a} + p_{b} - p_{a} p_{b})$ \footnotemark
+%\item XOR operation $P_{out} = p_{a} + p_{b} - 2 p_{a} p_{b}$
+%\end{enumerate}
+%\footnotetext[29]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+%round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Extending probability beyond 4 rounds}
-\begin{itemize}
-\item $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round.
-\item Probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
-(1 - p^n_{(x, y, z)})$ which is around 0.499024.
-\item To observe bias generate 403,000,000 samples obtained by selecting $\in$ error at 0.05 in Chernoff inequality \\
-\[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Extending probability beyond 4 rounds}
+%\begin{itemize}
+%\item $p^{63}_{(2, 1, 37)}$ and $p^{63}_{(2, 2, 37)}$ have the highest deviation from 0.5 at end of fourth round.
+%\item Probability that they are in the same relation is given by $p^n_{(x, y, z)} \dot p^n_{(x, y'', z)} + (1 - p^n_{(x, y, z)})
+%(1 - p^n_{(x, y, z)})$ which is around 0.499024.
+%\item To observe bias generate 403,000,000 samples obtained by selecting $\in$ error at 0.05 in Chernoff inequality \\
+%\[ m \geq \frac{1}{(P_c - 0.5)^2} \ln \frac{1}{\sqrt \in}\]
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Extending probability beyond 4 rounds}
-  \begin{algorithm}[H]
-  \begin{algorithmic}[1]
-    \State Generate 403,000,000 rotational pairs.
-    \ForAll{403,000,000 rotational pairs}
-      \State Run Keccak for 5 rounds on states $A$ and $A^{\leftarrow}$.
-      \If{$(A_{(1, 2, 43)} \oplus A^{\leftarrow}_{(1, 2, 44)} \oplus A_{(2, 0, 16)} \oplus A^{\leftarrow}_{(2, 0, 17)} = 0)$}
-      \State mean := mean + 1
-      \EndIf
-    \EndFor
-    \State \Return mean
-  \end{algorithmic}
-  \caption[Find pair probabililty]{Find pair probabililty\footnotemark}
-  \label{alg:seq}
-  \end{algorithm}
-\footnotetext[30]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
-round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Extending probability beyond 4 rounds}
+  %\begin{algorithm}[H]
+  %\begin{algorithmic}[1]
+    %\State Generate 403,000,000 rotational pairs.
+    %\ForAll{403,000,000 rotational pairs}
+      %\State Run Keccak for 5 rounds on states $A$ and $A^{\leftarrow}$.
+      %\If{$(A_{(1, 2, 43)} \oplus A^{\leftarrow}_{(1, 2, 44)} \oplus A_{(2, 0, 16)} \oplus A^{\leftarrow}_{(2, 0, 17)} = 0)$}
+      %\State mean := mean + 1
+      %\EndIf
+    %\EndFor
+    %\State \Return mean
+  %\end{algorithmic}
+  %\caption[Find pair probabililty]{Find pair probabililty\footnotemark}
+  %\label{alg:seq}
+  %\end{algorithm}
+%\footnotetext[30]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+%round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Distinguisher Keccak and fin preimage}
-\begin{enumerate}
-\item Mean for $\mathcal{B}(403000000, 0.5)$ with the standard deviation has range of 201,500,000$\pm$2.10037, 
-but experimentally from above procedure it comes to around 201,450,503.
-\item For primage, unknown message with cyclical property like 4 0's followed by 4 1's, alternatively of 512 bits
-is chosen. There are 256 possible message for rotational counterpart.
-\item A rotational counterpart of the preimage is searched, that reduces complexity of random search.
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{Distinguisher Keccak and find preimage}
+%\begin{enumerate}
+%\item Mean for $\mathcal{B}(403000000, 0.5)$ with the standard deviation has range of 201,500,000$\pm$2.10037, 
+%but experimentally from above procedure it comes to around 201,450,503.
+%\item For primage, unknown message with cyclical property like 4 0's followed by 4 1's, alternatively of 512 bits
+%is chosen. There are 256 possible message for rotational counterpart.
+%\item A rotational counterpart of the preimage is searched, that reduces complexity of random search.
+%\end{enumerate}
+%\end{frame}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Preimage for 3 rounds of Keccak \footnotemark}
-\begin{algorithmic}[1]
-  \State Guess first 8 lanes of $A^{\leftarrow}$
-  \State Run Keccak-f[1600] for 3 rounds on state $A^{\leftarrow}$
-  \For {for n:= 0 to n \textless 64}
-    \State candidate := true
-    \For{10 sets of cordinates $(x, y, z)$ being on list created on precomputation}
-      \If{$(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z)})$}
-        \State candidate := false
-      \EndIf
-      \If{$(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z)} \neq A^{\leftarrow}_{(x, y, z)})$}
-        \State candidate := false
-      \EndIf
-    \EndFor
-    \If{ candidate = true }
-      \State Rotate the guessed state by n bits
-      \State Verify input to Keccak, that runs for 3 rounds.
-    \EndIf
-  \EndFor
-\end{algorithmic}
-\footnotetext[32]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
-round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
-\end{frame}
+%\begin{frame}[allowframebreaks]
+%\frametitle{Preimage for 3 rounds of Keccak \footnotemark}
+%\begin{algorithmic}[1]
+  %\State Guess first 8 lanes of $A^{\leftarrow}$
+  %\State Run Keccak-f[1600] for 3 rounds on state $A^{\leftarrow}$
+  %\For {for n:= 0 to n \textless 64}
+    %\State candidate := true
+    %\For{10 sets of cordinates $(x, y, z)$ being on list created on precomputation}
+      %\If{$(p^n_{(x, y, z)} = 1)$ and $(A_{(x, y, z)} = A^{\leftarrow}_{(x, y, z)})$}
+        %\State candidate := false
+      %\EndIf
+      %\If{$(p^n_{(x, y, z)} = 0)$ and $(A_{(x, y, z)} \neq A^{\leftarrow}_{(x, y, z)})$}
+        %\State candidate := false
+      %\EndIf
+    %\EndFor
+    %\If{ candidate = true }
+      %\State Rotate the guessed state by n bits
+      %\State Verify input to Keccak, that runs for 3 rounds.
+    %\EndIf
+  %\EndFor
+%\end{algorithmic}
+%\footnotetext[32]{Pawe{\l} Morawiecki, Josef Pieprzyk, and Marian Srebrny. Rotational cryptanalysis of
+%round-reduced keccak. Cryptology ePrint Archive, Report 2012/546, 2012. http://eprint.iacr.org/2012/546.pdf.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{How the search is better than random search}
-\begin{enumerate}
-\item For guessing 512 bits, from 64 rotational pairs, the probability for guessing rotational counterpart
-is $A^{\leftarrow}$ is $2^{-512} \cdot 64 = 2^{-506}$.
-\item There are $2^{256}$ messages of the cyclic pattern, and 10 sets of $(x, y, z)$ cordinates for each of
-the rotational number.
-\item The probability of the candidate having $p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. 
-So $2^{512} / 2^{10} = 2^{502}$ number of checks are required at most.
-\item You can extend this to 4 rounds of Keccak, but will have to drop the $\iota$, round constant addition
-round, since it makes $p^n_{(x, y, z)} \neq 0, 1$.
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{How the search is better than random search}
+%\begin{enumerate}
+%\item For guessing 512 bits, from 64 rotational pairs, the probability for guessing rotational counterpart
+%is $A^{\leftarrow}$ is $2^{-512} \cdot 64 = 2^{-506}$.
+%\item There are $2^{256}$ messages of the cyclic pattern, and 10 sets of $(x, y, z)$ cordinates for each of
+%the rotational number.
+%\item The probability of the candidate having $p^n_{(x, y, z)}$ similar to that on list is $2^{-10}$. 
+%So $2^{512} / 2^{10} = 2^{502}$ number of checks are required at most.
+%\item You can extend this to 4 rounds of Keccak, but will have to drop the $\iota$, round constant addition
+%round, since it makes $p^n_{(x, y, z)} \neq 0, 1$.
+%\end{enumerate}
+%\end{frame}
 
 \subsection{Hill climbing}
+
+\begin{frame}
+\frametitle{Collisions}
+\begin{enumerate}
+\item Collision in hash function, is when we have two different messages hashing to the same value, using
+same initial value.
+\item Full collision is when all the bits agree in the hash output for two different messages.
+\item Semi-free start collision is where you change the initial value and obtain collisions for two 
+different message.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collisions found with hill climbing}
+\begin{enumerate}
+\item A $\epsilon / n $ bit near collision for hash function for two messages $M_{1}$ and $M_{2}$, where 
+$M_{1} \neq M_{2}$ is defined as $HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $.
+\item Near collisions in which more than 75\% of the bits were same for two different messages, were found 
+for reduced rounds of BLAKE-32, Hamsi-256 and JH.
+\item Hill Climbing starts with a random candidate, and then choosing a random successor that has a better
+fit to the solution. Ideally $HW( h(M, CV) \oplus h(M, CV + \delta) ) = n / 2 $ where $\delta$ is n-bit 
+vector with small Hamming weight.
+\end{enumerate}
+\end{frame}
 
 \begin{frame}
 \frametitle{Table of effort to find near collisions with random search}
@@ -768,22 +813,9 @@ round, since it makes $p^n_{(x, y, z)} \neq 0, 1$.
     \footnotemark}
   \end{center}
 \end{table}
-\footnotetext[34]{Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
+\footnotetext[24]{Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
 fugue, hamsi and jh. Second SHA-3 conference, August 2010. 
 http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf.}
-\end{frame}
-
-\begin{frame}
-\frametitle{Near collisions found with hill climbing}
-\begin{enumerate}
-\item Near collisions in which more than 75\% of the bits were same for two different messages, were found 
-for reduced rounds of BLAKE-32, Hamsi-256 and JH.
-\item $\epsilon / n $ bit near collision for hash function for two messages $M_{1}$ and $M_{2}$, where 
-$M_{1} \neq M_{2}$ is defined as $HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $.
-\item Hill Climbing starts with a random candidate, and then choosing a random successor that has a better
-fit to the solution. Ideally $HW( h(M, CV) \oplus h(M, CV + \delta) ) = n / 2 $ where $\delta$ is n-bit 
-vector with small Hamming weight.
-\end{enumerate}
 \end{frame}
 
 \begin{frame}
@@ -804,10 +836,10 @@ $f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$.
   \begin{algorithmic}[1]
     \State Randomly select CV
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
-    \State \While {(CV is not k-opt)}
+    \While {(CV is not k-opt)}
     \State CV = x such that $x \in S^{k}_{CV}$ with $f(x) < f(best)$
     \State $f_{best} = f_{M_{1}, M_{2}}(CV)$
-    \State \EndWhile
+    \EndWhile
     \State \Return (CV, $f_{best}$)
   \end{algorithmic}
   \caption{Hill Climbing algorithm ($M_{1}, M_{2}, k$)}
@@ -888,10 +920,11 @@ $f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$.
 \begin{frame}
 \frametitle{Hypothesis}
 \begin{itemize}
-\item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl. For 
-the attack algorithms hill climbing, simulated annealing, tabu search and random selection.
+\item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl, for
+search algorithms hill climbing, simulated annealing, tabu search and random selection.
 \item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
-climbing and random selection.      
+climbing and random selection.
+\item State size has no effect on efficiency of Keccak permutation rounds.    
 \end{itemize}
 \end{frame}
 
@@ -989,6 +1022,8 @@ it easier.
 \item Java has signed representation of int and long. This should be considered when rotating blocks.
 \item In Keccak the bits are ordered in little endian format, which is differnt that other general
 implementation that take big endian.
+\item During bitwise operation of byte or short datatype, Java will upcast the data to int and then
+downcast result. This should be guarded against.
 \end{itemize}
 \end{frame}
 
@@ -998,13 +1033,13 @@ implementation that take big endian.
 \frametitle{Iterations for BLAKE, chaining value 32 bits}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                                 \hline
-                 & \multicolumn{4}{|c|}{Rounds}                 \\ \hline
-     Digest Size & 1         & 2         & 3         & 4        \\ \hline
-     224         & 803.6331  & 891.3276  & 886.56465 & 883.1557 \\ \hline
-     256         & 804.5944  & 891.35455 & 892.13813 & 885.4943 \\ \hline
-     384         & 1137.8868 & 898.2596  & 899.3996  & 902.6081 \\ \hline
-     512         & 1118.9453 & 902.0659  & 903.68877 & 906.0339 \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{c|}{Rounds} \\ \cline{2-5}
+                                  & 1    & 2   & 3   & 4   \\ \hline
+     224                          & 803  & 891 & 886 & 883 \\ \hline
+     256                          & 804  & 891 & 892 & 885 \\ \hline
+     384                          & 1137 & 898 & 899 & 902 \\ \hline
+     512                          & 1118 & 902 & 903 & 906 \\ \hline
     \end{tabular}
     \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
     of bit length 32}
@@ -1016,13 +1051,13 @@ implementation that take big endian.
 \frametitle{Iterations for BLAKE, chaining value 64 bits}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{4}{| c |} }                      \hline
-                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
-     Digest Size & 1         & 2         & 3         \\ \hline
-     224         & 4190.473  & 3465.0413 & 3483.752  \\ \hline
-     256         & 4264.3496 & 3456.9246 & 3431.7415 \\ \hline
-     384         & 3885.6829 & 3515.1746 & 3528.4922 \\ \hline
-     512         & 3984.2366 & 3535.423  & 3559.4246 \\ \hline
+    \begin{tabular}{ | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
+                                  & 1    & 2    & 3    \\ \hline
+     224                          & 4190 & 3465 & 3483 \\ \hline
+     256                          & 4264 & 3456 & 3431 \\ \hline
+     384                          & 3885 & 3515 & 3528 \\ \hline
+     512                          & 3984 & 3535 & 3559 \\ \hline
     \end{tabular}
     \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
     of bit length 64}
@@ -1034,13 +1069,13 @@ implementation that take big endian.
 \frametitle{Iterations for Gr{\o}stl, chaining value 32 bits}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                                  \hline
-                 & \multicolumn{4}{|c|}{Rounds}                  \\ \hline
-     Digest Size & 1         & 2         & 3         & 4         \\ \hline
-     224         & 875.893   & 888.3345  & 886.71898 & 885.8383  \\ \hline
-     256         & 889.72437 & 887.639   & 891.2398  & 889.7382  \\ \hline
-     384         & 872.1038  & 897.5908  & 898.66531 & 897.1204  \\ \hline
-     512         & 896.17804 & 904.18335 & 904.1414  & 902.55646 \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                                  & 1   & 2   & 3   & 4   \\ \hline
+     224                          & 875 & 888 & 886 & 885 \\ \hline
+     256                          & 889 & 887 & 891 & 889 \\ \hline
+     384                          & 872 & 897 & 898 & 897 \\ \hline
+     512                          & 896 & 904 & 904 & 902 \\ \hline
     \end{tabular}
     \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
     of bit length 32}
@@ -1052,13 +1087,13 @@ implementation that take big endian.
 \frametitle{Iterations for Gr{\o}stl, chaining value 64 bits}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{4}{| c |} }                      \hline
-                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
-     Digest Size & 1         & 2         & 3         \\ \hline
-     224         & 3687.7493 & 3468.3171 & 3469.366  \\ \hline
-     256         & 3714.0242 & 3479.8074 & 3473.6194 \\ \hline
-     384         & 3594.1716 & 3522.1423 & 3512.8254 \\ \hline
-     512         & 3581.0823 & 3544.302  & 3559.9834 \\ \hline
+    \begin{tabular}{ | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
+                                  & 1    & 2    & 3    \\ \hline
+     224                          & 3687 & 3468 & 3469 \\ \hline
+     256                          & 3714 & 3479 & 3473 \\ \hline
+     384                          & 3594 & 3522 & 3512 \\ \hline
+     512                          & 3581 & 3544 & 3559 \\ \hline
     \end{tabular}
     \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
     of bit length 64}
@@ -1070,13 +1105,13 @@ implementation that take big endian.
 \frametitle{Iterations for Keccak, chaining value 32 bits}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                                 \hline
-                 & \multicolumn{4}{|c|}{Rounds}                 \\ \hline
-     Digest Size & 1         & 2         & 3         & 4        \\ \hline
-     224         & 532.2517  & 880.6999  & 883.23035 & 888.5428 \\ \hline
-     256         & 532.341   & 888.98126 & 889.24855 & 895.0305 \\ \hline
-     384         & 533.9329  & 892.61993 & 899.02125 & 904.8013 \\ \hline
-     512         & 533.70807 & 900.46466 & 905.87    & 902.2507 \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                                  & 1   & 2   & 3   & 4   \\ \hline
+     224                          & 532 & 880 & 883 & 888 \\ \hline
+     256                          & 532 & 888 & 889 & 895 \\ \hline
+     384                          & 533 & 892 & 899 & 904 \\ \hline
+     512                          & 533 & 900 & 905 & 902 \\ \hline
     \end{tabular}
     \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
     of bit length 32}
@@ -1088,13 +1123,13 @@ implementation that take big endian.
 \frametitle{Iterations for Keccak, chaining value 64 bits}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{4}{| c |} }                      \hline
-                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
-     Digest Size & 1         & 2         & 3         \\ \hline
-     224         & 2118.8818 & 3535.5684 & 3457.5586 \\ \hline
-     256         & 2118.3499 & 3557.9949 & 3466.1624 \\ \hline
-     384         & 2134.1736 & 3676.9707 & 3521.3984 \\ \hline
-     512         & 2139.1523 & 3764.485  & 3562.9753 \\ \hline
+    \begin{tabular}{ | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
+                                  & 1    & 2    & 3    \\ \hline
+     224                          & 2118 & 3535 & 3457 \\ \hline
+     256                          & 2118 & 3557 & 3466 \\ \hline
+     384                          & 2134 & 3676 & 3521 \\ \hline
+     512                          & 2139 & 3764 & 3562 \\ \hline
     \end{tabular}
     \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
     of bit length 64}
@@ -1114,15 +1149,89 @@ about 335254.443.
 \end{enumerate}
 \end{frame}
 
+\begin{frame}
+\frametitle{Iterations for Keccak state reduced 200 bits, chaining value 32 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                                  & 3   & 4   & 5   & 6   \\ \hline
+     224                          & 888 & 886 & 887 & 886 \\ \hline
+     256                          & 890 & 887 & 892 & 886 \\ \hline
+     384                          & 901 & 899 & 897 & 898 \\ \hline
+     512                          & 904 & 903 & 899 & 903 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak state reduced to 200
+    bits for chaining value of bit length 32}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for Keccak state reduced 400 bits, chaining value 32 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                                  & 3   & 4   & 5   & 6   \\ \hline
+     224                          & 886 & 888 & 887 & 889 \\ \hline
+     256                          & 892 & 886 & 891 & 893 \\ \hline
+     384                          & 893 & 899 & 898 & 899 \\ \hline
+     512                          & 906 & 902 & 905 & 904 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak state reduced to 400
+    bits for chaining value of bit length 32}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for Keccak state reduced 800 bits, chaining value 32 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                                  & 3   & 4   & 5   & 6   \\ \hline
+     224                          & 883 & 886 & 888 & 882 \\ \hline
+     256                          & 891 & 890 & 891 & 887 \\ \hline
+     384                          & 896 & 901 & 898 & 899 \\ \hline
+     512                          & 901 & 905 & 901 & 905 \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for Keccak state reduced to 800
+    bits for chaining value of bit length 32}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Iterations for 75\% bits matching collision}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c !{\vrule width 1.1pt} c | c | c | c !{\vrule width 1.1pt} c | c | c | c |} \hline
+     Rounds      & \multicolumn{4}{ c|}{1}   & \multicolumn{4}{ | c |}{2} \\ \hline
+     Digest size & 224 & 256 & 384  & 512    & 224 & 256 & 384 & 512   \\ \Xhline{2\arrayrulewidth}
+     BLAKE       & 803 & 814 & 1137 & 1121   & 887 & 889 & 898 & 908   \\ \hline
+     Gr{\o}stl   & 874 & 885 & 877  & 897    & 887 & 890 & 902 & 905   \\ \hline
+     Keccak      & 532 & 532 & 533  & 533    & 882 & 885 & 897 & 902   \\ \hline
+     Keccak-200  & 994 & 977 & 959  & 957    & 899 & 902 & 903 & 897   \\ \hline
+     Keccak-400  & 836 & 899 & 972  & 955    & 886 & 903 & 903 & 906   \\ \hline
+     Keccak-800  & 568 & 574 & 574  & 908    & 894 & 920 & 947 & 918   \\ \hline
+    \end{tabular}
+    \caption{Average iterations over all input cases for Hill Climbing for variations of Keccak and other hashing
+    algorithms. Chaining value is bit length 32, and the near collision is 75\% bit match.}
+  \end{center}
+\end{table}
+\end{frame}
+
 \subsection{Near collisions in hill climbing}
 
 \begin{frame}
 \frametitle{Near collisions BLAKE with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2    & 3    & 4     \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | }                 \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c |}{Rounds} \\ \cline{2-5}
+                 & 1      & 2    & 3    & 4     \\ \hline
      224         & 41/306 & 13/5 & 34/8 & 25/5 \\ \hline
      256         & 39/256 & 4/3  & 10/4 & 3/2  \\ \hline
      384         & 58/384 & 0/0  & 0/0  & 0/0  \\ \hline
@@ -1136,9 +1245,9 @@ about 335254.443.
 \begin{frame}
 \frametitle{Near collisions BLAKE with 64 bit chaining value}
 \begin{table}
-  \begin{tabular}{ *{4}{| c |} }                      \hline
-                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
-     Digest Size & 1      & 2     & 3         \\ \hline
+  \begin{tabular}{ | c | c | c | c | }                      \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{c|}{Rounds} \\ \cline{2-4}
+                 & 1      & 2     & 3         \\ \hline
      224         & 56/384 & 38/13 & 43/10 \\ \hline
      256         & 55/384 & 9/3   & 16/4  \\ \hline
      384         & 60/284 & 0/0   & 0/0   \\ \hline
@@ -1152,9 +1261,9 @@ about 335254.443.
 \frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2    & 3    & 4     \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | }                 \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2    & 3    & 4     \\ \hline
      224         & 10/6   & 16/6 & 29/7 & 33/9  \\ \hline
      256         & 1/2    & 6/3  & 10/3 & 7/3   \\ \hline
      384         & 12/128 & 0/0  & 0/0  & 0/0   \\ \hline
@@ -1168,9 +1277,9 @@ about 335254.443.
 \begin{frame}
 \frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
 \begin{table}
-  \begin{tabular}{ *{4}{| c |} }                      \hline
-                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
-     Digest Size & 1      & 2     & 3         \\ \hline
+  \begin{tabular}{ | c | c | c | c | }                \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{|c|}{Rounds} \\ \cline{2-4}
+                 & 1      & 2     & 3         \\ \hline
      224         & 43/23  & 40/12 & 49/11 \\ \hline
      256         & 25/10  & 14/5  & 15/3  \\ \hline
      384         & 14/256 & 0/0   & 0/0   \\ \hline
@@ -1184,9 +1293,9 @@ about 335254.443.
 \frametitle{Near collisions Keccak with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{|c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2      & 3     & 4    \\ \hline
      224         & 60/384 & 60/384 & 40/11 & 33/8 \\ \hline
      256         & 60/384 & 60/384 & 11/4  & 8/3  \\ \hline
      384         & 60/384 & 60/384 & 1/1   & 0/0  \\ \hline
@@ -1200,9 +1309,9 @@ about 335254.443.
 \begin{frame}
 \frametitle{Near collisions Keccak with 64 bit chaining value}
 \begin{table}
-  \begin{tabular}{ *{4}{| c |} }                      \hline
-                 & \multicolumn{3}{|c|}{Rounds}      \\ \hline
-     Digest Size & 1      & 2      & 3         \\ \hline
+  \begin{tabular}{ | c | c | c | c | }  \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{|c|}{Rounds} \\ \cline{2-4}
+                 & 1      & 2      & 3         \\ \hline
      224         & 60/384 & 60/384 & 55/21 \\ \hline
      256         & 60/384 & 60/384 & 20/7  \\ \hline
      384         & 60/384 & 60/384 & 1/1   \\ \hline
@@ -1212,15 +1321,86 @@ about 335254.443.
 \end{table}
 \end{frame}
 
+\begin{frame}
+\frametitle{Collision for 75\% bit match}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c !{\vrule width 1.1pt} c | c | c | c !{\vrule width 1.1pt} c | c | c | c |} \hline
+     Rounds      & \multicolumn{4}{ c|}{1}           & \multicolumn{4}{ | c |}{2}        \\ \hline
+     Digest size & 224    & 256    & 384    & 512    & 224    & 256    & 384    & 512    \\ \Xhline{2\arrayrulewidth}
+     BLAKE       & 26/512 & 23/512 & 22/400 & 21/266 & 0/0    & 0/0    & 0/0    & 0/0    \\ \hline
+     Gr{\o}stl   & 0/0    & 0/0    & 7/256  & 8/256  & 0/0    & 0/0    & 0/0    & 0/0    \\ \hline
+     Keccak      & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 & 60/768 \\ \hline
+     Keccak-200  & 20/256 & 20/256 & 1/1    & 0/0    & 1/1    & 0/0    & 0/0    & 0/0    \\ \hline
+     Keccak-400  & 20/256 & 20/256 & 20/256 & 4/2    & 9/123  & 7/99   & 0/0    & 0/0    \\ \hline
+     Keccak-800  & 60/768 & 60/768 & 60/768 & 20/256 & 60/733 & 60/740 & 60/538 & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for 75\% bit matching, for 32 bit chaining value. Application of hill climbing search. Collision
+    instances for start, middle and end are grouped together.}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collision numbers for Keccak internal state of 200 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3    & 4    & 5    & 6    \\ \hline
+     224 & 33/8 & 30/6 & 30/8 & 31/9 \\ \hline
+     256 & 12/4 & 5/3  & 8/3  & 11/4 \\ \hline
+     384 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+     512 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak state reduced to 200 bits, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collision numbers for Keccak internal state of 400 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3    & 4    & 5    & 6    \\ \hline
+     224 & 19/7 & 33/9 & 27/8 & 30/8 \\ \hline
+     256 & 6/3  & 7/3  & 3/3  & 6/3  \\ \hline
+     384 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+     512 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak state reduced to 400 bits, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Near collision numbers for Keccak internal state of 800 bits}
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ | c | c | c | c | c | }                   \hline
+     \multirow{2}{*}{Size} & \multicolumn{4}{ c|}{Rounds}  \\ \cline{2-5}
+         & 3    & 4    & 5    & 6    \\ \hline
+     224 & 38/9 & 27/9 & 32/9 & 32/7 \\ \hline
+     256 & 7/4  & 9/5  & 5/2  & 8/4  \\ \hline
+     384 & 2/2  & 0/0  & 0/0  & 0/0  \\ \hline
+     512 & 0/0  & 0/0  & 0/0  & 0/0  \\ \hline
+    \end{tabular}
+    \caption{Collisions for Keccak state reduced to 800 bits, with hill climbing for 32 bit chaining value.}
+  \end{center}
+\end{table}
+\end{frame}
+
 \subsection{Near collisions with simulated annealing}
 
 \begin{frame}
 \frametitle{Near collisions BLAKE with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2      & 3     & 4    \\ \hline
      224         & 39/256 & 0/0    & 1/1   & 1/1  \\ \hline
      256         & 38/256 & 0/0    & 0/0   & 1/1  \\ \hline
      384         & 39/353 & 0/0    & 0/0   & 0/0  \\ \hline
@@ -1235,9 +1415,9 @@ about 335254.443.
 \frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2      & 3     & 4    \\ \hline
      224         & 1/1    & 1/1    & 2/2   & 0/0  \\ \hline
      256         & 0/0    & 0/0    & 1/1   & 1/1  \\ \hline
      384         & 12/128 & 0/0    & 0/0   & 0/0  \\ \hline
@@ -1251,9 +1431,9 @@ about 335254.443.
 \begin{frame}
 \frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
 \begin{table}
-  \begin{tabular}{ *{4}{| c |} }                    \hline
-                 & \multicolumn{3}{|c|}{Rounds}  \\ \hline
-     Digest Size & 1      & 2   & 3         \\ \hline
+  \begin{tabular}{ | c | c | c | c | }                    \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds}  \\ \cline{2-4}
+                 & 1      & 2   & 3         \\ \hline
      224         & 0/0    & 0/0 & 0/0 \\ \hline
      256         & 0/0    & 0/0 & 0/0 \\ \hline
      384         & 13/256 & 0/0 & 0/0 \\ \hline
@@ -1267,9 +1447,9 @@ about 335254.443.
 \frametitle{Near collisions Keccak with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | }  \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2      & 3     & 4    \\ \hline
      224         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
      256         & 60/384 & 60/384 & 0/0   & 1/1  \\ \hline
      384         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
@@ -1286,9 +1466,9 @@ about 335254.443.
 \frametitle{Near collisions BLAKE with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2    & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2    & 3     & 4    \\ \hline
      224         & 41/291 & 10/5 & 24/6  & 28/6 \\ \hline
      256         & 39/256 & 3/2  & 4/2   & 7/3  \\ \hline
      384         & 57/384 & 0/0  & 0/0   & 0/0  \\ \hline
@@ -1303,9 +1483,9 @@ about 335254.443.
 \frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2    & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2    & 3     & 4    \\ \hline
      224         & 7/6    & 15/4 & 26/7  & 20/7 \\ \hline
      256         & 0/0    & 0/0  & 3/2   & 3/3  \\ \hline
      384         & 12/128 & 0/0  & 0/0   & 0/0  \\ \hline
@@ -1320,9 +1500,9 @@ about 335254.443.
 \frametitle{Near collisions Keccak with 32 bit chaining value}
 \begin{table}
   \begin{center}
-    \begin{tabular}{ *{5}{| c |} }                 \hline
-                 & \multicolumn{4}{|c|}{Rounds} \\ \hline
-     Digest Size & 1      & 2      & 3     & 4    \\ \hline
+    \begin{tabular}{ | c | c | c | c | c | } \hline
+     \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
+                 & 1      & 2      & 3     & 4    \\ \hline
      224         & 60/384 & 60/384 & 30/11 & 24/5 \\ \hline
      256         & 60/384 & 60/384 & 13/4  & 8/3  \\ \hline
      384         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
@@ -1340,11 +1520,12 @@ about 335254.443.
 \begin{frame}
 \frametitle{Validity of hypothesis}
 \begin{enumerate}
-\item Both hypothesis are disproved. Keccak performs poorly for reduced rounds of 1, and 2. And
+\item Two hypothesis are disproved. Keccak performs poorly for reduced rounds of 1, and 2. And
 equivalent performance to that of Gr{\o}stl and BLAKE, for rounds 3 and 4.
 \item Simulated annealing does not perform as good as hill climbing for finding collisions in
 reduced rounds of the examined algorithm.
 \item Random selection performance is almost comparable to simulated annealing.
+\item Reducing the internal state of Keccak, did not affect its security margin to generic methods.
 \end{enumerate}
 \end{frame}
 
@@ -1367,6 +1548,17 @@ collisions, while tabu search is least feasible.
 \item Hill climbing consistently finds more collisions than any other algorithm, with less iterations.
 \item Random selection is comparable with simulated annealing, in finding near collisions in 3 selected
 hashing algorithms.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{State size reduction for Keccak}
+\begin{enumerate}
+\item State size reduction does not negatively affect the security margin of Keccak.
+\item This can be explained on the basis that lowering bit rate increases squeezing and absorbing phase, for 
+a message to be hashed, thus subjecting it to more permutation rounds.
+\item For low permutations rounds like 1, this increases margin of Keccak reduced rounds, but it gradually 
+plateaus.
 \end{enumerate}
 \end{frame}
 
@@ -1420,7 +1612,7 @@ collisions based on where the bit is updated.
 \frametitle{Future work}
 \begin{enumerate}
 \item The experiment can be repeated with Skein and JH, other SHA-3 finalist alongwith Keccak.
-\item The state size can be reduced and experimented with.
+%\item The state size can be reduced and experimented with.
 \item Other parameters could manipulated could be, decrease digest size but increase rounds.
 \item Instead of benchmark at 65\% bits match for near collision, try for more exacting match
 for collisions.
@@ -1428,13 +1620,12 @@ for collisions.
 \end{enumerate}
 \end{frame}
 
-\section{Acknowledgements and questions}
-
 \subsection{Acknowledgement}
 
 \begin{frame}
 \frametitle{Acknowledgements}
 \begin{itemize}
+\item Thanks to Prof. Radziszowski for his patience and guidance.
 \item Thanks to redditors \href{"http://www.reddit.com/user/p1mrx"}{p1mrx} and 
 \href{"http://www.reddit.com/user/deejaydarvin"}{deejaydarvin}, and crypto stack exchange user 
 \href{"http://crypto.stackexchange.com/users/8050/richie-frame"}{Richie Frame} for explanation of bit/byte 

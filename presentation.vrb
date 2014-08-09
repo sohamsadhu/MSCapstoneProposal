@@ -10,5 +10,5 @@
   \caption[BLAKE Compression]{BLAKE Compression procedure\footnotemark}
   \label{alg:seq}
   \end{algorithm}
-  \footnotetext[12]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+  \footnotetext[14]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
