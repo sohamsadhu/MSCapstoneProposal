@@ -14,24 +14,37 @@
 \begin{document}
 \title{Study of near collisions in reduced versions of BLAKE, Gr{\o}stl and Keccak}  
 \author{Soham Sadhu}
-\date{\today} 
+\institute{Capstone Project Committee \\
+Prof. Stanis{\l}aw Raziszowski \\
+Prof. Leon Reznik \\
+Prof. Xumin Liu}
+\date{August 22, 2014} 
 
 \begin{frame}
 \titlepage
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Abstract}
+%\begin{itemize}
+%\item Cryptographic hash functions are used to create and verify digital signatures.
+%\item U.S government standardizes the hash function to be used in all non military government 
+%agency through Federal Information and Processing Standards (FIPS) publications for
+%Secure Hashing Algorithm (SHA).
+%\item In October 2012, Keccak was chosen as the winner of SHA-3 competition amongst 64 candidates, including 
+%the finalists BLAKE and Gr{\o}stl.
+%\item We study near collisions in reduced versions of BLAKE, Gr{\o}stl and Keccak; using hill
+%climbing, random selection, simulated annealing and tabu search.
+%\end{itemize}
+%\end{frame}
+
 \begin{frame}
-\frametitle{Abstract}
-\begin{itemize}
-\item Cryptographic hash functions are used to create and verify digital signatures.
-\item U.S government standardizes the hash function to be used in all non military government 
-agency through Federal Information and Processing Standards (FIPS) publications for
-Secure Hashing Algorithm (SHA).
-\item In October 2012, Keccak was chosen as the winner of SHA-3 competition amongst 64 candidates, including 
-the finalists BLAKE and Gr{\o}stl.
-\item We study near collisions in reduced versions of BLAKE, Gr{\o}stl and Keccak; using hill
-climbing, random selection, simulated annealing and tabu search.
-\end{itemize}
+  \frametitle{Summary}
+  \begin{itemize}
+    \item Reduced versions of BLAKE, Gr{\o}stl and Keccak, compared on basis of near collisions.
+    \item Hill climbing, simulated annealing, tabu search and random selection used to find near 
+      collisions.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Outline}
@@ -92,12 +105,11 @@ climbing, random selection, simulated annealing and tabu search.
 \begin{frame}
 \frametitle{Application of hash functions}
 \begin{enumerate}
-\item {\bf Digital forensics:} take a hash value of evidence, to later prove that it has not been tampered.
-\footnotemark
-\item {\bf Password stored:} is salted and hashed, before inserting to database.
-\item {\bf File integrity:} take hash value of files between time intervals, to make sure; they have not
-been tampered.
-\item {\bf Pseudo random:} generator, based on a seed value.
+\item Digital signature
+\item Digital forensics \footnotemark
+\item Password stored 
+\item File integrity
+\item Pseudo random string generator
 \end{enumerate}
 \footnotetext[3]{Richard P. Salgado. Fourth Amendment Search And The Power Of The Hash, volume
 119 of 6, pages 38 – 46. Harvard Law Review Forum, 2006.}
@@ -106,53 +118,64 @@ been tampered.
 \subsection{Standards and SHA-3 competition}
 
 \begin{frame}
-\frametitle{SHA-0}
-\begin{itemize}
-\item SHA-0 proposed by NSA in 1993, later standardised by NIST. 
-\item In 1995 Florent Chabaud and Antoine Joux, found collisions in SHA-0 with complexity of $2^{61}$.
-\item In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 out of 160 bits to be equal.
-\item Full collisions were also found, when the number of rounds for the algorithm were reduced from 80 to 62.
-\end{itemize}
+  \frametitle{SHA}
+  \begin{enumerate}
+    \item SHA-0 proposed by NSA in 1993, later standardized by NIST.
+    \item SHA-1 designed by NSA in 1995, digest 160 bits, block size 512 bits \footnotemark.
+    \item SHA-2 released by NIST in 2001. Family of hash functions of size 224, 256, 384 and 512 bits.
+    \item 
+  \end{enumerate}
+  \footnotetext[4]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
 \end{frame}
 
-\begin{frame}
-\frametitle{SHA-1}
-\begin{itemize}
-\item In 1995, SHA-0 replaced by SHA-1, designed by NSA\footnotemark. SHA-1 had block size of 512 bits, size of 
-160 bits; and additional circular shift operation, to rectify weakness from SHA-0.
-\item In 2005, team from Shandong University found collisions on full version of SHA-1 requiring $2^{69}$ 
-operations\footnotemark.
-\end{itemize}
-\footnotetext[4]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
-\footnotetext[5]{Bruce Schneier. Sha-1 broken.
-http://www.schneier.com/blog/archives/2005/02/sha1\_broken.html, February 2005.}
-\end{frame}
+%\begin{frame}
+%\frametitle{SHA-0}
+%\begin{itemize}
+%\item SHA-0 proposed by NSA in 1993, later standardised by NIST. 
+%\item In 1995 Florent Chabaud and Antoine Joux, found collisions in SHA-0 with complexity of $2^{61}$.
+%\item In 2004, Eli Biham and Chen found near collisions for SHA-0, about 142 out of 160 bits to be equal.
+%\item Full collisions were also found, when the number of rounds for the algorithm were reduced from 80 to 62.
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}
-\frametitle{SHA-2}
-\begin{itemize}
-\item SHA-2 was designed by NSA, and released in 2001 by NIST. Family of functions of SHA-224, SHA-256, 
-SHA-384, SHA-512.
-\item Computational operations for finding collisions in SHA-256 for 23-step was found to be around 
-$2^{11.5}$, and for 24 step was $2^{28.5}$ respectively.
-\item Computational operations for finding collisions in SHA-512 for 23-step was found to be around 
-$2^{16.5}$, and for 24 step was $2^{32.5}$ respectively\footnotemark.
-\end{itemize}
-\footnotetext[6]{Somitra Kumar Sanadhya and Palash Sarkar. New collision attacks against up to 24-
-step sha-2. In Dipanwita Roy Chowdhury, Vincent Rijmen, and Abhijit Das, editors, INDOCRYPT, volume 5365 
-of Lecture Notes in Computer Science, pages 91–103. Springer, 2008.}
-\end{frame}
+%\begin{frame}
+%\frametitle{SHA-1}
+%\begin{itemize}
+%\item In 1995, SHA-0 replaced by SHA-1, designed by NSA\footnotemark. SHA-1 had block size of 512 bits, size of 
+%160 bits; and additional circular shift operation, to rectify weakness from SHA-0.
+%\item In 2005, team from Shandong University found collisions on full version of SHA-1 requiring $2^{69}$ 
+%operations\footnotemark.
+%\end{itemize}
+%\footnotetext[4]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
+%\footnotetext[5]{Bruce Schneier. Sha-1 broken.
+%http://www.schneier.com/blog/archives/2005/02/sha1\_broken.html, February 2005.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{SHA-3}
-\begin{itemize}
-\item NIST announced competition for choosing SHA-3 on November, 2007. Entries accepted till October, 2008.
-\item 51 candidates from 64 submissions, were accepted for first round on December 9, 2008.
-\item Out of 5 finalists, on October 2, 2012; Keccak was announced winner amongst other four finalist, which
-included BLAKE and Gr{\o}stl.
-\item Keccak was chosen for large security margin, flexibility, and efficient hardware implementation.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{SHA-2}
+%\begin{itemize}
+%\item SHA-2 was designed by NSA, and released in 2001 by NIST. Family of functions of SHA-224, SHA-256, 
+%SHA-384, SHA-512.
+%\item Computational operations for finding collisions in SHA-256 for 23-step was found to be around 
+%$2^{11.5}$, and for 24 step was $2^{28.5}$ respectively.
+%\item Computational operations for finding collisions in SHA-512 for 23-step was found to be around 
+%$2^{16.5}$, and for 24 step was $2^{32.5}$ respectively\footnotemark.
+%\end{itemize}
+%\footnotetext[6]{Somitra Kumar Sanadhya and Palash Sarkar. New collision attacks against up to 24-
+%step sha-2. In Dipanwita Roy Chowdhury, Vincent Rijmen, and Abhijit Das, editors, INDOCRYPT, volume 5365 
+%of Lecture Notes in Computer Science, pages 91–103. Springer, 2008.}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{SHA-3}
+%\begin{itemize}
+%\item NIST announced competition for choosing SHA-3 on November, 2007. Entries accepted till October, 2008.
+%\item 51 candidates from 64 submissions, were accepted for first round on December 9, 2008.
+%\item Out of 5 finalists, on October 2, 2012; Keccak was announced winner amongst other four finalist, which
+%included BLAKE and Gr{\o}stl.
+%\item Keccak was chosen for large security margin, flexibility, and efficient hardware implementation.
+%\end{itemize}
+%\end{frame}
 
 \section{SHA-3}
 
