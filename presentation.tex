@@ -11,7 +11,7 @@
 \documentclass{beamer}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{caption}[numbered]
-
+\setbeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 %\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
 
 \usepackage{changepage}
@@ -121,7 +121,7 @@ Prof. Xumin Liu}
 \begin{enumerate}
 \item Digital signature
 \item Digital forensics \footnotemark
-\item Password stored 
+\item Password storage
 \item File integrity
 \item Pseudo random string generator
 \end{enumerate}
@@ -895,7 +895,7 @@ vector with small Hamming weight.
 %\end{frame}
 
 \begin{frame}{fragile}
-\frametitle{Hill Climbing algorithm}
+\frametitle{Hill Climbing algorithm \footnotemark}
 \begin{algorithm}[H]
   \begin{algorithmic}[1]
     \State Randomly select CV
@@ -908,6 +908,9 @@ vector with small Hamming weight.
   \end{algorithmic}
   \caption{Hill Climbing algorithm ($M_{1}, M_{2}, k$)}
 \end{algorithm}
+\footnotetext[13]{Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
+fugue, hamsi and jh. Second SHA-3 conference, August 2010. 
+http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf.}
 \end{frame}
 
 \begin{frame}{Simulated annealing, tabu search and random selection}
@@ -1009,77 +1012,89 @@ hill climbing and random selection.
 
 \subsection{Input and output}
 
-\begin{frame}
-\frametitle{Input}
-\begin{itemize}
-\item The seed message is "The quick brown fox jumps over the lazy dog". 20 pairs are made from the
-string, for each of the three categories start, middle and end.
-\item The pair contains the original seed message and the seed message toggled for one bit. For each
-category 20 bits are toggled. The bits are toggled at the start, middle and end of the seed string.
-\item For input string $01100010\thickspace00011000$, then in input file 1.txt; pair will be made with this seed
-string and ${\bf 1}1100010\thickspace00011000$, in file 2.txt the other  string will be 
-$0{\bf 0}100010\thickspace00011000$.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Input}
+\begin{frame}{Input and output}
 \begin{enumerate}
-\item For the middle section, the bits are toggled to either side of the middle bit, in the string. For example
-for seed string $01100010\thickspace00011000$, the file 1.txt will have seed and string 
-$0110001{\bf 1}\thickspace00011000$, and file 2.txt will have modified string as 
-$01100010\thickspace{\bf 1}0011000$.
-\item For the ending section the bit toggling starts from the least significant bits, so for seed string
-$01100010\thickspace00011000$, file 1.txt has updated string $01100010\thickspace0001100{\bf 1}$, and 
-file 2.txt have updated string $01100010\thickspace000110{\bf 1}0$.
+\item 60 pairs made from seed string "The quick brown fox jumps over the lazy dog" by toggling a bit in
+seed, and pairing with seed.
+\item 20 bits toggled at the start, middle and end of seed each.
+\item Output folder is arranged Output/CV/search/size/SHA3/rounds/category/file.
+\item Output file contains 8 parameters, 3 each for either success or failure. The rest 2 are total iterations
+and average iterations.
 \end{enumerate}
 \end{frame}
+%\begin{frame}
+%\frametitle{Input}
+%\begin{itemize}
+%\item The seed message is "The quick brown fox jumps over the lazy dog". 20 pairs are made from the
+%string, for each of the three categories start, middle and end.
+%\item The pair contains the original seed message and the seed message toggled for one bit. For each
+%category 20 bits are toggled. The bits are toggled at the start, middle and end of the seed string.
+%\item For input string $01100010\thickspace00011000$, then in input file 1.txt; pair will be made with this seed
+%string and ${\bf 1}1100010\thickspace00011000$, in file 2.txt the other  string will be 
+%$0{\bf 0}100010\thickspace00011000$.
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Output structure}
-\begin{enumerate}
-\item The output folder is arranged to have the results in the following way starting from the upper most
-folder 
-Output/chaining\_value/collision\_search/digest\_size/SHA3\_finalist/number\_of\_rounds/input\_category/output\_file.
-\item The results for the input message pair of the respective file are inserted to corresponding output file.
-Output for input file start/1.txt will be found in experiment parameter defined path and then start/1.txt
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{Input}
+%\begin{enumerate}
+%\item For the middle section, the bits are toggled to either side of the middle bit, in the string. For example
+%for seed string $01100010\thickspace00011000$, the file 1.txt will have seed and string 
+%$0110001{\bf 1}\thickspace00011000$, and file 2.txt will have modified string as 
+%$01100010\thickspace{\bf 1}0011000$.
+%\item For the ending section the bit toggling starts from the least significant bits, so for seed string
+%$01100010\thickspace00011000$, file 1.txt has updated string $01100010\thickspace0001100{\bf 1}$, and 
+%file 2.txt have updated string $01100010\thickspace000110{\bf 1}0$.
+%\end{enumerate}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Ouput file}
-\begin{enumerate}
-\item The file contains 8 parameters, 3 each for either success or failure. Success is defined as finding near 
-collision that is more than 65\% of the bits similar. The parameters are number of trials in success/failure,
-total iterations, and average iterations.
-\item The rest 2 are total iterations and average iterations. These iteration numbers are mostly useful for
-hill climbing, since iterations for other algorithms are fixed.
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{Output structure}
+%\begin{enumerate}
+%\item The output folder is arranged to have the results in the following way starting from the upper most
+%folder 
+%Output/chaining\_value/collision\_search/digest\_size/SHA3\_finalist/number\_of\_rounds/input\_category/output\_file.
+%\item The results for the input message pair of the respective file are inserted to corresponding output file.
+%Output for input file start/1.txt will be found in experiment parameter defined path and then start/1.txt
+%\end{enumerate}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{Ouput file}
+%\begin{enumerate}
+%\item The file contains 8 parameters, 3 each for either success or failure. Success is defined as finding near
+%collision that is more than 65\% of the bits similar. The parameters are number of trials in success/failure,
+%total iterations, and average iterations.
+%\item The rest 2 are total iterations and average iterations. These iteration numbers are mostly useful for
+%hill climbing, since iterations for other algorithms are fixed.
+%\end{enumerate}
+%\end{frame}
 
 \subsection{Chaining value and number of trials}
 
 \begin{frame}
-\frametitle{Number of trials and iterations}
+\frametitle{Chaining value and number of trials}
 \begin{enumerate}
 \item The number of trials was initially kept at 128, but then increased to 256 to get more accurate numbers.
 In each trial of experiment, the chaining value is randomly selected.
-\item The iterations are the number of times that that algorithm has to loop through for its' operation. This is
-chosen, over time required since differences in algorithm implementation may skew the time taken for finding
-effectiveness of the search algorithm.
+\item Chaining values of 32 and 64 bits.
+\item k for neighbourhood value is limited to less than equal to 2.
+%\item The iterations are the number of times that that algorithm has to loop through for its' operation. This is
+%chosen, over time required since differences in algorithm implementation may skew the time taken for finding
+%effectiveness of the search algorithm.
 \end{enumerate}
 \end{frame}
 
-\begin{frame}
-\frametitle{Chaining value and neighbourhood}
-\begin{enumerate}
-\item The chaining value length can be varied from 32, 64, 128, 256, 512 and 1024. We chose to do experiment
-with 32 bit chaining value, and then 64 bit chaining value.
-\item Other higher chaining value lengths were not tried, given the expensive time computation, and relatively
-less success, in finding collisions.
-\item k for k bit neighbourhood value is limited to less than equal to 2. Numbers above that are not optimal. 
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{Chaining value and neighbourhood}
+%\begin{enumerate}
+%\item The chaining value length can be varied from 32, 64, 128, 256, 512 and 1024. We chose to do experiment
+%with 32 bit chaining value, and then 64 bit chaining value.
+%\item Other higher chaining value lengths were not tried, given the expensive time computation, and relatively
+%less success, in finding collisions.
+%\item k for k bit neighbourhood value is limited to less than equal to 2. Numbers above that are not optimal. 
+%\end{enumerate}
+%\end{frame}
 
 \subsection{Demo}
 \begin{frame}
@@ -1089,27 +1104,27 @@ Demo
 
 \section{Observations}
 
-\subsection{Implementation}
+%\subsection{Implementation}
 
-\begin{frame}
-\frametitle{Observations on implementation}
-\begin{itemize}
-\item Use system or language representation of words like int and long, instead of array of bytes, made
-it easier.
-\item Java has signed representation of int and long. This should be considered when rotating blocks.
-\item In Keccak the bits are ordered in little endian format, which is differnt that other general
-implementation that take big endian.
-\item During bitwise operation of byte or short datatype, Java will upcast the data to int and then
-downcast result. This should be guarded against.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Observations on implementation}
+%\begin{itemize}
+%\item Use system or language representation of words like int and long, instead of array of bytes, made
+%it easier.
+%\item Java has signed representation of int and long. This should be considered when rotating blocks.
+%\item In Keccak the bits are ordered in little endian format, which is differnt that other general
+%implementation that take big endian.
+%\item During bitwise operation of byte or short datatype, Java will upcast the data to int and then
+%downcast result. This should be guarded against.
+%\end{itemize}
+%\end{frame}
 
 \subsection{Average iterations}
 
 \begin{frame}
-\frametitle{Iterations for BLAKE, chaining value 32 bits}
-\begin{table}
-  \begin{center}
+\frametitle{Iterations for BLAKE}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{c|}{Rounds} \\ \cline{2-5}
                                   & 1    & 2   & 3   & 4   \\ \hline
@@ -1118,16 +1133,11 @@ downcast result. This should be guarded against.
      384                          & 1137 & 898 & 899 & 902 \\ \hline
      512                          & 1118 & 902 & 903 & 906 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
-    of bit length 32}
-  \end{center}
+    \caption{Hill Climbing for BLAKE for CV bit length 32}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Iterations for BLAKE, chaining value 64 bits}
-\begin{table}
-  \begin{center}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
                                   & 1    & 2    & 3    \\ \hline
@@ -1136,16 +1146,33 @@ downcast result. This should be guarded against.
      384                          & 3885 & 3515 & 3528 \\ \hline
      512                          & 3984 & 3535 & 3559 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
-    of bit length 64}
-  \end{center}
+    \caption{Hill Climbing for BLAKE for CV of bit length 64}
+  %\end{center}
 \end{table}
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Iterations for BLAKE, chaining value 64 bits}
+%\begin{table}
+%  \begin{center}
+%    \begin{tabular}{ | c | c | c | c | } \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
+%                                  & 1    & 2    & 3    \\ \hline
+%     224                          & 4190 & 3465 & 3483 \\ \hline
+%     256                          & 4264 & 3456 & 3431 \\ \hline
+%     384                          & 3885 & 3515 & 3528 \\ \hline
+%     512                          & 3984 & 3535 & 3559 \\ \hline
+%    \end{tabular}
+%    \caption{Average iterations over all input cases for Hill Climbing for BLAKE for chaining value
+%    of bit length 64}
+%  \end{center}
+%\end{table}
+%\end{frame}
+
 \begin{frame}
-\frametitle{Iterations for Gr{\o}stl, chaining value 32 bits}
-\begin{table}
-  \begin{center}
+\frametitle{Iterations for Gr{\o}stl}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
                                   & 1   & 2   & 3   & 4   \\ \hline
@@ -1154,16 +1181,11 @@ downcast result. This should be guarded against.
      384                          & 872 & 897 & 898 & 897 \\ \hline
      512                          & 896 & 904 & 904 & 902 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
-    of bit length 32}
-  \end{center}
+    \caption{Hill Climbing for Gr{\o}stl for CV of bit length 32}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Iterations for Gr{\o}stl, chaining value 64 bits}
-\begin{table}
-  \begin{center}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
                                   & 1    & 2    & 3    \\ \hline
@@ -1172,16 +1194,33 @@ downcast result. This should be guarded against.
      384                          & 3594 & 3522 & 3512 \\ \hline
      512                          & 3581 & 3544 & 3559 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
-    of bit length 64}
-  \end{center}
+    \caption{Hill Climbing for Gr{\o}stl for CV of bit length 64}
+  %\end{center}
 \end{table}
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Iterations for Gr{\o}stl, chaining value 64 bits}
+%\begin{table}
+%  \begin{center}
+%    \begin{tabular}{ | c | c | c | c | } \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
+%                                  & 1    & 2    & 3    \\ \hline
+%     224                          & 3687 & 3468 & 3469 \\ \hline
+%     256                          & 3714 & 3479 & 3473 \\ \hline
+%     384                          & 3594 & 3522 & 3512 \\ \hline
+%     512                          & 3581 & 3544 & 3559 \\ \hline
+%    \end{tabular}
+%    \caption{Average iterations over all input cases for Hill Climbing for Gr{\o}stl for chaining value
+%    of bit length 64}
+%  \end{center}
+%\end{table}
+%\end{frame}
+
 \begin{frame}
-\frametitle{Iterations for Keccak, chaining value 32 bits}
-\begin{table}
-  \begin{center}
+\frametitle{Iterations for Keccak}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
                                   & 1   & 2   & 3   & 4   \\ \hline
@@ -1190,16 +1229,11 @@ downcast result. This should be guarded against.
      384                          & 533 & 892 & 899 & 904 \\ \hline
      512                          & 533 & 900 & 905 & 902 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
-    of bit length 32}
-  \end{center}
+    \caption{Hill Climbing for Keccak for CV of bit length 32}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Iterations for Keccak, chaining value 64 bits}
-\begin{table}
-  \begin{center}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
                                   & 1    & 2    & 3    \\ \hline
@@ -1208,11 +1242,28 @@ downcast result. This should be guarded against.
      384                          & 2134 & 3676 & 3521 \\ \hline
      512                          & 2139 & 3764 & 3562 \\ \hline
     \end{tabular}
-    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
-    of bit length 64}
-  \end{center}
+    \caption{Hill Climbing for Keccak for CV of bit length 64}
+  %\end{center}
 \end{table}
 \end{frame}
+
+%\begin{frame}
+%\frametitle{Iterations for Keccak, chaining value 64 bits}
+%\begin{table}
+%  \begin{center}
+%    \begin{tabular}{ | c | c | c | c | } \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds} \\ \cline{2-4}
+%                                  & 1    & 2    & 3    \\ \hline
+%     224                          & 2118 & 3535 & 3457 \\ \hline
+%     256                          & 2118 & 3557 & 3466 \\ \hline
+%     384                          & 2134 & 3676 & 3521 \\ \hline
+%     512                          & 2139 & 3764 & 3562 \\ \hline
+%    \end{tabular}
+%    \caption{Average iterations over all input cases for Hill Climbing for Keccak for chaining value
+%    of bit length 64}
+%  \end{center}
+%\end{table}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Iterations for other search algorithms}
@@ -1227,7 +1278,7 @@ about 335254.443.
 \end{frame}
 
 \begin{frame}
-\frametitle{Iterations for Keccak state reduced 200 bits, chaining value 32 bits}
+\frametitle{Iterations for Keccak state reduced 200 bits}
 \begin{table}
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
@@ -1245,7 +1296,7 @@ about 335254.443.
 \end{frame}
 
 \begin{frame}
-\frametitle{Iterations for Keccak state reduced 400 bits, chaining value 32 bits}
+\frametitle{Iterations for Keccak state reduced 400 bits}
 \begin{table}
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
@@ -1263,7 +1314,7 @@ about 335254.443.
 \end{frame}
 
 \begin{frame}
-\frametitle{Iterations for Keccak state reduced 800 bits, chaining value 32 bits}
+\frametitle{Iterations for Keccak state reduced 800 bits}
 \begin{table}
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
@@ -1303,9 +1354,9 @@ about 335254.443.
 \subsection{Near collisions in hill climbing}
 
 \begin{frame}
-\frametitle{Near collisions BLAKE with 32 bit chaining value}
-\begin{table}
-  \begin{center}
+\frametitle{Near collisions BLAKE}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | }                 \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c |}{Rounds} \\ \cline{2-5}
                  & 1      & 2    & 3    & 4     \\ \hline
@@ -1314,14 +1365,10 @@ about 335254.443.
      384         & 58/384 & 0/0  & 0/0  & 0/0  \\ \hline
      512         & 58/384 & 0/0  & 0/0  & 0/0  \\ \hline
     \end{tabular}
-    \caption{Near collisions BLAKE with 32 bit chaining value}
-  \end{center}
+    \caption{Near collisions BLAKE with 32 bit CV}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Near collisions BLAKE with 64 bit chaining value}
-\begin{table}
+\begin{table} \footnotesize
   \begin{tabular}{ | c | c | c | c | }                      \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{c|}{Rounds} \\ \cline{2-4}
                  & 1      & 2     & 3         \\ \hline
@@ -1330,14 +1377,29 @@ about 335254.443.
      384         & 60/284 & 0/0   & 0/0   \\ \hline
      512         & 59/384 & 0/0   & 0/0   \\ \hline
   \end{tabular}
-  \caption{Near collisions BLAKE with 64 bit chaining value}
+  \caption{Near collisions BLAKE with 64 bit CV}
 \end{table}
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Near collisions BLAKE with 64 bit chaining value}
+%\begin{table}
+%  \begin{tabular}{ | c | c | c | c | }                      \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{c|}{Rounds} \\ \cline{2-4}
+%                 & 1      & 2     & 3         \\ \hline
+%     224         & 56/384 & 38/13 & 43/10 \\ \hline
+%     256         & 55/384 & 9/3   & 16/4  \\ \hline
+%     384         & 60/284 & 0/0   & 0/0   \\ \hline
+%     512         & 59/384 & 0/0   & 0/0   \\ \hline
+%  \end{tabular}
+%  \caption{Near collisions BLAKE with 64 bit chaining value}
+%\end{table}
+%\end{frame}
+
 \begin{frame}
-\frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
-\begin{table}
-  \begin{center}
+\frametitle{Near collisions Gr{\o}stl}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | }                 \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
                  & 1      & 2    & 3    & 4     \\ \hline
@@ -1346,14 +1408,10 @@ about 335254.443.
      384         & 12/128 & 0/0  & 0/0  & 0/0   \\ \hline
      512         & 22/145 & 0/0  & 0/0  & 0/0   \\ \hline
     \end{tabular}
-    \caption{Near collisions Gr{\o}stl with 32 bit chaining value}
-  \end{center}
+    \caption{Near collisions Gr{\o}stl with 32 bit CV}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
-\begin{table}
+\begin{table} \footnotesize
   \begin{tabular}{ | c | c | c | c | }                \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{|c|}{Rounds} \\ \cline{2-4}
                  & 1      & 2     & 3         \\ \hline
@@ -1362,14 +1420,29 @@ about 335254.443.
      384         & 14/256 & 0/0   & 0/0   \\ \hline
      512         & 28/158 & 0/0   & 0/0   \\ \hline
   \end{tabular}
-  \caption{Near collisions Gr{\o}stl with 64 bit chaining value}
+  \caption{Near collisions Gr{\o}stl with 64 bit CV}
 \end{table}
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
+%\begin{table}
+%  \begin{tabular}{ | c | c | c | c | }                \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{|c|}{Rounds} \\ \cline{2-4}
+%                 & 1      & 2     & 3         \\ \hline
+%     224         & 43/23  & 40/12 & 49/11 \\ \hline
+%     256         & 25/10  & 14/5  & 15/3  \\ \hline
+%     384         & 14/256 & 0/0   & 0/0   \\ \hline
+%     512         & 28/158 & 0/0   & 0/0   \\ \hline
+%  \end{tabular}
+%  \caption{Near collisions Gr{\o}stl with 64 bit chaining value}
+%\end{table}
+%\end{frame}
+
 \begin{frame}
 \frametitle{Near collisions Keccak with 32 bit chaining value}
-\begin{table}
-  \begin{center}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{|c|}{Rounds} \\ \cline{2-5}
                  & 1      & 2      & 3     & 4    \\ \hline
@@ -1378,14 +1451,10 @@ about 335254.443.
      384         & 60/384 & 60/384 & 1/1   & 0/0  \\ \hline
      512         & 60/384 & 60/384 & 0/0   & 0/0  \\ \hline
     \end{tabular}
-    \caption{Near collisions Keccak with 32 bit chaining value}
-  \end{center}
+    \caption{Near collisions Keccak with 32 bit CV}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Near collisions Keccak with 64 bit chaining value}
-\begin{table}
+\begin{table} \footnotesize
   \begin{tabular}{ | c | c | c | c | }  \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{|c|}{Rounds} \\ \cline{2-4}
                  & 1      & 2      & 3         \\ \hline
@@ -1394,14 +1463,29 @@ about 335254.443.
      384         & 60/384 & 60/384 & 1/1   \\ \hline
      512         & 60/384 & 60/384 & 0/0   \\ \hline
   \end{tabular}
-  \caption{Near collisions Keccak with 64 bit chaining value}
+  \caption{Near collisions Keccak with 64 bit CV}
 \end{table}
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Near collisions Keccak with 64 bit chaining value}
+%\begin{table}
+%  \begin{tabular}{ | c | c | c | c | }  \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{|c|}{Rounds} \\ \cline{2-4}
+%                 & 1      & 2      & 3         \\ \hline
+%     224         & 60/384 & 60/384 & 55/21 \\ \hline
+%     256         & 60/384 & 60/384 & 20/7  \\ \hline
+%     384         & 60/384 & 60/384 & 1/1   \\ \hline
+%     512         & 60/384 & 60/384 & 0/0   \\ \hline
+%  \end{tabular}
+%  \caption{Near collisions Keccak with 64 bit chaining value}
+%\end{table}
+%\end{frame}
+
 \begin{frame}
 \frametitle{Collision for 75\% bit match}
-\begin{table}
-  \begin{center}
+\begin{table} \tiny
+  %\begin{center}
     \begin{tabular}{ | c !{\vrule width 1.1pt} c | c | c | c !{\vrule width 1.1pt} c | c | c | c |} \hline
      Rounds      & \multicolumn{4}{ c|}{1}           & \multicolumn{4}{ | c |}{2}        \\ \hline
      Digest size & 224    & 256    & 384    & 512    & 224    & 256    & 384    & 512    \\ \Xhline{2\arrayrulewidth}
@@ -1414,7 +1498,7 @@ about 335254.443.
     \end{tabular}
     \caption{Collisions for 75\% bit matching, for 32 bit chaining value. Application of hill climbing search. Collision
     instances for start, middle and end are grouped together.}
-  \end{center}
+  %\end{center}
 \end{table}
 \end{frame}
 
@@ -1473,7 +1557,7 @@ about 335254.443.
 
 \begin{frame}
 \frametitle{Near collisions BLAKE with 32 bit chaining value}
-\begin{table}
+\begin{table} \footnotesize
   \begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
@@ -1483,15 +1567,15 @@ about 335254.443.
      384         & 39/353 & 0/0    & 0/0   & 0/0  \\ \hline
      512         & 50/342 & 0/0    & 0/0   & 0/0  \\ \hline
     \end{tabular}
-    \caption{Near collisions BLAKE with 32 bit chaining value}
+    \caption{Near collisions BLAKE with 32 bit CV}
   \end{center}
 \end{table}
 \end{frame}
 
 \begin{frame}
 \frametitle{Near collisions Gr{\o}stl with 32 bit chaining value}
-\begin{table}
-  \begin{center}
+\begin{table} \footnotesize
+  %\begin{center}
     \begin{tabular}{ | c | c | c | c | c | } \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{4}{ c|}{Rounds} \\ \cline{2-5}
                  & 1      & 2      & 3     & 4    \\ \hline
@@ -1500,14 +1584,10 @@ about 335254.443.
      384         & 12/128 & 0/0    & 0/0   & 0/0  \\ \hline
      512         & 15/129 & 0/0    & 0/0   & 0/0  \\ \hline
     \end{tabular}
-    \caption{Near collisions Gr{\o}stl with 32 bit chaining value}
-  \end{center}
+    \caption{Near collisions Gr{\o}stl with 32 bit CV}
+  %\end{center}
 \end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
-\begin{table}
+\begin{table} \footnotesize
   \begin{tabular}{ | c | c | c | c | }                    \hline
      \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds}  \\ \cline{2-4}
                  & 1      & 2   & 3         \\ \hline
@@ -1516,9 +1596,24 @@ about 335254.443.
      384         & 13/256 & 0/0 & 0/0 \\ \hline
      512         & 19/129 & 0/0 & 0/0 \\ \hline
   \end{tabular}
-  \caption{Near collisions Gr{\o}stl with 64 bit chaining value}
+  \caption{Near collisions Gr{\o}stl with 64 bit CV}
 \end{table}
 \end{frame}
+
+%\begin{frame}
+%\frametitle{Near collisions Gr{\o}stl with 64 bit chaining value}
+%\begin{table}
+%  \begin{tabular}{ | c | c | c | c | }                    \hline
+%     \multirow{2}{*}{Digest Size} & \multicolumn{3}{ c|}{Rounds}  \\ \cline{2-4}
+%                 & 1      & 2   & 3         \\ \hline
+%     224         & 0/0    & 0/0 & 0/0 \\ \hline
+%     256         & 0/0    & 0/0 & 0/0 \\ \hline
+%     384         & 13/256 & 0/0 & 0/0 \\ \hline
+%     512         & 19/129 & 0/0 & 0/0 \\ \hline
+%  \end{tabular}
+%  \caption{Near collisions Gr{\o}stl with 64 bit chaining value}
+%\end{table}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Near collisions Keccak with 32 bit chaining value}
@@ -1594,17 +1689,17 @@ about 335254.443.
 
 \subsection{Hypothesis validity}
 
-\begin{frame}
-\frametitle{Validity of hypothesis}
-\begin{enumerate}
-\item Two hypothesis are disproved. Keccak performs poorly for reduced rounds of 1, and 2. And
-equivalent performance to that of Gr{\o}stl and BLAKE, for rounds 3 and 4.
-\item Simulated annealing does not perform as good as hill climbing for finding collisions in
-reduced rounds of the examined algorithm.
-\item Random selection performance is almost comparable to simulated annealing.
-\item Reducing the internal state of Keccak, did not affect its security margin to generic methods.
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{Validity of hypothesis}
+%\begin{enumerate}
+%\item Two hypothesis are disproved. Keccak performs poorly for reduced rounds of 1, and 2. And
+%equivalent performance to that of Gr{\o}stl and BLAKE, for rounds 3 and 4.
+%\item Simulated annealing does not perform as good as hill climbing for finding collisions in
+%reduced rounds of the examined algorithm.
+%\item Random selection performance is almost comparable to simulated annealing.
+%\item Reducing the internal state of Keccak, did not affect its security margin to generic methods.
+%\end{enumerate}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Collision resistance in reduced rounds}
@@ -1718,6 +1813,21 @@ in mix byte implementation in Gr{\o}stl.
 \item \href{"http://crypto.stackexchange.com/users/4136/alexandre-yamajako"}{Alexandre Yamajako} for pointing
 specification to find inverse degree of Keccak function.
 \end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+\begin{enumerate}
+\item Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.
+\item Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+http://www.131002.net/blake/blake.pdf, April 2012.
+\item S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
+candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.
+\item Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
+fugue, hamsi and jh. Second SHA-3 conference, August 2010. 
+http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf.
+\end{enumerate}
 \end{frame}
 
 \subsection{Questions}
