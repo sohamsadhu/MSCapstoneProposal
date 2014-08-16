@@ -1,6 +1,20 @@
+% This text is proprietary.
+% It's a part of presentation made by myself.
+% It may not used commercial.
+% The noncommercial use such as private and study is free
+% May 2007
+% Author: Sascha Frank 
+% University Freiburg 
+% www.informatik.uni-freiburg.de/~frank/
+%
+% 
 \documentclass{beamer}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
 
+%\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
+
+\usepackage{changepage}
 \usepackage{beamerthemeshadow}
 \usepackage{algorithm}
 \usepackage{float}
@@ -47,10 +61,10 @@ Prof. Xumin Liu}
   \end{itemize}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Outline}
-\frametitle{Table of contents}
-\tableofcontents
-\end{frame} 
+%\begin{frame}[allowframebreaks]{Outline}
+%\frametitle{Table of contents}
+%\tableofcontents
+%\end{frame} 
 
 \section{Introduction}
 
@@ -123,7 +137,7 @@ Prof. Xumin Liu}
     \item SHA-0 proposed by NSA in 1993, later standardized by NIST.
     \item SHA-1 designed by NSA in 1995, digest 160 bits, block size 512 bits \footnotemark.
     \item SHA-2 released by NIST in 2001. Family of hash functions of size 224, 256, 384 and 512 bits.
-    \item 
+    \item Proposal for SHA-3 in FIPS PUB 202, based on Keccak, winner of SHA-3 competition.
   \end{enumerate}
   \footnotetext[4]{James Joshi. Network Security: Know It All: Know It All. Newnes Know It All. Elsevier Science, 2008.}
 \end{frame}
@@ -189,62 +203,81 @@ SHA3-384(M) = KECCAK[768](M $\vert \vert$ 01, 384) \\
 SHA3-512(M) = KECCAK[1024](M $\vert \vert$ 01, 512) \\
 SHAKE128(M, d) = KECCAK[256](M $\vert \vert$ 1111, d) \\
 SHAKE256(M, d) = KECCAK[512](M $\vert \vert$ 1111, d)
-\footnotetext[7]{Information Technology Laboratory, National Institute of Standards and Technology.
+\footnotetext[5]{Information Technology Laboratory, National Institute of Standards and Technology.
 DRAFT FIPS PUB 202, SHA-3 Standard: Permutation Based Hash and Extendable-Output Functions. May 2014.}
 \end{frame}
 
 \subsection{Keccak}
 
 \begin{frame}
-\frametitle{Keccak sponge construction}
+\frametitle{Sponge construction}
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[scale=0.5]{keccakspongeconstruction.jpg}
+    \includegraphics[scale=0.45]{keccakspongeconstruction.jpg}
   \end{center}
   \caption{Sponge construction $Z = Sponge[f, pad, r](M, l)$\footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[8]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. Cryptographic
+\footnotetext[6]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. Cryptographic
 sponge functions. http://sponge.noekeon.org/CSF-0.1.pdf, January 2011.}
 \end{frame}
 
 \begin{frame}
-\frametitle{Keccak state}
+\frametitle{State \footnotemark}
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[scale=0.25]{keccakstateterminology.jpg}
+    \includegraphics[scale=0.21]{keccakstateterminology.jpg}
   \end{center}
-  \caption{Keccak state terminology $Z = Sponge[f, pad, r](M, l)$\footnotemark}
-  \label{fig:lab}
+  %\caption{Keccak state terminology $Z = Sponge[f, pad, r](M, l)$\footnotemark}
+  %\label{fig:lab}
 \end{figure}
-\footnotetext[22]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
+\footnotetext[7]{Guido Bertoni, Joan Daemen, Micha\"{e}l Peeters, and Gilles Van Assche. The keccak 
 reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
 \end{frame}
 
-\begin{frame}
-\frametitle{Padding and permutations}
-\begin{itemize}
-\item The message is padded with $1 0^{*}1$ to make it multiple of the block length.
-\item $R = \iota \circ \chi \circ \pi \circ \rho \circ \theta$
-\item The permutation round R is repeated for 12 + 2l times, where l is the lane length. The default
-capacity size is 576.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Padding and permutations}
+%\begin{itemize}
+%\item The message is padded with $1 0^{*}1$ to make it multiple of the block length.
+%\item $R = \iota \circ \chi \circ \pi \circ \rho \circ \theta$
+%\item The permutation round R is repeated for 12 + 2l times, where l is the lane length. The default
+%capacity size is 576.
+%\end{itemize}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{Contents of Keccak permutation round}
+%\begin{align*}
+%  \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
+%  \rho &: a[x][y][z] & \gets & \thickspace a[x][y][z - (t + 1)(t + 2) / 2], \\
+%  & & & \thickspace t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and %\thickspace
+%  \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = %\begin{pmatrix} x \\ y \end{pmatrix}
+%  in \thickspace GF(5)^{2 \times 2}, \\
+%  & & & \thickspace or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
+%  \pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
+%  \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} %\begin{pmatrix} x' \\ y'\end{pmatrix}, \\
+%  \chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
+%  \iota &: a & \gets & \thickspace a + RC[i_{r}].
+%\end{align*}
+%\end{frame}
 
 \begin{frame}
-\frametitle{Contents of Keccak permutation round}
+\frametitle{Permutation round}
+\vspace{-\baselineskip}
+\begin{adjustwidth}{-1.5em}{-1.5em}
 \begin{align*}
   \theta &: a[x][y][z] & \gets & \thickspace a[x][y][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x - 1][y'][z] + \displaystyle\sum\limits_{y' = 0}^{4} a[x + 1][y'][z - 1], \\
   \rho &: a[x][y][z] & \gets & \thickspace a[x][y][z - (t + 1)(t + 2) / 2], \\
-  & & & \thickspace t \thickspace satisfying \thickspace 0 \leq t < 24 \thickspace and \thickspace
+  & & & \thickspace 0 \leq t < 24 \thickspace and \thickspace
   \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix}^{t} \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} x \\ y \end{pmatrix}
   in \thickspace GF(5)^{2 \times 2}, \\
-  & & & \thickspace or \thickspace t = -1 \thickspace if \thickspace x = y = 0, \\
   \pi &: a[x][y] & \gets & \thickspace a[x'][y'], \thickspace with \thickspace
   \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 3 \end{pmatrix} \begin{pmatrix} x' \\ y'\end{pmatrix}, \\
   \chi &: a[x] & \gets & \thickspace a[x] + (a[x + 1] + 1) \thickspace a[x + 2], \\
   \iota &: a & \gets & \thickspace a + RC[i_{r}].
 \end{align*}
+$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$,
+\end{adjustwidth}
 \end{frame}
 
 %\begin{frame}
@@ -299,38 +332,38 @@ capacity size is 576.
 %reference. http://keccak.noekeon.org/Keccak-reference-3.0.pdf, January 2011.}
 %\end{frame}
 
-\begin{frame}
-\frametitle{$\iota$ step}
-\begin{itemize}
-\item The round constants are given by
-\begin{center}$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$,\end{center}
-\item $rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$]
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{$\iota$ step}
+%\begin{itemize}
+%\item The round constants are given by
+%\begin{center}$RC[i_{r}][0][0][2^{j} - 1] = rc[j + 7i_{r}]$ for all $ 0 \leq j \leq l$,\end{center}
+%\item $rc[t] = (x^{t} \thickspace mod \thickspace x^{8} + x^{6} + x^{5} + x^{4} + 1)$ mod x in GF(2)[$x$]
+%\end{itemize}
+%\end{frame}
 
 \subsection{BLAKE}
 
-\begin{frame}
-\frametitle{Properties of BLAKE hash function}
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{ *{6}{c} } \hline
-      Algorithm & Word & Message    & Block & Digest & Salt \\ \hline
-      BLAKE-224 & 32   & $< 2^{64}$  & 512   & 224    & 128  \\
-      BLAKE-256 & 32   & $< 2^{64}$  & 512   & 256    & 128  \\
-      BLAKE-384 & 64   & $< 2^{128}$ & 1024  & 384    & 256  \\
-      BLAKE-512 & 64   & $< 2^{128}$ & 1024  & 512    & 256  \\ \hline
-    \end{tabular}
-    \caption{Specification of available input, output, block and salt sizes for various BLAKE hash functions,
-    size in bits. \footnotemark}
-  \end{center}
-\end{table}
-\footnotetext[11]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
-http://www.131002.net/blake/blake.pdf, April 2012.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Properties of BLAKE hash function}
+%\begin{table}[h]
+%  \begin{center}
+%    \begin{tabular}{ *{6}{c} } \hline
+%      Algorithm & Word & Message    & Block & Digest & Salt \\ \hline
+%      BLAKE-224 & 32   & $< 2^{64}$  & 512   & 224    & 128  \\
+%      BLAKE-256 & 32   & $< 2^{64}$  & 512   & 256    & 128  \\
+%      BLAKE-384 & 64   & $< 2^{128}$ & 1024  & 384    & 256  \\
+%      BLAKE-512 & 64   & $< 2^{128}$ & 1024  & 512    & 256  \\ \hline
+%    \end{tabular}
+%    \caption{Specification of available input, output, block and salt sizes for various BLAKE hash functions,
+%    size in bits. \footnotemark}
+%  \end{center}
+%\end{table}
+%\footnotetext[9]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+%http://www.131002.net/blake/blake.pdf, April 2012.}
+%\end{frame}
 
 \begin{frame}
-\frametitle{BLAKE construction}
+\frametitle{HAIFA construction}
 BLAKE is built on HAIFA (HAsh Iterative FrAmework) structure \footnotemark which is an improved version of 
 Merkle-Damg\.{a}rd function.
 \begin{figure}[h]
@@ -340,40 +373,40 @@ Merkle-Damg\.{a}rd function.
   \caption{Local wide construction of BLAKE's compression function\footnotemark}
   \label{fig:seq}
 \end{figure}
-\footnotetext[12]{Eli Biham and Orr Dunkelman. A framework for iterative hash functions - haifa.
+\footnotetext[8]{Eli Biham and Orr Dunkelman. A framework for iterative hash functions - haifa.
 Cryptology ePrint Archive, Report 2007/278, 2007.}
-\footnotetext[13]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+\footnotetext[9]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
 http://www.131002.net/blake/blake.pdf, April 2012.}
 \end{frame}
 
-\begin{frame}
-\frametitle{Padding rule}
-\begin{itemize}
-\item For variant producing digest size 224, 256 input message is padded with '1' followed by '0' bits,
-so that length is 447 modulo 512. Followed by bit '1', and 64 bit unsigned big endian representation 
-of block length. 
-\item For variant producing digest size 384, 512 input message is padded by bit '1', followed by '0' bits
-till length is 895 modulo 1024. Followed by bit '1', and 128 bit unsigned big endian representation of 
-block length in bits.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Padding rule}
+%\begin{itemize}
+%\item For variant producing digest size 224, 256 input message is padded with '1' followed by '0' bits,
+%so that length is 447 modulo 512. Followed by bit '1', and 64 bit unsigned big endian representation 
+%of block length. 
+%\item For variant producing digest size 384, 512 input message is padded by bit '1', followed by '0' bits
+%till length is 895 modulo 1024. Followed by bit '1', and 128 bit unsigned big endian representation of 
+%block length in bits.
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}[fragile]
-\frametitle{Compression algorithm}
-  \begin{algorithm}[H]
-  \begin{algorithmic}[1]
-    \State $ h^{0} \gets IV $
-    \For {$i = 0,\dots, N - 1$}
-      \State $h^{i+1} \gets compress(h^{i}, m^{i}, s, l^{i})$
-    \EndFor
-    \State\Return{$h^{N}$}
-  \end{algorithmic}
-  \caption[BLAKE Compression]{BLAKE Compression procedure\footnotemark}
-  \label{alg:seq}
-  \end{algorithm}
-  \footnotetext[14]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
-http://www.131002.net/blake/blake.pdf, April 2012.}
-\end{frame}
+%\begin{frame}[fragile]
+%\frametitle{Compression algorithm}
+%  \begin{algorithm}[H]
+%  \begin{algorithmic}[1]
+%    \State $ h^{0} \gets IV $
+%    \For {$i = 0,\dots, N - 1$}
+%      \State $h^{i+1} \gets compress(h^{i}, m^{i}, s, l^{i})$
+%    \EndFor
+%    \State\Return{$h^{N}$}
+%  \end{algorithmic}
+%  \caption[BLAKE Compression]{BLAKE Compression procedure\footnotemark}
+%  \label{alg:seq}
+%  \end{algorithm}
+%  \footnotetext[14]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+%http://www.131002.net/blake/blake.pdf, April 2012.}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Initialization of the state}
@@ -399,58 +432,58 @@ groups represented as $G_{i}(a, b, c, d)$
 \end{frame}
 
 \begin{frame}
-\frametitle{BLAKE permutation operation for 224 and 256 variant}
+\frametitle{Permutation operations, ChaCha}
 $a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)}) $ \\
-$d \gets (d \oplus a) \ggg 16$ \\
+$d \gets (d \oplus a) \ggg [16, 32]$ \\
 $c \gets c + d$ \\
-$b \gets (b \oplus c) \ggg 12$ \\
+$b \gets (b \oplus c) \ggg [12, 25]$ \\
 $a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)})$ \\
-$d \gets (d \oplus a) \ggg 8$ \\
+$d \gets (d \oplus a) \ggg [8, 16]$ \\
 $c \gets c + d$ \\
-$b \gets (b \oplus c) \ggg 7$ \\ 
+$b \gets (b \oplus c) \ggg [7, 11]$ \\ 
 \noindent\rule{10cm}{0.4pt} \\
 \vspace{1mm}
-+ addition in modulo $2^{32}$ \\
++ addition in modulo [$2^{32}$, $2^{64}$] \\
 $\ggg k$ rotate to right by k bits \\
 $\oplus$ bitwise XOR \\
 r permutation round \\
-i is from $G_{i}$
+%i is from $G_{i}$
 \end{frame}
 
-\begin{frame}
-\frametitle{Permutation round selection, $\sigma$ function\footnotemark}
-  \resizebox{\linewidth}{!} {
-    \begin{tabular}{ c| *{16}{c}} \hline
-      $\sigma_{0}$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 \\
-      $\sigma_{1}$ & 14 & 10 & 4  & 8  & 9  & 15 & 13 & 6  & 1  & 12 & 0  & 2  & 11 & 7  & 5  & 3  \\
-      $\sigma_{2}$ & 11 & 8  & 12 & 0  & 5  & 2  & 15 & 13 & 10 & 14 & 3  & 6  & 7  & 1  & 9  & 4  \\
-      $\sigma_{3}$ & 7  & 9  & 3  & 1  & 13 & 12 & 11 & 14 & 2  & 6  & 5  & 10 & 4  & 0  & 15 & 8  \\
-      $\sigma_{4}$ & 9  & 0  & 5  & 7  & 2  & 4  & 10 & 15 & 14 & 1  & 11 & 12 & 6  & 8  & 3  & 13 \\
-      $\sigma_{5}$ & 2  & 12 & 6  & 10 & 0  & 11 & 8  & 3  & 4  & 13 & 7  & 5  & 15 & 14 & 1  & 9  \\
-      $\sigma_{6}$ & 12 & 5  & 1  & 15 & 14 & 13 & 4  & 10 & 0  & 7  & 6  & 3  & 9  & 2  & 8  & 11 \\
-      $\sigma_{7}$ & 13 & 11 & 7  & 14 & 12 & 1  & 3  & 9  & 5  & 0  & 15 & 4  & 8  & 6  & 2  & 10 \\
-      $\sigma_{8}$ & 6  & 15 & 14 & 9  & 11 & 3  & 0  & 8  & 12 & 2  & 13 & 7  & 1  & 4  & 10 & 5  \\
-      $\sigma_{9}$ & 10 & 2  & 8  & 4  & 7  & 6  & 1  & 5  & 15 & 11 & 9  & 14 & 3  & 12 & 13 & 0  \\ \hline
-    \end{tabular}
-  }
-  \footnotetext[15]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
-http://www.131002.net/blake/blake.pdf, April 2012.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Permutation round selection, $\sigma$ function\footnotemark}
+%  \resizebox{\linewidth}{!} {
+%    \begin{tabular}{ c| *{16}{c}} \hline
+%      $\sigma_{0}$ & 0  & 1  & 2  & 3  & 4  & 5  & 6  & 7  & 8  & 9  & 10 & 11 & 12 & 13 & 14 & 15 \\
+%      $\sigma_{1}$ & 14 & 10 & 4  & 8  & 9  & 15 & 13 & 6  & 1  & 12 & 0  & 2  & 11 & 7  & 5  & 3  \\
+%      $\sigma_{2}$ & 11 & 8  & 12 & 0  & 5  & 2  & 15 & 13 & 10 & 14 & 3  & 6  & 7  & 1  & 9  & 4  \\
+%      $\sigma_{3}$ & 7  & 9  & 3  & 1  & 13 & 12 & 11 & 14 & 2  & 6  & 5  & 10 & 4  & 0  & 15 & 8  \\
+%      $\sigma_{4}$ & 9  & 0  & 5  & 7  & 2  & 4  & 10 & 15 & 14 & 1  & 11 & 12 & 6  & 8  & 3  & 13 \\
+%      $\sigma_{5}$ & 2  & 12 & 6  & 10 & 0  & 11 & 8  & 3  & 4  & 13 & 7  & 5  & 15 & 14 & 1  & 9  \\
+%      $\sigma_{6}$ & 12 & 5  & 1  & 15 & 14 & 13 & 4  & 10 & 0  & 7  & 6  & 3  & 9  & 2  & 8  & 11 \\
+%      $\sigma_{7}$ & 13 & 11 & 7  & 14 & 12 & 1  & 3  & 9  & 5  & 0  & 15 & 4  & 8  & 6  & 2  & 10 \\
+%      $\sigma_{8}$ & 6  & 15 & 14 & 9  & 11 & 3  & 0  & 8  & 12 & 2  & 13 & 7  & 1  & 4  & 10 & 5  \\
+%      $\sigma_{9}$ & 10 & 2  & 8  & 4  & 7  & 6  & 1  & 5  & 15 & 11 & 9  & 14 & 3  & 12 & 13 & 0  \\ \hline
+%    \end{tabular}
+%  }
+%  \footnotetext[15]{Jean-Philippe Aumasson, Luca Henzen, Willi Meier, and Raphael C.-W. Phan. Blake.
+%http://www.131002.net/blake/blake.pdf, April 2012.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{BLAKE permutation operation for 384 and 512 variant}
-$a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)})$ \\
-$d \gets (d \oplus a) \ggg 32$ \\
-$c \gets c + d$ \\
-$b \gets (b \oplus c) \ggg 25$ \\
-$a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)})$ \\
-$d \gets (d \oplus a) \ggg 16$ \\
-$c \gets c + d$ \\
-$b \gets (b \oplus c) \ggg 11$ \\
-\noindent\rule{10cm}{0.4pt} \\
-\vspace{1mm}
-+ addition in modulo $2^{64}$ \\
-\end{frame}
+%\begin{frame}
+%\frametitle{BLAKE permutation operation for 384 and 512 variant}
+%$a \gets a + b + (m_{\sigma_{r}(2i)} \oplus c_{\sigma_{r}(2i + 1)})$ \\
+%$d \gets (d \oplus a) \ggg 32$ \\
+%$c \gets c + d$ \\
+%$b \gets (b \oplus c) \ggg 25$ \\
+%$a \gets a + b + (m_{\sigma_{r}(2i + 1)} \oplus c_{\sigma_{r}(2i)})$ \\
+%$d \gets (d \oplus a) \ggg 16$ \\
+%$c \gets c + d$ \\
+%$b \gets (b \oplus c) \ggg 11$ \\
+%\noindent\rule{10cm}{0.4pt} \\
+%\vspace{1mm}
+%+ addition in modulo $2^{64}$ \\
+%\end{frame}
 
 \begin{frame}
 \frametitle{Finalization}
@@ -466,47 +499,47 @@ $h'_{7} \gets h_{7} \oplus s_{3} \oplus v_{7} \oplus v_{15}$ \\
 
 \subsection{Gr{\o}stl}
 
-\begin{frame}
-\frametitle{Padding}
-\begin{itemize}
-\item The message is split into blocks of 512 bits for variants of digest size upto 256 bits; and into 1024 bit
-block for variant of digest size above 256 bits.
-\item Bit '1' is appended, then $ w = -N - 65 \thickspace mod \thickspace l $, 0 bits are appended; followed by
-64 bit representation of $(N + w + 65) / l $.
-\item Due to encoding of message in padded block, the maximum size of message for short variants is $2^{73}-577$
-bits, and that for variants above 256 is $2^{74}-1089$bits.
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Padding}
+%\begin{itemize}
+%\item The message is split into blocks of 512 bits for variants of digest size upto 256 bits; and into 1024 bit
+%block for variant of digest size above 256 bits.
+%\item Bit '1' is appended, then $ w = -N - 65 \thickspace mod \thickspace l $, 0 bits are appended; followed by
+%64 bit representation of $(N + w + 65) / l $.
+%\item Due to encoding of message in padded block, the maximum size of message for short variants is $2^{73}-577$
+%bits, and that for variants above 256 is $2^{74}-1089$bits.
+%\end{itemize}
+%\end{frame}
 
-\begin{frame}
-\frametitle{Initial values and rounds \footnotemark}
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{ *{3}{c} } \hline
-      Permutations            & Digest size & Recommended value of r \\ \hline
-      $P_{512}$ and $Q_{512}$   & 8 - 256     & 10 \\
-      $P_{1024}$ and $Q_{1024}$ & 264 - 512   & 14 \\ \hline 
-    \end{tabular}
-    \caption{Recommended number of rounds}
-  \end{center}
-\end{table}
+%\begin{frame}
+%\frametitle{Initial values and rounds}
+%\begin{table}[h]
+%  \begin{center}
+%    \begin{tabular}{ *{3}{c} } \hline
+%      Permutations            & Digest size & Recommended value of r \\ \hline
+%      $P_{512}$ and $Q_{512}$   & 8 - 256     & 10 \\
+%      $P_{1024}$ and $Q_{1024}$ & 264 - 512   & 14 \\ \hline 
+%    \end{tabular}
+%    \caption{Recommended number of rounds}
+%  \end{center}
+%\end{table}
 
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{ *{2}{c} } \hline
-      n   & $iv_{n}$         \\ \hline
-      224 & 00 $\dots$ 00 00 e0 \\
-      256 & 00 $\dots$ 00 01 00 \\
-      384 & 00 $\dots$ 00 01 80 \\
-      512 & 00 $\dots$ 00 02 00 \\ \hline
-    \end{tabular}
-  \caption{Initial values for Gr{\o}stl-n function.}
-  \end{center}
-\end{table}
-\footnotetext[16]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
-Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
-candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
-\end{frame}
+%\begin{table}[h]
+%  \begin{center}
+%    \begin{tabular}{ *{2}{c} } \hline
+%      n   & $iv_{n}$         \\ \hline
+%      224 & 00 $\dots$ 00 00 e0 \\
+%      256 & 00 $\dots$ 00 01 00 \\
+%      384 & 00 $\dots$ 00 01 80 \\
+%      512 & 00 $\dots$ 00 02 00 \\ \hline
+%    \end{tabular}
+%  \caption{Initial values for Gr{\o}stl-n function.}
+%  \end{center}
+%\end{table}
+%\footnotetext[10]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+%Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
+%candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
+%\end{frame}
 
 \begin{frame}
 \frametitle{Hashing the message}
@@ -514,71 +547,72 @@ After padding, the message is broken to blocks, and processed sequentially. An i
 \begin{center}$ h_{i}\gets f(h_{i-1}, m_{i})\thickspace for \thickspace i = 1,\ldots, t.$\end{center}
 \begin{figure}
   \begin{center}
-    \includegraphics[scale=0.5]{groestlhashfunction.jpg}
+    \includegraphics[scale=0.4]{groestlhashfunction.jpg}
   \end{center}
   \caption{Gr{\o}stl hash function \footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[17]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[10]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
-candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
+candidate version 2.0.1. http://www.groestl.info/Groestl.pdf}
 \end{frame}
 
-\begin{frame}
-\frametitle{Input mapping}
-Mapping of the input bytes to the state in following order. \\
-\vspace{3mm}
-$\begin{bmatrix}
-  00 & 08 & 10 & 18 & 20 & 28 & 30 & 38 \\
-  01 & 09 & 11 & 19 & 21 & 29 & 31 & 39 \\
-  02 & 0a & 12 & 1a & 22 & 2a & 32 & 3a \\
-  03 & 0b & 13 & 1b & 23 & 2b & 33 & 3b \\
-  04 & 0c & 14 & 1c & 24 & 2c & 34 & 3c \\
-  05 & 0d & 15 & 1d & 25 & 2d & 35 & 3d \\
-  06 & 0e & 16 & 1e & 26 & 2e & 36 & 3e \\
-  07 & 0f & 17 & 1f & 27 & 2f & 37 & 3f
-\end{bmatrix}$
-\end{frame}
+%\begin{frame}
+%\frametitle{Input mapping}
+%Mapping of the input bytes to the state in following order. \\
+%\vspace{3mm}
+%$\begin{bmatrix}
+%  00 & 08 & 10 & 18 & 20 & 28 & 30 & 38 \\
+%  01 & 09 & 11 & 19 & 21 & 29 & 31 & 39 \\
+%  02 & 0a & 12 & 1a & 22 & 2a & 32 & 3a \\
+%  03 & 0b & 13 & 1b & 23 & 2b & 33 & 3b \\
+%  04 & 0c & 14 & 1c & 24 & 2c & 34 & 3c \\
+%  05 & 0d & 15 & 1d & 25 & 2d & 35 & 3d \\
+%  06 & 0e & 16 & 1e & 26 & 2e & 36 & 3e \\
+%  07 & 0f & 17 & 1f & 27 & 2f & 37 & 3f
+%\end{bmatrix}$
+%\end{frame}
 
 \begin{frame}
 \frametitle{Permutation f function}
-\begin{center}$f(h, m) = P(h \oplus m) \oplus Q(m) \oplus h.$\end{center}
+%\begin{center}$f(h, m) = P(h \oplus m) \oplus Q(m) \oplus h.$\end{center}
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[scale=0.5]{groestlPQfunction.jpg}
+    \includegraphics[scale=0.36]{groestlPQfunction.jpg}
   \end{center}
-  \caption{Compression functions, where P and Q are $l-bit$ permutations \footnotemark}
+  \caption{P and Q are $l-bit$ permutations \footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[18]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[11]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
-candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
+candidate version 2.0.1. http://www.groestl.info/Groestl.pdf}
 \end{frame}
 
-\begin{frame}
-\frametitle{Omega truncate function}
-The $\Omega$ function consists of a $trunc_{n}(x)$ that outputs only the trailing n bits of input x.
-\begin{center}$\Omega(x) = trunc_{n}( P(x) \oplus x ).$\end{center}
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=4.5in]{groestlomegafunction.jpg}
-  \end{center}
-  \caption{Omega truncation function \footnotemark}
-  \label{fig:lab}
-\end{figure}
-\footnotetext[19]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
-Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
-candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Omega truncate function}
+%The $\Omega$ function consists of a $trunc_{n}(x)$ that outputs only the trailing n bits of input x.
+%\begin{center}$\Omega(x) = trunc_{n}( P(x) \oplus x ).$\end{center}
+%\begin{figure}[h]
+%  \begin{center}
+%    \includegraphics[width=4.5in]{groestlomegafunction.jpg}
+%  \end{center}
+%  \caption{Omega truncation function \footnotemark}
+%  \label{fig:lab}
+%\end{figure}
+%\footnotetext[19]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+%Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
+%candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
+%\end{frame}
+
+%\begin{frame}
+%\frametitle{Contents of P and Q function}
+%The P and Q functions are represented by a round, with slight variation in variables they operate.
+%\begin{center}$ R = MixBytes \cdot ShiftBytes \cdot SubBytes \cdot AddRoundConstant $ \end{center}
+%\end{frame}
 
 \begin{frame}
-\frametitle{Contents of P and Q function}
-The P and Q functions are represented by a round, with slight variation in variables they operate.
+\frametitle{Rounds}
 \begin{center}$ R = MixBytes \cdot ShiftBytes \cdot SubBytes \cdot AddRoundConstant $ \end{center}
-\end{frame}
-
-\begin{frame}
-\frametitle{Add Round Constant}
 $A \gets A \oplus C[i]$ where A is state matrix and C is constant matrix.
 $ P_{1024}: C[i] = \begin{bmatrix}
   00 \oplus i & 10 \oplus i & 20 \oplus i \ldots f0 \oplus i \\
@@ -595,65 +629,72 @@ $Q_{1024}: C[i] = \begin{bmatrix}
 \end{bmatrix}$
 \end{frame}
 
+%\begin{frame}
+%\frametitle{Substitute byte}
+%$a_{i,j} \gets S( a_{i,j}),  0 \leq i < 8, 0 \leq j < v.$ 
+%\resizebox{\linewidth}{!} {
+%    \begin{tabular}{ c | *{16}{c}}
+%     & 00 & 01 & 02 & 03 & 04 & 05 & 06 & 07 & 08 & 09 & 0a & 0b & 0c & 0d & 0e & 0f \\ \hline
+%  00 & 63 & 7c & 77 & 7b & f2 & 6b & 6f & c5 & 30 & 01 & 67 & 2b & fe & d7 & ab & 76 \\ 
+%  10 & ca & 82 & c9 & 7d & fa & 59 & 47 & f0 & ad & d4 & a2 & af & 9c & a4 & 72 & c0 \\
+%  20 & b7 & fd & 93 & 26 & 36 & 3f & f7 & cc & 34 & a5 & e5 & f1 & 71 & d8 & 31 & 15 \\
+%  30 & 04 & c7 & 23 & c3 & 18 & 96 & 05 & 9a & 07 & 12 & 80 & e2 & eb & 27 & b2 & 75 \\
+%  40 & 09 & 83 & 2c & 1a & 1b & 6e & 5a & a0 & 52 & 3b & d6 & b3 & 29 & e3 & 2f & 84 \\
+%  50 & 53 & d1 & 00 & ed & 20 & fc & b1 & 5b & 6a & cb & be & 39 & 4a & 4c & 58 & cf \\
+%  60 & d0 & ef & aa & fb & 43 & 4d & 33 & 85 & 45 & f9 & 02 & 7f & 50 & 3c & 9f & a8 \\
+%  70 & 51 & a3 & 40 & 8f & 92 & 9d & 38 & f5 & bc & b6 & da & 21 & 10 & ff & f3 & d2 \\
+%  80 & cd & 0c & 13 & ec & 5f & 97 & 44 & 17 & c4 & a7 & 7e & 3d & 64 & 5d & 19 & 73 \\
+%  90 & 60 & 81 & 4f & dc & 22 & 2a & 90 & 88 & 46 & ee & b8 & 14 & de & 5e & 0b & db \\
+%  a0 & e0 & 32 & 3a & 0a & 49 & 06 & 24 & 5c & c2 & d3 & ac & 62 & 91 & 95 & e4 & 79 \\
+%  b0 & e7 & c8 & 37 & 6d & 8d & d5 & 4e & a9 & 6c & 56 & f4 & ea & 65 & 7a & ae & 08 \\
+%  c0 & ba & 78 & 25 & 2e & 1c & a6 & b4 & c6 & e8 & dd & 74 & 1f & 4b & bd & 8b & 8a \\
+%  d0 & 70 & 3e & b5 & 66 & 48 & 03 & f6 & 0e & 61 & 35 & 57 & b9 & 86 & c1 & 1d & 9e \\
+%  e0 & e1 & f8 & 98 & 11 & 69 & d9 & 8e & 94 & 9b & 1e & 87 & e9 & ce & 55 & 28 & df \\
+%  f0 & 8c & a1 & 89 & 0d & bf & e6 & 42 & 68 & 41 & 99 & 2d & 0f & b0 & 54 & bb & 16 \\
+%  \end{tabular}
+%  }
+%\end{frame}
+
 \begin{frame}
-\frametitle{Substitute byte}
-$a_{i,j} \gets S( a_{i,j}),  0 \leq i < 8, 0 \leq j < v.$ 
-\resizebox{\linewidth}{!} {
-    \begin{tabular}{ c | *{16}{c}}
-     & 00 & 01 & 02 & 03 & 04 & 05 & 06 & 07 & 08 & 09 & 0a & 0b & 0c & 0d & 0e & 0f \\ \hline
-  00 & 63 & 7c & 77 & 7b & f2 & 6b & 6f & c5 & 30 & 01 & 67 & 2b & fe & d7 & ab & 76 \\ 
-  10 & ca & 82 & c9 & 7d & fa & 59 & 47 & f0 & ad & d4 & a2 & af & 9c & a4 & 72 & c0 \\
-  20 & b7 & fd & 93 & 26 & 36 & 3f & f7 & cc & 34 & a5 & e5 & f1 & 71 & d8 & 31 & 15 \\
-  30 & 04 & c7 & 23 & c3 & 18 & 96 & 05 & 9a & 07 & 12 & 80 & e2 & eb & 27 & b2 & 75 \\
-  40 & 09 & 83 & 2c & 1a & 1b & 6e & 5a & a0 & 52 & 3b & d6 & b3 & 29 & e3 & 2f & 84 \\
-  50 & 53 & d1 & 00 & ed & 20 & fc & b1 & 5b & 6a & cb & be & 39 & 4a & 4c & 58 & cf \\
-  60 & d0 & ef & aa & fb & 43 & 4d & 33 & 85 & 45 & f9 & 02 & 7f & 50 & 3c & 9f & a8 \\
-  70 & 51 & a3 & 40 & 8f & 92 & 9d & 38 & f5 & bc & b6 & da & 21 & 10 & ff & f3 & d2 \\
-  80 & cd & 0c & 13 & ec & 5f & 97 & 44 & 17 & c4 & a7 & 7e & 3d & 64 & 5d & 19 & 73 \\
-  90 & 60 & 81 & 4f & dc & 22 & 2a & 90 & 88 & 46 & ee & b8 & 14 & de & 5e & 0b & db \\
-  a0 & e0 & 32 & 3a & 0a & 49 & 06 & 24 & 5c & c2 & d3 & ac & 62 & 91 & 95 & e4 & 79 \\
-  b0 & e7 & c8 & 37 & 6d & 8d & d5 & 4e & a9 & 6c & 56 & f4 & ea & 65 & 7a & ae & 08 \\
-  c0 & ba & 78 & 25 & 2e & 1c & a6 & b4 & c6 & e8 & dd & 74 & 1f & 4b & bd & 8b & 8a \\
-  d0 & 70 & 3e & b5 & 66 & 48 & 03 & f6 & 0e & 61 & 35 & 57 & b9 & 86 & c1 & 1d & 9e \\
-  e0 & e1 & f8 & 98 & 11 & 69 & d9 & 8e & 94 & 9b & 1e & 87 & e9 & ce & 55 & 28 & df \\
-  f0 & 8c & a1 & 89 & 0d & bf & e6 & 42 & 68 & 41 & 99 & 2d & 0f & b0 & 54 & bb & 16 \\
-  \end{tabular}
-  }
+\frametitle{Substition and mixing}
+Substitution $a_{i,j} \gets S(a_{i,j}),  0 \leq i < 8, 0 \leq j < v;$ where S is S-box is from AES. \\
+Mixing: $ A \gets B \times A$ where B is a finite field over $\mathbb{F}_{256}$ defined over 
+$\mathbb{F}_{2}$ by polynomial $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$.
 \end{frame}
 
 \begin{frame}
 \frametitle{Shift byte}
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[scale=0.5]{groestl1024shift.jpg}
+    \includegraphics[scale=0.37]{groestl1024shift.jpg}
   \end{center}
-  \caption{ShiftBytes transformation of permutation $P_{1024}$(top) and $Q_{1024}$(bottom)\footnotemark}
+  \caption{$P_{1024}$(top) and $Q_{1024}$(bottom)\footnotemark}
   \label{fig:lab}
 \end{figure}
-\footnotetext[20]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
+\footnotetext[12]{S{\o}ren Steffen Thomsen, Martin Schl\"{a}ffer, Christian Rechberger, Florian Mendel,
 Krystian Matusiewicz, Lars R. Knudsen, and Praveen Gauravaram. Grøstl - a sha-3
-candidate version 2.0.1. http://www.groestl.info/Groestl.pdf, March 2011.}
+candidate version 2.0.1. http://www.groestl.info/Groestl.pdf}
 \end{frame}
 
-\begin{frame}
-\frametitle{Mix byte}
-$ A \gets B \times A$ \\
-B is a finite field over $\mathbb{F}_{256}$, 
-defined over $\mathbb{F}_{2}$ by polynomial $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$. \\
-\vspace{3mm}
-$B = \begin{bmatrix}
-02 & 02 & 03 & 04 & 05 & 03 & 05 & 07 \\
-07 & 02 & 02 & 03 & 04 & 05 & 03 & 05 \\
-05 & 07 & 02 & 02 & 03 & 04 & 05 & 03 \\
-03 & 05 & 07 & 02 & 02 & 03 & 04 & 05 \\
-05 & 03 & 05 & 07 & 02 & 02 & 03 & 04 \\
-04 & 05 & 03 & 05 & 07 & 02 & 02 & 03 \\
-03 & 04 & 05 & 03 & 05 & 07 & 02 & 02 \\
-02 & 03 & 04 & 05 & 03 & 05 & 07 & 02 \\
-\end{bmatrix}$
-\end{frame}
+%\begin{frame}
+%\frametitle{Mix byte}
+%$ A \gets B \times A$ \\
+%B is a finite field over $\mathbb{F}_{256}$, 
+%defined over $\mathbb{F}_{2}$ by polynomial $x^{8} \oplus x^{4} \oplus x^{3} \oplus x \oplus 1$. \\
+%\vspace{3mm}
+%$B = \begin{bmatrix}
+%02 & 02 & 03 & 04 & 05 & 03 & 05 & 07 \\
+%07 & 02 & 02 & 03 & 04 & 05 & 03 & 05 \\
+%05 & 07 & 02 & 02 & 03 & 04 & 05 & 03 \\
+%03 & 05 & 07 & 02 & 02 & 03 & 04 & 05 \\
+%05 & 03 & 05 & 07 & 02 & 02 & 03 & 04 \\
+%04 & 05 & 03 & 05 & 07 & 02 & 02 & 03 \\
+%03 & 04 & 05 & 03 & 05 & 07 & 02 & 02 \\
+%02 & 03 & 04 & 05 & 03 & 05 & 07 & 02 \\
+%\end{bmatrix}$
+%\end{frame}
 
-\section{Related work, hypothesis based on hill climbing}
+\section{Related work, hypothesis, experiment design}
 
 %\subsection{Rotational cryptanalysis of reduced round Keccak}
 
@@ -792,7 +833,7 @@ $B = \begin{bmatrix}
 %\end{enumerate}
 %\end{frame}
 
-\subsection{Hill climbing}
+\subsection{Hill climbing and other search algorithms}
 
 \begin{frame}
 \frametitle{Collisions}
@@ -806,52 +847,52 @@ different message.
 \end{frame}
 
 \begin{frame}
-\frametitle{Near collisions found with hill climbing}
+\frametitle{Near collisions with hill climbing}
 \begin{enumerate}
 \item A $\epsilon / n $ bit near collision for hash function for two messages $M_{1}$ and $M_{2}$, where 
 $M_{1} \neq M_{2}$ is defined as $HW( h( M_{1}, CV ) \oplus h( M_{2}, CV ) ) = n - \epsilon $.
-\item Near collisions in which more than 75\% of the bits were same for two different messages, were found 
-for reduced rounds of BLAKE-32, Hamsi-256 and JH.
+%\item Near collisions in which more than 75\% of the bits were same for two different messages, were found 
+%for reduced rounds of BLAKE-32, Hamsi-256 and JH.
 \item Hill Climbing starts with a random candidate, and then choosing a random successor that has a better
 fit to the solution. Ideally $HW( h(M, CV) \oplus h(M, CV + \delta) ) = n / 2 $ where $\delta$ is n-bit 
 vector with small Hamming weight.
 \end{enumerate}
 \end{frame}
 
-\begin{frame}
-\frametitle{Table of effort to find near collisions with random search}
-\begin{table}
-  \begin{center}
-    \begin{tabular}{ | c | c | } \hline
-      $\epsilon / n $            & Complexity $( \approx )$ \\ \hline
-      128/256, 256/512, 512/1024 & $2^{4}$ \\ \hline
-      151/256, 287/512, 553/1024 & $2^{10}$ \\ \hline
-      166/256, 308/512, 585/1024 & $2^{20}$ \\ \hline
-      176/256, 323/512, 606/1024 & $2^{30}$ \\ \hline
-      184/256, 335/512, 623/1024 & $2^{40}$ \\ \hline
-      191/256, 345/512, 638/1024 & $2^{50}$ \\ \hline
-      197/256, 354/512, 651/1024 & $2^{60}$ \\ \hline
-    \end{tabular}
-    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search
-    \footnotemark}
-  \end{center}
-\end{table}
-\footnotetext[24]{Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
-fugue, hamsi and jh. Second SHA-3 conference, August 2010. 
-http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf.}
-\end{frame}
+%\begin{frame}
+%\frametitle{Table of effort to find near collisions with random search}
+%\begin{table}
+%  \begin{center}
+%    \begin{tabular}{ | c | c | } \hline
+%      $\epsilon / n $            & Complexity $( \approx )$ \\ \hline
+%      128/256, 256/512, 512/1024 & $2^{4}$ \\ \hline
+%      151/256, 287/512, 553/1024 & $2^{10}$ \\ \hline
+%      166/256, 308/512, 585/1024 & $2^{20}$ \\ \hline
+%      176/256, 323/512, 606/1024 & $2^{30}$ \\ \hline
+%      184/256, 335/512, 623/1024 & $2^{40}$ \\ \hline
+%      191/256, 345/512, 638/1024 & $2^{50}$ \\ \hline
+%      197/256, 354/512, 651/1024 & $2^{60}$ \\ \hline
+%    \end{tabular}
+%    \caption{Approximate complexity to find a $\epsilon / n$-bit near collision by generic random search
+%    \footnotemark}
+%  \end{center}
+%\end{table}
+%\footnotetext[24]{Meltem S\"{o}nmez Turan and Erdener Uyan. Practical near-collisions for reduced round blake, 
+%fugue, hamsi and jh. Second SHA-3 conference, August 2010. 
+%http://csrc.nist.gov/groups/ST/hash/sha-3/Round2/Aug2010/documents/papers/TURAN\_Paper\_Erdener.pdf.}
+%\end{frame}
 
-\begin{frame}
-\frametitle{How hill climbing works}
-\begin{enumerate}
-\item Hill climbing algorithm will be to minimize the function 
-$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$.
-\item CV is chosen as any random chaining value. Then the set of k-bit neighbours for the CV are created
-$S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$.
-\item Hill climbing is used to obtain k-optimum condition from k-bit neighbours 
-$f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$.
-\end{enumerate}
-\end{frame}
+%\begin{frame}
+%\frametitle{How hill climbing works}
+%\begin{enumerate}
+%\item Hill climbing algorithm will be to minimize the function 
+%$f_{M_{1}, M_{2}}(x) = HW( h(M_{1}, x) \oplus h(M_{2}, x) )$.
+%\item CV is chosen as any random chaining value. Then the set of k-bit neighbours for the CV are created
+%$S^{k}_{CV} = \{ x \in \{0, 1\}^{n} \mid HW( CV \oplus x ) \leq k \}$.
+%\item Hill climbing is used to obtain k-optimum condition from k-bit %neighbours 
+%$f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$.
+%\end{enumerate}
+%\end{frame}
 
 \begin{frame}{fragile}
 \frametitle{Hill Climbing algorithm}
@@ -869,89 +910,102 @@ $f_{M_{1}, M_{2}} (CV) =  \min\limits_{x \in S^{k}_{CV}} f_{M_{1}, M_{2}} (x)$.
 \end{algorithm}
 \end{frame}
 
-\subsection{Other search algorithms}
-
-\begin{frame}[allowframebreaks]
-\frametitle{Simulated annealing}
-  \begin{algorithmic}[1]
-    \Function {Simulated-annealing}{$M_{1}, M_{2}, CV,$ schedule}
-      \State current $\gets \thickspace CV$
-      \For { t = 1 to $\infty$ }
-        \State T $\gets$ schedule( t )
-        \If { T = 0}
-          \State \Return current
-        \EndIf
-        \State next $\gets$ a randomly selected successor from set $S^{k}_{current}$
-        \State $\Delta E \gets  \thickspace f_{M_{1}, M_{2}}(current) - f_{M_{1}, M_{2}}(next)$
-        \If { $\Delta$E $>$ 0 }
-          \State current $\gets$ next
-        \Else
-          \State current $\gets$ next, with probability $e^{\Delta E / T}$
-        \EndIf
-      \EndFor
-    \EndFunction
-  \end{algorithmic}
+\begin{frame}{Simulated annealing, tabu search and random selection}
+\begin{enumerate}
+\item Simulated annealing poor choices made initially with higher probability to escape local
+minima.
+\item Tabu search stores a list of heuristics in tabu list. Pick the best solution from space,
+and compare with tabu list to avoid stuck in local minima.
+\item Random selection just randomly selects a solution, good or bad till given number of trials.
+\end{enumerate}
 \end{frame}
+%\subsection{Other search algorithms}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Tabu search}
-  \begin{algorithmic}[1]
-    \Function {Tabu-search}{$TabuList_{size}, M_{1}, M_{2}, CV$}
-      \State $S_{best}$ $\gets \thickspace CV$
-      \State $TabuList \thickspace \gets$ null
-      \While {$S_{best}$ not k-opt}
-        \State CandidateList $\gets$ null
-        \State $S_{neighbourhood} \gets S^{k}_{S_{best}}$
-        \For { $S_{candidate} \in S_{best_{neighbourhood}}$}
-          \If {($\lnot$ContainsAnyFeatures( $S_{candidate}, TabuList$ ))} 
-            \State CandidateList $\gets$ $S_{candidate}$
-          \EndIf
-        \EndFor
-        \State $S_{candidate}$ $\gets$ LocateBestCandidate( CandidateList )
-        \If { Cost( $S_{candidate}$ ) $\leq$ Cost( $S_{best}$ ) }
-          \State $S_{best} \gets S_{candidate}$
-          \State $TabuList \gets$ featureDifferences$(S_{candidate}, S_{best})$
-          \While { $TabuList >TabuList_{size}$ }
-            \State DeleteFeature( $TabuList$ )
-          \EndWhile
-        \EndIf
-      \EndWhile 
-      \State \Return $S_{best}$
-    \EndFunction
-  \end{algorithmic}
-\end{frame}
+%\begin{frame}[allowframebreaks]
+%\frametitle{Simulated annealing}
+%  \begin{algorithmic}[1]
+%    \Function {Simulated-annealing}{$M_{1}, M_{2}, CV,$ schedule}
+%      \State current $\gets \thickspace CV$
+%      \For { t = 1 to $\infty$ }
+%        \State T $\gets$ schedule( t )
+%        \If { T = 0}
+%          \State \Return current
+%        \EndIf
+%        \State next $\gets$ a randomly selected successor from set $S^{k}_{current}$
+%        \State $\Delta E \gets  \thickspace f_{M_{1}, M_{2}}(current) - f_{M_{1}, M_{2}}(next)$
+%        \If { $\Delta$E $>$ 0 }
+%          \State current $\gets$ next
+%        \Else
+%          \State current $\gets$ next, with probability $e^{\Delta E / T}$
+%        \EndIf
+%      \EndFor
+%    \EndFunction
+%  \end{algorithmic}
+%\end{frame}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Random selection}
-  \begin{algorithmic}[1]
-    \Function {Random-Selection}{$ M_{1}, M_{2}, CV,$ number\_of\_trials}
-      \State current $\gets \thickspace CV$
-      \State trial $\gets$ 0
-      \While { trial $<$ number\_of\_trials }
-        \State next $\gets$ randomly selected candidate from $S^{k}_{current}$
-        \If { $f_{M_{1}, M_{2}}(next) - f_{M_{1}, M_{2}}(current) $ }
-          \State current $\gets$ next
-        \EndIf
-      \EndWhile 
-      \State \Return current
-    \EndFunction
-  \end{algorithmic}
-\end{frame}
+%\begin{frame}[allowframebreaks]
+%\frametitle{Tabu search}
+%  \begin{algorithmic}[1]
+%    \Function {Tabu-search}{$TabuList_{size}, M_{1}, M_{2}, CV$}
+%      \State $S_{best}$ $\gets \thickspace CV$
+%      \State $TabuList \thickspace \gets$ null
+%      \While {$S_{best}$ not k-opt}
+%        \State CandidateList $\gets$ null
+%        \State $S_{neighbourhood} \gets S^{k}_{S_{best}}$
+%        \For { $S_{candidate} \in S_{best_{neighbourhood}}$}
+%          \If {($\lnot$ContainsAnyFeatures( $S_{candidate}, TabuList$ ))} 
+%            \State CandidateList $\gets$ $S_{candidate}$
+%          \EndIf
+%        \EndFor
+%        \State $S_{candidate}$ $\gets$ LocateBestCandidate( CandidateList )
+%        \If { Cost( $S_{candidate}$ ) $\leq$ Cost( $S_{best}$ ) }
+%          \State $S_{best} \gets S_{candidate}$
+%          \State $TabuList \gets$ featureDifferences$(S_{candidate}, S_{best})$
+%          \While { $TabuList >TabuList_{size}$ }
+%            \State DeleteFeature( $TabuList$ )
+%          \EndWhile
+%        \EndIf
+%      \EndWhile 
+%      \State \Return $S_{best}$
+%    \EndFunction
+%  \end{algorithmic}
+%\end{frame}
+
+%\begin{frame}[allowframebreaks]
+%\frametitle{Random selection}
+%  \begin{algorithmic}[1]
+%    \Function {Random-Selection}{$ M_{1}, M_{2}, CV,$ number\_of\_trials}
+%      \State current $\gets \thickspace CV$
+%      \State trial $\gets$ 0
+%      \While { trial $<$ number\_of\_trials }
+%        \State next $\gets$ randomly selected candidate from $S^{k}_{current}$
+%        \If { $f_{M_{1}, M_{2}}(next) - f_{M_{1}, M_{2}}(current) $ }
+%          \State current $\gets$ next
+%        \EndIf
+%     \EndWhile 
+%      \State \Return current
+%    \EndFunction
+%  \end{algorithmic}
+%\end{frame}
 
 \subsection{Hypothesis}
 
 \begin{frame}
 \frametitle{Hypothesis}
 \begin{itemize}
-\item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl, for
-search algorithms hill climbing, simulated annealing, tabu search and random selection.
-\item Simulated annealing and tabu search, are better at finding near collisions compared to hill 
-climbing and random selection.
-\item State size has no effect on efficiency of Keccak permutation rounds.    
+\item Confirmed
+\begin{enumerate}
+\item State size has no effect on efficiency of Keccak permutation rounds.
+\end{enumerate}
+\item Disproved
+\begin{enumerate}
+\item Reduced state Keccak, has better resistance to near collisions than BLAKE and Gr{\o}stl,
+for search algorithms hill climbing, simulated annealing, tabu search and random selection.
+\item Simulated annealing and tabu search, are better at finding near collisions compared to
+hill climbing and random selection.
+\end{enumerate}
 \end{itemize}
 \end{frame}
-
-\section{Experiment design}
 
 \subsection{Input and output}
 
@@ -1656,13 +1710,11 @@ ordering in Keccak.
 \item Crypto stack exchange user \href{"http://crypto.stackexchange.com/users/555/fgrieu"}{fgrieu} for help
 in mix byte implementation in Gr{\o}stl.
 \item \href{"http://www.seanet.com/~bugbee"}{Larry Bugbee} for updating his 
-\href{http://www.seanet.com/~bugbee/crypto/blake/}{BLAKE Python implementation}, which I used as reference 
-for my Java implementation.
+\href{http://www.seanet.com/~bugbee/crypto/blake/}{BLAKE Python implementation}.
 \item \href{"http://stackoverflow.com/users/472109/geoffrey-de-smet"}{Geoffrey De Smet} for 
 \href{"http://docs.jboss.org/drools/release/latest/optaplanner-docs/html\_single/index.html\#tabuSearch"}
 {tabu lists document}.
-\item \href{"http://stackoverflow.com/users/535871/ted-hopp"}{Ted Hopp}, for pointing out correct way
-of bit wise XOR for long in Java.
+\item \href{"http://stackoverflow.com/users/535871/ted-hopp"}{Ted Hopp}, for pointing out bit wise XOR for long in Java.
 \item \href{"http://crypto.stackexchange.com/users/4136/alexandre-yamajako"}{Alexandre Yamajako} for pointing
 specification to find inverse degree of Keccak function.
 \end{itemize}
